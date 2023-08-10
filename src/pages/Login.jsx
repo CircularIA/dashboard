@@ -171,7 +171,7 @@ const Login = () => {
                             </div>
                             <div className='w-screen bg-[#f5f5f5] flex flex-col items-center justify-center'>
                                 <div className='max-w-xl w-full px-6 lg:px-0'>
-                                    <h1 className='text-4xl text-roboto font-bold text-center mb-4'>¡Necesitamos tu información!</h1>
+                                    <h1 className='text-4xl text-roboto font-bold text-center mb-4'>Ingresa tus datos de registro:</h1>
                                     <form className='w-full flex flex-col'>
                                         <label className='text-primary text-roboto text-left mt-4'>Nombre completo:</label>
                                         <input
