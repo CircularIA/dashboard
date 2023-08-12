@@ -9,6 +9,15 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(0deg, #0DFF6E 20%, #00B971 60%, #008A55 80%)',
+        'custom-horizontal-gradient': 'linear-gradient(90deg, #008A55 0%, #00B971 72.39%, #5AFF9C 100%)',
+      },
+      backgroundColor: {
+        'custom-light-green': '#0DFF6E',
+        'custom-mid-green': '#00B971',
+        'custom-dark-green': '#008A55',
+      },
       boxShadow: {
         DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
         md: '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
@@ -19,7 +28,7 @@ module.exports = {
         blue: '2px solid rgba(0, 112, 244, 0.5)',
       },
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif']
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1.5' }],
