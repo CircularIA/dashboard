@@ -24,7 +24,7 @@ const Sidebar = () => {
                 </div>
                 <ul style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexGrow: 1 }}>
                     <MenuItem icon={profileIcon} text='Perfil' route='/perfil' />
-                    <MenuItem icon={dashboardIcon} text='Dashboard' route='/dashboard' />
+                    <MenuItem icon={dashboardIcon} text='Dashboard' route='/' />
                     <MenuItem icon={functionsIcon} text='Funciones' route='/funciones' />
                     <MenuItem icon={contactIcon} text='Contacto' route='/contacto' />
                     <MenuItem icon={evaluationIcon} text='Evaluación' route='/evaluacion' />

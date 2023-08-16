@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Setting from './pages/setting/setting';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Dashboard />} />
+          <Route path="ayuda" element={<Setting />} />
           {/* Aquí puedes agregar más rutas protegidas */}
         </Route>
       </Routes>
