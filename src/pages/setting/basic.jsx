@@ -178,7 +178,7 @@ function Basic() {
             </Box>
             {/* Dialog */}
             <Dialog open={open} onClose={handleClose}
-                maxWidth={'lg'}
+                maxWidth={'md'}
                 fullWidth={true}
                 sx = {{
                     '& .MuiDialog-paper': {
@@ -196,7 +196,7 @@ function Basic() {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Typography variant='h4' color='#ffff' >
+                    <Typography variant='h5' color='#ffff' >
                         Datos de Sucursal
                     </Typography>
                     <IconButton onClick={handleClose}>
@@ -218,7 +218,6 @@ function Basic() {
                                 '& .MuiTextField-root': {
                                     margin: '0px 5px 2% 0px',
                                     width: '100%',
-                                    
                                 }
                             }}
                         >
@@ -227,19 +226,21 @@ function Basic() {
                                 <StyledTextField
                                     label="Nombre legal de la sucursal"
                                     multiline
-                                    maxRows={4}
+                                    maxRows={1}
                                     size= 'small'
                                     sx = {{
-                                        maxWidth: '550px',
+                                        maxWidth: '400px',
+                                        width: '100%'
                                     }}
                                 />
                                 <StyledTextField
                                     label="Nombre del encargado"
                                     multiline
-                                    maxRows={4}
+                                    maxRows={1}
                                     size= 'small'
                                     sx = {{
-                                        maxWidth: '550px',
+                                        maxWidth: '400px',
+                                        width: '100%'
                                     }}
                                 />
                             </Box>
@@ -251,7 +252,8 @@ function Basic() {
                                     multiline
                                     maxRows={4}
                                     sx = {{
-                                        maxWidth: '550px',
+                                        maxWidth: '400px',
+                                        width: '100%'
                                     }}
                                 />
                                 {/* Dos campos por telefono */}
@@ -278,7 +280,7 @@ function Basic() {
                                     maxRows={4}
                                     size= 'small'
                                     sx = {{
-                                        maxWidth: '400px',
+                                        maxWidth: '245px',
                                     }}
                                 />
                             </Box>
@@ -289,7 +291,7 @@ function Basic() {
                                     size="small"
                                     sx = {{
                                         width: '100%',
-
+                                        maxWidth: '805px'
                                     }}
                                 />
                             </Box>
@@ -297,7 +299,6 @@ function Basic() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancelar</Button>
                     <StyledButton onClick={handleClose}
                         sx = {{
                             height: '42px',

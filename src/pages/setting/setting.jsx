@@ -18,9 +18,9 @@ import Sidebar from "../../components/Sidebar";
 
 const StylesTabs = styled(TabList)(({ theme }) => ({
     '.MuiTabs-flexContainer': {
+        width: '100%',   
+        alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '100%',
-        maxWidth: '1080px',   
     },
     [theme.breakpoints.down('xl')]: {
         variant: 'scrollable',
@@ -41,22 +41,14 @@ const StyledTab = styled(Tab)(({ theme, isLastTab}) => ({
     width: '90%',
     maxWidth: '200px',
     
-    [theme.breakpoints.up('lg')]: {
-        '&.Mui-selected': {
-            background: 'rgba(6, 189, 96, 1)',
-            margin: isLastTab ? '0px 0px 0px 23%' : '0px 23% 0px 0px',
-            color: '#ffff',
-            //Define specific styles for the selected tab
-        }
-    },
-    [theme.breakpoints.down('md')]: {
-        '&.Mui-selected': {
-            background: 'rgba(6, 189, 96, 1)',
-            margin: isLastTab ? '0px 0px 0px 13%' : '0px 13% 0px 0px',
-            color: '#ffff',
-            //Define specific styles for the selected tab
-        }
-    },
+    '&.Mui-selected': {
+        background: 'rgba(6, 189, 96, 1)',
+        margin: isLastTab ? '0px 0px 0px 20%' : '0px 20% 0px 0px',
+        // margin: isLastTab ? '0px 0px 0px 20%' : '0px 10vw 0px 0px',
+        color: '#ffff',
+        //Define specific styles for the selected tab
+    }
+    
 }));
 
 const StyledPanel = styled(TabPanel)(({ theme }) => ({
@@ -84,7 +76,7 @@ function Setting() {
                         variant="scrollable"
                         scrollButtons={false}
                     >
-                        <StyledTab label='Básico' value='1'/>
+                        <StyledTab label='Básico' value='1' />
                         <StyledTab label='Preferencias' value='2' />
                         <StyledTab label='Seguridad' value='3'/>
                         <StyledTab label='Pago' value='4'/>

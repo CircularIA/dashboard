@@ -35,7 +35,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Dashboard />} />
-          <Route path="ayuda" element={<Setting />} />
+          <Route path="perfil" element={<Setting />} />
           {/* Aquí puedes agregar más rutas protegidas */}
         </Route>
       </Routes>
