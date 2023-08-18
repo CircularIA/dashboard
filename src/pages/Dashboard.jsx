@@ -9,7 +9,7 @@ import Valorization from '../components/Valorization'
 
 const Dashboard = () => {
   return (
-    <div className='flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen'>
+    <div className='flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
       <Sidebar />
       <main className='lg:col-span-10 xl:col-span-11 h-[100vh] overflow-y-scroll'>
         <Header />

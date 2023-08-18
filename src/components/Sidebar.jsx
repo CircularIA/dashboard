@@ -18,13 +18,13 @@ const Sidebar = () => {
     return (
         <>
             <div className={`fixed inset-0 bg-black transition-opacity lg:hidden z-40 ${showMenu ? "opacity-50" : "opacity-0 pointer-events-none"}`} />
-            <div className={`h-screen bg-custom-gradient custom-shadow h-full flex flex-col lg:static fixed w-[35%] z-50 md:w-[15%] lg:w-[100%] transition-all duration-300 ${showMenu ? "left-0" : "-left-full"}`}>
+            <div className={`h-screen bg-custom-gradient custom-shadow h-full flex flex-col lg:static fixed w-[35%] z-50 md:w-[15%] lg:w-[100%] transition-all duration-300 ${showMenu ? "left-0" : "-left-full"} overflow-y-scroll lg:overflow-hidden`}>
                 <div className='flex justify-center p-5'>
                     <img src={logo} alt='Logo' className='w-17 h-17 object-cover' />
                 </div>
-                <ul style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexGrow: 1 }}>
+                <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
                     <MenuItem icon={profileIcon} text='Perfil' route='/perfil' />
-                    <MenuItem icon={dashboardIcon} text='Dashboard' route='/dashboard' />
+                    <MenuItem icon={dashboardIcon} text='Dashboard' route='/' />
                     <MenuItem icon={functionsIcon} text='Funciones' route='/funciones' />
                     <MenuItem icon={contactIcon} text='Contacto' route='/contacto' />
                     <MenuItem icon={evaluationIcon} text='Evaluación' route='/evaluacion' />
@@ -41,9 +41,9 @@ const Sidebar = () => {
 
 const MenuItem = ({ icon, text, route }) => {
     return (
-        <li className='flex md:flex-col flex-row items-center ml-4 md:ml-0 space-y-2 py-7'>
+        <li className='flex md:flex-col flex-row items-center ml-4 md:ml-0 space-y-2 py-2'>
             <Link to={route} className='flex md:flex-col flex-row items-center'>
-                <img src={icon} alt={text} className='w-6 h-6' />
+                <img src={icon} alt={text} className='w-6 h-6 object-contain' />
                 <span className='font-roboto text-white text-sm ml-2 md:ml-0'>{text}</span>
             </Link>
         </li>
