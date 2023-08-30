@@ -1,19 +1,127 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import logoEmpresa from '../assets/logo-empresa.svg'
-import leaf from '../assets/leaf.svg'
+import ambiental from '../assets/ambiental.svg'
+import social from '../assets/social.svg'
+import economic from '../assets/economic.svg'
 import substract from '../assets/substract.svg'
-import Valorization from '../components/Valorization'
+import expand from '../assets/expand.svg'
+import Ambiental from '../components/Ambiental'
+import Social from '../components/Social'
+import Economic from '../components/Economic'
+
+const Panel = ({ title, index, handleClick, isExpanded, panelClass }) => (
+  <div className={`flex mt-4 items-center ${panelClass} custom-shadow justify-between rounded-md shadow-lg p-3 mx-4 md:mx-8`}>
+    <p className='text-roboto text-sm lg:text-2xl category-panel text-white'> {title}</p>
+    <div className='flex items-center'>
+      <div className='border-l-2 border-gray-300 h-12 mx-4'></div>
+      <img src={isExpanded ? substract : expand} alt='Icon' className='w-14 h-14 px-2 cursor-pointer' onClick={() => handleClick(index)} />
+    </div>
+  </div>
+);
+
+const panels = [
+  { title: 'Valorización de residuos' },
+  { title: 'Emisiones' },
+  { title: 'Energía' },
+  { title: 'Agua' },
+  { title: 'Cadena de suministros' },
+];
+
 
 const Dashboard = () => {
+  // Configuraciones de tema para el dashboard
+  const theme = useSelector((state) => state.theme.theme)
+  // Clases basadas en el tema
+  const themeClasses = {
+    ambiental: {
+      gradient: 'bg-green-horizontal-gradient',
+      dark: 'bg-custom-dark-green',
+      mid: 'bg-custom-mid-green',
+    },
+    social: {
+      gradient: 'bg-blue-horizontal-gradient',
+      dark: 'bg-custom-dark-blue',
+      mid: 'bg-custom-mid-blue',
+    },
+    economic: {
+      gradient: 'bg-orange-horizontal-gradient',
+      dark: 'bg-custom-dark-orange',
+      mid: 'bg-custom-mid-orange',
+    },
+  };
+  const { gradient, dark, mid } = themeClasses[theme]
+
+  const panelInfo = {
+    ambiental: {
+      imgSrc: ambiental,
+      title: 'PANEL DE CONTROL AMBIENTAL',
+    },
+    social: {
+      imgSrc: social, // Asegúrate de importar o definir la imagen adecuada
+      title: 'PANEL DE CONTROL SOCIAL',
+    },
+    economic: {
+      imgSrc: economic, // Asegúrate de importar o definir la imagen adecuada
+      title: 'PANEL DE CONTROL ECONÓMICO',
+    },
+  };
+
+  const { imgSrc, title } = panelInfo[theme] || panelInfo.ambiental;
+
+  const [activePanels, setActivePanels] = useState([]);
+  const handleClick = (index) => {
+    if (activePanels.includes(index)) {
+      setActivePanels(activePanels.filter((i) => i !== index));
+    } else {
+      setActivePanels([...activePanels, index]);
+    }
+  };
+  const [animateClass, setAnimateClass] = useState('');
+  useEffect(() => {
+    setAnimateClass('animate__fadeIn'); // Aplicar la animación en cada cambio de tema
+
+    const timer = setTimeout(() => {
+      setAnimateClass(''); // Eliminar la animación después de un período de tiempo
+    }, 500); // Ajustar este valor según la duración de la animación
+
+    return () => clearTimeout(timer); // Limpiar el temporizador si el componente se desmonta
+  }, [theme]);
+  const [contentVisible] = useState(true);
+
+  const renderAmbiental = () => {
+    return (
+      <div>
+        {panels.map((panel, index) => (
+          <div key={index} className='mb-4'>
+            <Panel
+              title={panel.title}
+              icon={panel.icon}
+              index={index}
+              handleClick={handleClick}
+              isExpanded={activePanels.includes(index)}
+              panelClass={mid}
+            />
+            <div className={`expand-collapse-content ${activePanels.includes(index) ? 'expanded' : ''}`}>
+              {activePanels.includes(index) && contentVisible && <Ambiental theme={theme} />}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+
   return (
-    <div className='flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
-      <Sidebar />
-      <main className='lg:col-span-10 xl:col-span-11 h-[100vh] overflow-y-scroll'>
+    <div className={`animate__animated ${animateClass} flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen`}>
+      <Sidebar theme={theme} />
+      <main className='lg:col-span-10 xl:col-span-11 overflow-y-scroll'>
         <Header />
-        <div className='mt-4 flex items-center bg-custom-horizontal-gradient custom-shadow justify-between rounded-md shadow-lg p-4 mx-8'>
+        <div className={`mt-4 flex items-center ${gradient} custom-shadow justify-between rounded-md shadow-lg p-4 mx-4 md:mx-8`}>
           <div className='flex items-center'>
             <img src={logoEmpresa} alt='Logo empresa' className='w-[30%] md:p-1 md:ml-4 md:w-[35%]' />
             <div className='text-white ml-4'> {/* Aquí está el texto blanco */}
@@ -23,46 +131,13 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className='flex mt-4 items-center bg-custom-dark-green custom-shadow justify-start rounded-md shadow-lg mx-8'>
-          <img src={leaf} alt='Leaf' className='w-[16%] md:w-[10%] lg:w-[7%] p-0 md:p-3' />
-          <p className='text-roboto custom-text text-sm lg:text-3xl ml-3 title-panel text-white'> PANEL DE CONTROL AMBIENTAL</p>
+        <div className={`flex mt-4 items-center ${dark} custom-shadow justify-start rounded-md shadow-lg mx-4 md:mx-8`}>
+          <img src={imgSrc} alt='Icon' className='h-[5%] md:h-[8%] lg:h-[7%] p-3 md:p-3' />
+          <p className='text-roboto text-sm lg:text-3xl ml-3 title-panel text-white'> {title}</p>
         </div>
-        <div className='flex mt-4 items-center bg-custom-mid-green custom-shadow justify-between rounded-md shadow-lg p-3 mx-8'>
-          <p className='text-roboto custom-text text-sm lg:text-2xl category-panel text-white'> Valorización de residuos</p>
-          <div className='flex items-center'>
-            <div className='border-l-2 border-gray-300 h-12 mx-4'></div> {/* Ajuste aquí */}
-            <img src={substract} alt='Icon 2' className='w-18 h-18 px-4 cursor-pointer' />
-          </div>
-        </div>
-        <Valorization />
-        <div className='flex mt-4 items-center bg-custom-mid-green custom-shadow justify-between rounded-md shadow-lg p-3 mx-8'>
-          <p className='text-roboto custom-text text-sm lg:text-2xl category-panel text-white'> Emisiones</p>
-          <div className='flex items-center'>
-            <div className='border-l-2 border-gray-300 h-12 mx-4'></div> {/* Ajuste aquí */}
-            <img src={substract} alt='Icon 2' className='w-18 h-18 px-4 cursor-pointer' />
-          </div>
-        </div>
-        <div className='flex mt-4 items-center bg-custom-mid-green custom-shadow justify-between rounded-md shadow-lg p-3 mx-8'>
-          <p className='text-roboto custom-text text-sm lg:text-2xl category-panel text-white'> Energía</p>
-          <div className='flex items-center'>
-            <div className='border-l-2 border-gray-300 h-12 mx-4'></div> {/* Ajuste aquí */}
-            <img src={substract} alt='Icon 2' className='w-18 h-18 px-4 cursor-pointer' />
-          </div>
-        </div>
-        <div className='flex mt-4 items-center bg-custom-mid-green custom-shadow justify-between rounded-md shadow-lg p-3 mx-8'>
-          <p className='text-roboto custom-text text-sm lg:text-2xl category-panel text-white'> Agua </p>
-          <div className='flex items-center'>
-            <div className='border-l-2 border-gray-300 h-12 mx-4'></div> {/* Ajuste aquí */}
-            <img src={substract} alt='Icon 2' className='w-18 h-18 px-4 cursor-pointer' />
-          </div>
-        </div>
-        <div className='flex mt-4 items-center bg-custom-mid-green custom-shadow justify-between rounded-md shadow-lg p-3 mb-2 mx-8'>
-          <p className='text-roboto custom-text text-sm lg:text-2xl category-panel text-white'> Cadena de suministros</p>
-          <div className='flex items-center'>
-            <div className='border-l-2 border-gray-300 h-12 mx-4'></div> {/* Ajuste aquí */}
-            <img src={substract} alt='Icon 2' className='w-18 h-18 px-4 cursor-pointer' />
-          </div>
-        </div>
+        {theme === 'ambiental' && contentVisible && renderAmbiental()}
+        {theme === 'social' && contentVisible && <Social />}
+        {theme === 'economic' && contentVisible && <Economic />}
       </main>
     </div>
   )
