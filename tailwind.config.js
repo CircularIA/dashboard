@@ -10,13 +10,23 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'custom-gradient': 'linear-gradient(0deg, #0DFF6E 20%, #00B971 60%, #008A55 80%)',
-        'custom-horizontal-gradient': 'linear-gradient(90deg, #008A55 0%, #00B971 72.39%, #5AFF9C 100%)',
+        'sidebar-gradient-green': 'linear-gradient(0deg, #0DFF6E 20%, #00B971 60%, #008A55 80%)',
+        'green-horizontal-gradient': 'linear-gradient(90deg, #008A55 0%, #00B971 72.39%, #5AFF9C 100%)',
+        'sidebar-gradient-blue': 'linear-gradient(0deg, #40B7FF 10%, #2D7DD1 60%, #1D36AE 80%)',
+        'blue-horizontal-gradient': 'linear-gradient(90deg, #1D36AE 0%, #38B1E8 72.39%, #40B7FF 100%)',
+        'sidebar-gradient-orange': 'linear-gradient(0deg, #FBC946 10%, #FFB200 60%, #E4570D 80%)',
+        'orange-horizontal-gradient': 'linear-gradient(90deg, #E4570D 0%, #FFB200 72.39%, #FBC946 100%)',
       },
       backgroundColor: {
         'custom-light-green': '#0DFF6E',
         'custom-mid-green': '#00B971',
         'custom-dark-green': '#008A55',
+        'custom-light-blue': '#40B7FF',
+        'custom-mid-blue': '#2D7DD1',
+        'custom-dark-blue': '#1D36AE',
+        'custom-light-orange': '#FBC946',
+        'custom-mid-orange': '#FFB200',
+        'custom-dark-orange': '#E4570D',
       },
       boxShadow: {
         DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
