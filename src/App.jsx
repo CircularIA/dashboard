@@ -9,8 +9,12 @@ import axios from 'axios';
 
 function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Poner el loader en false después de 1 segundo
+    const timer = setTimeout(() => setLoading(false), 1000);
+
     // Verificar la autenticación al cargar la aplicación
     axios.get('http://localhost:5000/api/verify', { withCredentials: true })
       .then((res) => {
@@ -20,9 +24,17 @@ function ProtectedRoute() {
         console.log('Error verifying authentication:', error);
         setIsAuthenticated(false);
       });
+
+    // Limpiar el temporizador si el componente se desmonta antes de que se cumpla el tiempo
+    return () => clearTimeout(timer);
   }, []);
 
-  if (isAuthenticated === null) return <div>Loading...</div>;
+  if (loading) return (
+    <div className="custom-loader-container">
+      <div className="custom-loader"></div>
+    </div>
+  );
+  if (isAuthenticated === null) return <div className="custom-loader"></div>;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   return <Outlet />;
