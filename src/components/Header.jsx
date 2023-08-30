@@ -3,36 +3,71 @@ import React from 'react'
 import search from '../assets/search.svg'
 import notification from '../assets/notification.svg'
 import Select from 'react-select'
+import { useDispatch, useSelector } from 'react-redux';
+import { changeTheme } from '../reducers/themeReducer';
 
-const customStyles = {
-    control: (provided) => ({
-        ...provided,
-        boxShadow: 'none', // Esto elimina la sombra
-        '&:hover': {
-            borderColor: 'lightgray' // Color del borde en hover
-        },
-        borderColor: 'lightgray' // Color del borde
-    }),
-    option: (provided, state) => ({
-        ...provided,
-        backgroundColor: state.isSelected ? '#00B971' : state.isFocused ? 'lightgray' : null
-    })
-};
+const sucursals = [
+    { value: 'sucursal1', label: 'Sucursal 1 Santiago Sur' },
+    { value: 'sucursal2', label: 'Sucursal 2 Santiago Centro' },
+    { value: 'sucursal3', label: 'Sucursal 3 Santiago Norte' }
+];
 
-const options = [
-    { value: 'option1', label: 'Opción 1' },
-    { value: 'option2', label: 'Opción 2' },
+const panels = [
+    { value: 'ambiental', label: 'Panel Ambiental' },
+    { value: 'social', label: 'Panel Social' },
+    { value: 'economic', label: 'Panel Económico' }
 ];
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const theme = useSelector((state) => state.theme.theme);
+
+    const themeColors = {
+        ambiental: '#00B971', // Colores que coinciden con tus temas
+        social: '#1a73e8',
+        economic: '#ff9800',
+    };
+
+    const currentColor = themeColors[theme];
+
+
+    const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            boxShadow: 'none',
+            borderColor: 'lightgray',
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isSelected
+                ? currentColor
+                : state.isFocused
+                    ? 'lightgray'
+                    : null,
+        }),
+    };
+
+    const handleThemeChange = (selectedOption) => {
+        dispatch(changeTheme(selectedOption.value));
+    };
     return (
-        <header className='flex flex-col md:flex-row items-center justify-between rounded-md custom-shadow p-4 mx-8'>
-            <div className='flex items-center w-1/2'>
+        <header className='flex flex-col md:flex-row items-center justify-between rounded-md custom-shadow p-4 mx-4 md:mx-8'>
+            <div className='flex items-center w-1/3'>
                 <span className='text-lg font-semibold'>Hola, notCo</span>
             </div>
             <div className='flex items-center justify-center w-full p-2'>
                 <Select
-                    options={options}
+                    options={sucursals}
+                    defaultValue={sucursals[0]}
+                    styles={customStyles}
+                    className='w-full'
+                />
+            </div>
+            <div className='flex items-center justify-center w-full p-2'>
+                <Select
+                    options={panels}
+                    defaultValue={panels[0]}
+                    onChange={handleThemeChange}
                     styles={customStyles}
                     className='w-full'
                 />
