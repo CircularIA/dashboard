@@ -1,109 +1,111 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import LogIn from '../assets/LogIn.png';
-import Logo from '../assets/Logo.svg';
-import axios from 'axios';
-import { setToken } from '../reducers/authSlice';
-import { SwitchTransition, CSSTransition } from "react-transition-group";
-import { useRef } from 'react';
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import LogIn from '../assets/LogIn.png'
+import Logo from '../assets/Logo.svg'
+import axios from 'axios'
+import { setToken } from '../reducers/authSlice'
+import { SwitchTransition, CSSTransition } from "react-transition-group"
+import { useRef } from 'react'
 
 const Login = () => {
 
-    const navigate = useNavigate(); // Obtener la función navigate
-    const [loginFormVisible, setLoginFormVisible] = useState(true);
-    const loginFormRef = useRef(null);
-    const registerFormRef = useRef(null);
+    const navigate = useNavigate() // Obtener la función navigate
+    const [loginFormVisible, setLoginFormVisible] = useState(true)
+    const loginFormRef = useRef(null)
+    const registerFormRef = useRef(null)
+    const authUrl = `${import.meta.env.VITE_BACKEND_URL}/api/auth/`
+    const usersUrl = `${import.meta.env.VITE_BACKEND_URL}/api/users/`
 
 
     const toggleLoginForm = () => {
-        setLoginFormVisible(!loginFormVisible);
-    };
+        setLoginFormVisible(!loginFormVisible)
+    }
 
     {/* Login vars*/ }
 
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-    });
-    const dispatch = useDispatch();
-    const token = useSelector(state => state.auth.token);
+    })
+    const dispatch = useDispatch()
+    const token = useSelector(state => state.auth.token)
     // Manejar los cambios en los campos de entrada
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target
         setFormData({
             ...formData,
             [name]: value,
-        });
-    };
+        })
+    }
 
     // Enviar los datos al servidor al enviar el formulario
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
 
         // Realizar la petición a través de axios
         try {
-            const { data: res } = await axios.post('http://localhost:5000/api/auth/', formData, { withCredentials: true });
-            console.log(res);
+            const { data: res } = await axios.post(authUrl, formData, { withCredentials: true })
+            console.log(res)
 
             // Almacenar el token en el store de Redux usando la acción setToken
-            dispatch(setToken(res.data));
+            dispatch(setToken(res.data))
             console.log(token)
             navigate('/')
 
             // Realizar la redirección a la página de inicio después del inicio de sesión exitoso
         } catch (error) {
-            console.log(error.response);
+            console.log(error.response)
             // Aquí puedes mostrar un mensaje de error al usuario si el inicio de sesión falla
         }
-    };
+    }
 
     {/* Register vars*/ }
 
-    const [error, setError] = useState(null); // Error de autenticación
+    const [error, setError] = useState(null) // Error de autenticación
     const [formDataRegister, setFormDataRegister] = useState({
         fullName: '',
         companyName: '',
         email: '',
         password: '',
         confirmPassword: '',
-    });
+    })
 
     // Manejar los cambios en los campos de entrada
     const handleChangeRegister = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target
         setFormDataRegister({
             ...formDataRegister,
             [name]: value,
-        });
-    };
+        })
+    }
 
     // Enviar los datos al servidor al enviar el formulario
     const handleSubmitRegister = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
 
         if (formDataRegister.password !== formDataRegister.confirmPassword) {
-            setError('Las contraseñas no coinciden');
-            return;
+            setError('Las contraseñas no coinciden')
+            return
         }
 
         // Erase confirmPassword from formDataRegister
-        delete formDataRegister.confirmPassword;
+        delete formDataRegister.confirmPassword
 
         // Realizar la petición a través de axios
         try {
             console.log(formDataRegister)
-            const { data: res } = await axios.post('http://localhost:5000/api/users/', formDataRegister, { withCredentials: true });
-            console.log(res);
-            toggleLoginForm();
+            const { data: res } = await axios.post(usersUrl, formDataRegister, { withCredentials: true })
+            console.log(res)
+            toggleLoginForm()
         } catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-                console.log(error.response);
-                setError(error.response.data.message);
+                console.log(error.response)
+                setError(error.response.data.message)
             }
         }
-    };
+    }
 
     return (
         <>
@@ -236,7 +238,7 @@ const Login = () => {
                 </CSSTransition>
             </SwitchTransition>
         </>
-    );
-};
+    )
+}
 
-export default Login;
+export default Login
