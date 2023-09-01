@@ -62,11 +62,10 @@ function Basic() {
                     <Grid item xs={12} sm={6} md={4} lg={4} xl={3}
                         sx = {{
                             display: 'flex',
-                            alignItems: 'flex-start',
+                            alignItems: 'start',
                             flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            alignContent: 'flex-start',
-                            paddingLeft: '1%',
+                            justifyContent: 'center',
+                            alignContent: 'center',
                         }}
                     >
                         <Stack  spacing={6} 
