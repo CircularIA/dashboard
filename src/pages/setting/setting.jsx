@@ -76,8 +76,8 @@ function Setting() {
     };
 
     return (
-        <div className='flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
-            <Sidebar />
+        <div className='animate__animated animate__fadeIn flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
+            <Sidebar theme={"ambiental"}/>
             <main className='lg:col-span-10 xl:col-span-11 h-[100vh] px-8 py-5'>
                 <TabContext value={currentView} >
                     <StylesTabs onChange={handleChange} centered 
