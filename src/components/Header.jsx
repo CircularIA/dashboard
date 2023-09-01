@@ -66,7 +66,7 @@ const Header = () => {
             <div className='flex items-center justify-center w-full p-2'>
                 <Select
                     options={panels}
-                    defaultValue={panels[0]}
+                    defaultValue={panels.find(panel => panel.value === theme)}
                     onChange={handleThemeChange}
                     styles={customStyles}
                     className='w-full'
