@@ -6,7 +6,11 @@ import Dashboard from './pages/Dashboard';
 import Setting from './pages/setting/setting';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
-
+//MUI
+import { CssBaseline, Grid, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "./theme";
+//Components
+import Seleccionador from './pages/seleccionador/main.jsx';
 function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
@@ -29,17 +33,24 @@ function ProtectedRoute() {
 }
 
 function App() {
+  const [theme, colorMode] = useMode();
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<ProtectedRoute />}>
-          <Route index element={<Dashboard />} />
-          <Route path="perfil" element={<Setting />} />
-          {/* Aquí puedes agregar más rutas protegidas */}
-        </Route>
-      </Routes>
-    </Router>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+          <Router>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<ProtectedRoute />}>
+                <Route index element={<Dashboard />} />
+                <Route path="perfil" element={<Setting />} />
+                <Route path="seleccionador" element={<Seleccionador />} />
+                {/* Aquí puedes agregar más rutas protegidas */}
+              </Route>
+            </Routes>
+          </Router>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 612">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #010101;
+        stroke-miterlimit: 10;
+        stroke-width: 10px;
+      }
+
+      .cls-2 {
+        fill: #e7e6e6;
+      }
+
+      .cls-3 {
+        fill: #f4a530;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="cls-3" d="m215.38,169.75c-59.72,0-108.12,21.83-108.12,48.75h216.25c0-26.92-48.41-48.75-108.12-48.75Z"/>
+    <path class="cls-3" d="m107.25,218.5v175c0,26.92,48.41,48.75,108.12,48.75s108.12-21.83,108.12-48.75v-175H107.25Z"/>
+  </g>
+  <ellipse class="cls-1" cx="202.25" cy="218.5" rx="125" ry="48.75"/>
+  <path class="cls-1" d="m327.25,218.5v175c0,26.92-55.96,48.75-125,48.75s-125-21.83-125-48.75v-175"/>
+  <path class="cls-1" d="m327.25,338.5c0,26.92-55.96,48.75-125,48.75s-125-21.83-125-48.75"/>
+  <path class="cls-1" d="m327.25,278.5c0,26.92-55.96,48.75-125,48.75s-125-21.83-125-48.75"/>
+  <circle class="cls-2" cx="409.75" cy="317.25" r="125"/>
+  <ellipse class="cls-3" cx="424.12" cy="317.25" rx="110.62" ry="125"/>
+  <circle class="cls-1" cx="409.75" cy="317.25" r="125"/>
+</svg>

@@ -3,7 +3,8 @@
 import React, { useState } from 'react'
 import logo from '../assets/dashboard-logo.svg'
 import { Link } from 'react-router-dom';
-
+//Components of React
+import { Collapse, Icon } from '@mui/material'; 
 // Íconos
 import profileIcon from '../assets/profile-icon.svg';
 import dashboardIcon from '../assets/dashboard-icon.svg';
@@ -13,8 +14,23 @@ import evaluationIcon from '../assets/evaluation-icon.svg';
 import helpIcon from '../assets/help-icon.svg';
 import { RiAlignJustify } from "react-icons/ri";
 
+
+
 const Sidebar = () => {
     const [showMenu, setShowMenu] = useState(false)
+    const [openPerfil, setOpenPerfil] = useState(false);
+    const [openFunciones, setOpenFunciones] = useState(false);
+    const [openContacto, setOpenContacto] = useState(false);
+    const handleClickPerfil = () =>{
+        console.log("entra a esta funcion")
+        setOpenPerfil(!openPerfil);
+    }
+    const handleClickFunciones = () =>{
+        setOpenFunciones(!openFunciones);
+    }
+    const handleClickContacto = () => {
+        setOpenContacto(!openContacto)
+    }
     return (
         <>
             <div className={`fixed inset-0 bg-black transition-opacity lg:hidden z-40 ${showMenu ? "opacity-50" : "opacity-0 pointer-events-none"}`} />
@@ -23,11 +39,36 @@ const Sidebar = () => {
                     <img src={logo} alt='Logo' className='w-17 h-17 object-cover' />
                 </div>
                 <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
-                    <MenuItem icon={profileIcon} text='Perfil' route='/perfil' />
+                    <div onClick={handleClickPerfil}>
+                        <MenuItem icon={profileIcon} text='Perfil'/>
+                    </div>
+                    <Collapse in = {openPerfil} timeout={'auto'} unmountOnExit>
+                        <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
+                            <MenuItem icon={dashboardIcon} text={'Configuracion'} route={'/perfil'} />
+                            <MenuItem icon={dashboardIcon} text={'Cerrar Sesión'} route={'/'} />
+                        </ul>
+                    </Collapse>
                     <MenuItem icon={dashboardIcon} text='Dashboard' route='/' />
-                    <MenuItem icon={functionsIcon} text='Funciones' route='/funciones' />
-                    <MenuItem icon={contactIcon} text='Contacto' route='/contacto' />
+                    <div onClick={handleClickFunciones}>
+                        <MenuItem icon={functionsIcon} text='Funciones' />
+                    </div>
+                    <Collapse in = {openFunciones} timeout={'auto'} unmountOnExit>
+                        <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
+                            <MenuItem icon={dashboardIcon} text={'Seleccionador'} route={'/seleccionador'} />
+                            <MenuItem icon={dashboardIcon} text={'H.Carbono'} route={'/'} />
+                            <MenuItem icon={dashboardIcon} text={'Simulador'} route={'/'} />
+                        </ul>
+                    </Collapse>
                     <MenuItem icon={evaluationIcon} text='Evaluación' route='/evaluacion' />
+                    <div onClick={handleClickContacto}>
+                        <MenuItem icon={contactIcon} text='Contacto' />
+                    </div>
+                    <Collapse in = {openContacto} timeout={'auto'} unmountOnExit>
+                    <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
+                            <MenuItem icon={dashboardIcon} text={'Sobre Nosotros'} route={'/'} />
+                            <MenuItem icon={dashboardIcon} text={'Reportar Problema'} route={'/'} />
+                        </ul>
+                    </Collapse>
                     <MenuItem icon={helpIcon} text='Ayuda' route='/ayuda' />
                 </ul>
             </div>
@@ -38,6 +79,7 @@ const Sidebar = () => {
         </>
     )
 }
+
 
 const MenuItem = ({ icon, text, route }) => {
     return (
