@@ -1,0 +1,14 @@
+<svg width="28" height="40" viewBox="0 0 28 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Capa_2" clip-path="url(#clip0_38_1304)">
+<g id="Group">
+<path id="Vector" d="M25 22.5H2.5V40H25V22.5Z" fill="white"/>
+<path id="Vector_2" d="M2.5 13.75H25C26.38 13.75 27.5 14.87 27.5 16.25V21.25H0V16.25C0 14.87 1.12 13.75 2.5 13.75Z" fill="white"/>
+</g>
+<path id="Vector_3" d="M24.375 0H10.625C8.9 0 7.5 1.4 7.5 3.125C7.5 4.85 8.9 6.25 10.625 6.25H7.5C5.775 6.25 4.375 7.65 4.375 9.375C4.375 11.1 5.775 12.5 7.5 12.5H17.5C19.225 12.5 20.625 11.1 20.625 9.375C20.625 7.65 19.225 6.25 17.5 6.25H24.375C26.1 6.25 27.5 4.85 27.5 3.125C27.5 1.4 26.1 0 24.375 0Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_38_1304">
+<rect width="27.5" height="40" fill="white"/>
+</clipPath>
+</defs>
+</svg>

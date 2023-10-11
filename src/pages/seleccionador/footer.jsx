@@ -8,16 +8,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-// const ContentFooter = styled(Box)`
-//     display: flex;
-//     flex-direction: row;
-//     align-items: center;
-//     justify-content: center;
-// `
-// const FirstCircle = styled(LensIcon)`
-//     margin-right: 4%;
-//     color: #989898;
-// `
 const steps = [
     'Seleccione una categoria de Indicador',
     'Seleccione un tipo',
@@ -36,8 +26,8 @@ function Footer({currentView, setCurrentView}) {
             }}
         >
             <Stepper activeStep={currentView} alternativeLabel>
-                {steps.map((label) => (
-                    <Step key={label}>
+                {steps.map((label, index) => (
+                    <Step key={label}   >
                         <StepLabel>{label}</StepLabel>
                     </Step>
                 ))}

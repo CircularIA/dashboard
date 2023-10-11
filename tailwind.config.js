@@ -1,6 +1,19 @@
 /* eslint-disable no-undef */
 const plugin = require('tailwindcss/plugin');
 
+const green = {
+  100: "#cfffe2",
+  200: "#9effc5",
+  300: "#6effa8",
+  400: "#3dff8b",
+  500: "#0dff6e",
+  600: "#0acc58",
+  700: "#089942",
+  800: "#05662c",
+  900: "#033316"
+}
+
+
 module.exports = {
   content: [
     './index.html',
@@ -63,6 +76,9 @@ module.exports = {
       zIndex: {
         60: '60',
       },
+      colors:{
+        'custom-pallete' : green,
+      }
     },
   },
   plugins: [

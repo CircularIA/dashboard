@@ -7,7 +7,7 @@ import Seleccionado from './components/seleccionado';
 import IndicadorValor from './components/indicadorValor';
 //Styles
 import Grid from '@mui/material/Grid';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme, Stack } from '@mui/material';
 import { tokens } from "../../theme";
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
@@ -37,7 +37,6 @@ function Main({currentView, setCurrentView}) {
     //Styles
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    // const { currentView } = useContext(Context);
     //Current view change to drill Component    
     const [currentIndicator, setCurrentIndicator] = useState("AMBIENTAL");
     //La idea es definir aca los tipos que se vayan seleccionando en la segunda vista
@@ -48,36 +47,19 @@ function Main({currentView, setCurrentView}) {
 
     if (currentView == 0) {
         return (
-            <Grid
-                container
-                paddingTop='6%'
+            <Stack
+                direction={'column'}
+                paddingTop={4}
                 spacing={1}
-                height='100%'
             >
+                <Typography variant="h2" component="h2">
+                    ¿QUE TIPO DE INDICADOR QUIERES CONOCER?
+                </Typography>
                 <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={12}
-                >
-                    <Typography variant="h2" component="h2">
-                        ¿QUE TIPO DE INDICADOR QUIERES CONOCER?
-                    </Typography>
-                </Grid>
-                <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={12}
-                >
-                    <Grid
                         container
                         direction='row'
                         justifyContent='flex-start'
                         spacing={1}
-                        height='100%'
                     >
                         {datos.map((indicador, index) => {
                             return <Grid
@@ -98,8 +80,7 @@ function Main({currentView, setCurrentView}) {
                             </Grid>
                         })}
                     </Grid>
-                </Grid>
-            </Grid>
+            </Stack>
         )
     } else if (currentView == 1) {
         return (

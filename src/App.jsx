@@ -1,16 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import './App.css';
+//Components
+import Seleccionador from './pages/seleccionador/main.jsx';
+import Estrategia from './pages/estrategia/estrategia';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Setting from './pages/setting/setting';
+import HuellaCarbono from './pages/huellacarbono/register'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 //MUI
 import { CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-//Components
-import Seleccionador from './pages/seleccionador/main.jsx';
+
 function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
@@ -45,6 +48,8 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path="perfil" element={<Setting />} />
                 <Route path="seleccionador" element={<Seleccionador />} />
+                <Route path='huellacarbono' element={<HuellaCarbono />} />
+                <Route path='estrategia' element={<Estrategia />} />
                 {/* Aquí puedes agregar más rutas protegidas */}
               </Route>
             </Routes>

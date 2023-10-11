@@ -3,11 +3,11 @@ import { Card } from 'react-bootstrap'
 import { styled, css, keyframes } from 'styled-components';
 const animacion = (distancia) =>keyframes`
     0% {
-      transform: translate(0,0);
+      transform: translate(60px,0);
       /* transform: rotate(0deg); */
     }
     100% {
-      transform: translate(0,${distancia}px);
+      transform: translate(60px,${distancia}px);
     }
   `
 const animacionText = (inicial, distancia) => keyframes`
@@ -23,7 +23,8 @@ export const CardView = styled(Card)`
     font-size: 0.9em;
     max-width: 370px;
     width: 100%;
-    height: 420px;
+    height: 100%;
+    max-height: 420px;
     //Si tiene el nombre es porque es de segunda vista
     /* Position */
     padding: 0% 1% 1% 0%;
@@ -34,7 +35,7 @@ export const CardView = styled(Card)`
     justify-content: center;
     ${props => props.nombre &&
     css`
-      height: 280px;
+      height: 250px;
       justify-content: flex-start;
       padding-top: 7%;
     `}
@@ -67,16 +68,14 @@ export const CardView = styled(Card)`
       }
       /* background-color: #00B971; */
       color: white;
-      justify-content: flex-start;
+      transform: scale(1.05);
+      transition: 0.3s;
       ${props => props.nombre ?
       css`
         padding-top: 7%;
       ` : css`
         padding-top: 28%;
       `}
-    }
-    &:active{
-      transform: scale(0.98);
     }
   `
 export default CardView;

@@ -16,8 +16,6 @@ function Indicador({ nombre, descripcion, imagen, titulo = '', setCurrentView, c
     }
   }
   const currentHeight = nombre ? '100%' : '420px';
-  console.log("have titulo?", titulo)
-  console.log("currentIndicator", currentIndicator)
   return (
     <Box
       sx={{

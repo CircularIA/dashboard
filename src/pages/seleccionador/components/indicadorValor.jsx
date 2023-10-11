@@ -47,7 +47,9 @@ function IndicadorValor({ datos, calc, setCurrentView }) {
                 border: '1px solid #989898',
                 background: '#FFF',
                 boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
+                
             }}
+            
         >
             <CardHeader
                 title={datos.nombre}
