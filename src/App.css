@@ -47,6 +47,18 @@
     border: 1px solid #0DFF6E;
 }
 
+.custom-bg {
+    background: none;
+}
+
+@media (max-width: 500px) {
+    .custom-bg {
+        background-image: url('/src/assets/bg-mobile.svg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
 .button-login {
     font-family: 'Roboto', sans-serif;
     width: 80%;
@@ -85,6 +97,17 @@
     color: #000000;
     text-decoration: none;
 }
+
+@media (max-width: 500px) {
+    .signup-text {
+        color: white;
+    }
+
+    .signup-text a {
+        color: white;
+    }
+}
+
 
 .signup-text a:hover {
     text-decoration: underline;
@@ -151,4 +174,57 @@
 
 .animate__animated.animate__fadeIn {
     --animate-duration: 1.3s;
-  }
+}
+
+/* Redondear y cambiar el color de las checkboxes */
+.custom-checkbox {
+    appearance: none;
+    border: 1px solid gray;
+    width: 20px;
+    height: 20px;
+    border-radius: 20%;
+    /* Redondear las checkboxes */
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.custom-checkbox:checked {
+    background-color: #00B971;
+    /* Color verde */
+    border: 1px solid #00B971;
+}
+
+.custom-checkbox:checked:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.goal-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.progress-bar-container {
+    width: 100%;
+    border-radius: 20px;
+}
+
+.progress-bar-content {
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.card-container {
+    overflow-y: auto;
+    /* Otros estilos... */
+}

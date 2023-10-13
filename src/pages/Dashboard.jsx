@@ -10,7 +10,11 @@ import social from '../assets/social.svg'
 import economic from '../assets/economic.svg'
 import substract from '../assets/substract.svg'
 import expand from '../assets/expand.svg'
-import Ambiental from '../components/Ambiental'
+import Valorization from '../components/Valorization'
+import Emissions from '../components/Emissions'
+import Energy from '../components/Energy'
+import Water from '../components/Water'
+import SupplyChain from '../components/SupplyChain'
 import Social from '../components/Social'
 import Economic from '../components/Economic'
 
@@ -25,11 +29,11 @@ const Panel = ({ title, index, handleClick, isExpanded, panelClass }) => (
 );
 
 const panels = [
-  { title: 'Valorización de residuos' },
-  { title: 'Emisiones' },
-  { title: 'Energía' },
-  { title: 'Agua' },
-  { title: 'Cadena de suministros' },
+  { title: 'Valorización de residuos', component: 'Valorization' },
+  { title: 'Emisiones', component: 'Emissions' },
+  { title: 'Energía', component: 'Energy' },
+  { title: 'Agua', component: 'Water' },
+  { title: 'Cadena de suministros', component: 'SupplyChain' },
 ];
 
 
@@ -93,6 +97,23 @@ const Dashboard = () => {
   }, [theme]);
   const [contentVisible] = useState(true);
 
+  const renderComponent = (componentName, props) => {
+    switch (componentName) {
+      case 'Valorization':
+        return <Valorization {...props} />;
+      case 'Emissions':
+        return <Emissions {...props} />;
+      case 'Energy':
+        return <Energy {...props} />;
+      case 'Water':
+        return <Water {...props} />;
+      case 'SupplyChain':
+        return <SupplyChain {...props} />;
+      default:
+        return null;
+    }
+  }
+
   const renderAmbiental = () => {
     return (
       <div>
@@ -107,7 +128,7 @@ const Dashboard = () => {
               panelClass={mid}
             />
             <div className={`expand-collapse-content ${activePanels.includes(index) ? 'expanded' : ''}`}>
-              {activePanels.includes(index) && contentVisible && <Ambiental theme={theme} />}
+              {activePanels.includes(index) && contentVisible && renderComponent(panel.component, { theme })}
             </div>
           </div>
         ))}
@@ -117,28 +138,24 @@ const Dashboard = () => {
 
 
   return (
-    <div className={`animate__animated ${animateClass} flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen`}>
-      <Sidebar theme={theme} />
-      <main className='lg:col-span-10 xl:col-span-11 overflow-y-scroll'>
-        <Header />
-        <div className={`mt-4 flex items-center ${gradient} custom-shadow justify-between rounded-md shadow-lg p-4 mx-4 md:mx-8`}>
-          <div className='flex items-center'>
-            <img src={logoEmpresa} alt='Logo empresa' className='w-[30%] md:p-1 md:ml-4 md:w-[35%]' />
-            <div className='text-white ml-4'> {/* Aquí está el texto blanco */}
-              <p className='font-bold mb-3'>NotCo - Sucursal 1 - Santiago Sur</p>
-              <p>Dirección sucursal: Macul, Av. Quilín 3550</p>
-              <p>Impulsora circular: Javiera Arenas</p>
-            </div>
+    <div className='animate__animated animate__fadeIn'>
+      <div className={`mt-4 flex items-center ${gradient} custom-shadow justify-between rounded-md shadow-lg p-4 mx-4 md:mx-8`}>
+        <div className='flex items-center'>
+          <img src={logoEmpresa} alt='Logo empresa' className='w-[30%] md:p-1 md:ml-4 md:w-[35%]' />
+          <div className='text-white ml-4'> {/* Aquí está el texto blanco */}
+            <p className='font-bold mb-3'>NotCo - Sucursal 1 - Santiago Sur</p>
+            <p>Dirección sucursal: Macul, Av. Quilín 3550</p>
+            <p>Impulsora circular: Javiera Arenas</p>
           </div>
         </div>
-        <div className={`flex mt-4 items-center ${dark} custom-shadow justify-start rounded-md shadow-lg mx-4 md:mx-8`}>
-          <img src={imgSrc} alt='Icon' className='h-[5%] md:h-[8%] lg:h-[7%] p-3 md:p-3' />
-          <p className='text-roboto text-sm lg:text-3xl ml-3 title-panel text-white'> {title}</p>
-        </div>
-        {theme === 'ambiental' && contentVisible && renderAmbiental()}
-        {theme === 'social' && contentVisible && <Social />}
-        {theme === 'economic' && contentVisible && <Economic />}
-      </main>
+      </div>
+      <div className={`flex mt-4 items-center ${dark} custom-shadow justify-start rounded-md shadow-lg mx-4 md:mx-8`}>
+        <img src={imgSrc} alt='Icon' className='h-[5%] md:h-[8%] lg:h-[7%] p-3 md:p-3' />
+        <p className='text-roboto text-sm lg:text-3xl ml-3 title-panel text-white'> {title}</p>
+      </div>
+      {theme === 'ambiental' && contentVisible && renderAmbiental()}
+      {theme === 'social' && contentVisible && <Social />}
+      {theme === 'economic' && contentVisible && <Economic />}
     </div>
   )
 }

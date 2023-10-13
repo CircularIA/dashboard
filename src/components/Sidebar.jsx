@@ -32,7 +32,7 @@ const Sidebar = ({ theme }) => {
                 <Link to={"/"} className='flex justify-center p-5'>
                     <img src={logo} alt='Logo' className='w-17 h-17 object-cover' />
                 </Link>
-                <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
+                <ul className='pt-12 pb-12 lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
                     <MenuItem icon={profileIcon} text='Perfil' route='/perfil' />
                     <MenuItem icon={dashboardIcon} text='Dashboard' route='/' />
                     <MenuItem icon={functionsIcon} text='Funciones' route='/funciones' />

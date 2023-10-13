@@ -8,6 +8,7 @@ import axios from 'axios'
 import { setToken } from '../reducers/authSlice'
 import { SwitchTransition, CSSTransition } from "react-transition-group"
 import { useRef } from 'react'
+import { useCookies } from 'react-cookie'
 
 const Login = () => {
 
@@ -17,6 +18,7 @@ const Login = () => {
     const registerFormRef = useRef(null)
     const authUrl = `${import.meta.env.VITE_BACKEND_URL}/api/auth/`
     const usersUrl = `${import.meta.env.VITE_BACKEND_URL}/api/users/`
+    const [_, setCookies] = useCookies(["access_token"])
 
 
     const toggleLoginForm = () => {
@@ -24,7 +26,7 @@ const Login = () => {
     }
 
     {/* Login vars*/ }
-
+    const [loginError, setLoginError] = useState(null)
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -33,12 +35,14 @@ const Login = () => {
     const token = useSelector(state => state.auth.token)
     // Manejar los cambios en los campos de entrada
     const handleChange = (event) => {
-        const { name, value } = event.target
+        const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
-        })
+        });
+        setLoginError(null);
     }
+
 
     // Enviar los datos al servidor al enviar el formulario
     const handleSubmit = async (event) => {
@@ -46,17 +50,20 @@ const Login = () => {
 
         // Realizar la petición a través de axios
         try {
-            const { data: res } = await axios.post(authUrl, formData, { withCredentials: true })
+            const { data: res } = await axios.post(authUrl, formData)
             console.log(res)
 
             // Almacenar el token en el store de Redux usando la acción setToken
             dispatch(setToken(res.data))
             console.log(token)
+            setCookies("access_token", res.data.token)
+            window.localStorage.setItem("userId", res.data.userId)
             navigate('/')
 
             // Realizar la redirección a la página de inicio después del inicio de sesión exitoso
         } catch (error) {
             console.log(error.response)
+            setLoginError(error.response.data)
             // Aquí puedes mostrar un mensaje de error al usuario si el inicio de sesión falla
         }
     }
@@ -79,6 +86,7 @@ const Login = () => {
             ...formDataRegister,
             [name]: value,
         })
+        setError(null)
     }
 
     // Enviar los datos al servidor al enviar el formulario
@@ -102,7 +110,7 @@ const Login = () => {
         } catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500) {
                 console.log(error.response)
-                setError(error.response.data.message)
+                setError(error.response.data)
             }
         }
     }
@@ -117,11 +125,11 @@ const Login = () => {
                 >
                     {loginFormVisible ? (
                         <div className='w-full h-screen flex'>
-                            <div ref={loginFormRef} className='w-screen bg-[#f5f5f5] flex flex-col items-center justify-center'>
+                            <div ref={loginFormRef} className='w-screen custom-bg flex flex-col items-center justify-center'>
                                 <div className='max-w-xl w-full px-6 lg:px-0'>
-                                    <h1 className='text-4xl text-roboto font-bold text-center mb-10'>¡Bienvenido!</h1>
+                                    <h1 className='text-white sm:text-black text-4xl text-roboto font-bold text-center mb-10'>¡Bienvenido!</h1>
                                     <form className='w-full flex flex-col'>
-                                        <label className='text-primary text-roboto text-left mt-8'>Correo:</label>
+                                        <label className='text-white sm:text-black text-primary text-roboto text-left mt-8'>Correo:</label>
                                         <input
                                             className='input-field w-full h-8 mb-4 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                                             type='text'
@@ -129,7 +137,7 @@ const Login = () => {
                                             required
                                             onChange={handleChange}
                                         />
-                                        <label className='text-primary text-roboto text-left'>Contraseña:</label>
+                                        <label className='text-white sm:text-black text-primary text-roboto text-left'>Contraseña:</label>
                                         <input
                                             className='input-field w-full h-8 mb-6 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                                             type='password'
@@ -137,6 +145,8 @@ const Login = () => {
                                             required
                                             onChange={handleChange}
                                         />
+
+                                        {loginError && <p className="text-red-500 mt-2 text-center">{loginError}</p>}
 
                                         <button
                                             className='button-login'
@@ -152,9 +162,13 @@ const Login = () => {
                                     </form>
                                 </div>
                             </div>
+                            <div className='absolute sm:hidden left-1/2 transform -translate-x-1/2 flex flex-col'>
+                                <img src={Logo} className='w-64 h-64 lg:w-80 lg:h-80 filter' alt='Logo' />
+                            </div>
+
                             <div className='sm:block hidden custom-max-width w-full relative flex flex-col'>
                                 <div className='absolute top-[0%] left-[20%] flex flex-col'>
-                                    <img src={Logo} className='w-80 h-80' alt='Logo' />
+                                    <img src={Logo} className='w-64 h-64 lg:w-80 lg:h-80' alt='Logo' />
                                 </div>
                                 <div className='h-full'>
                                     <img src={LogIn} className='h-full w-full object-cover' alt='Background' />
@@ -171,11 +185,11 @@ const Login = () => {
                                     <img src={LogIn} className='h-full w-full' alt='Background' />
                                 </div>
                             </div>
-                            <div className='w-screen bg-[#f5f5f5] flex flex-col items-center justify-center'>
+                            <div className='w-screen custom-bg flex flex-col items-center justify-center'>
                                 <div className='max-w-xl w-full px-6 lg:px-0'>
-                                    <h1 className='text-4xl text-roboto font-bold text-center mb-4'>Ingresa tus datos de registro:</h1>
+                                    <h1 className='text-white sm:text-black text-4xl text-roboto font-bold text-center mb-4'>Ingresa tus datos de registro:</h1>
                                     <form className='w-full flex flex-col'>
-                                        <label className='text-primary text-roboto text-left mt-4'>Nombre completo:</label>
+                                        <label className='text-white sm:text-black text-primary text-roboto text-left mt-4'>Nombre completo:</label>
                                         <input
                                             className='input-field w-full h-8 mb-4 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                                             type='text'
@@ -184,7 +198,7 @@ const Login = () => {
                                             onChange={handleChangeRegister}
                                             required
                                         />
-                                        <label className='text-primary text-roboto text-left'>Nombre de la empresa:</label>
+                                        <label className='text-white sm:text-black text-primary text-roboto text-left'>Nombre de la empresa:</label>
                                         <input
                                             className='input-field w-full h-8 mb-4 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                                             type='text'
@@ -193,7 +207,7 @@ const Login = () => {
                                             onChange={handleChangeRegister}
                                             required
                                         />
-                                        <label className='text-primary text-roboto text-left'>Correo:</label>
+                                        <label className='text-white sm:text-black text-primary text-roboto text-left'>Correo:</label>
                                         <input
                                             className='input-field w-full h-8 mb-4 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                                             type='text'
@@ -202,7 +216,7 @@ const Login = () => {
                                             onChange={handleChangeRegister}
                                             required
                                         />
-                                        <label className='text-primary text-roboto text-left'>Contraseña:</label>
+                                        <label className='text-white sm:text-black text-primary text-roboto text-left'>Contraseña:</label>
                                         <input
                                             className='input-field w-full h-8 mb-4 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                                             type='password'
@@ -211,7 +225,7 @@ const Login = () => {
                                             onChange={handleChangeRegister}
                                             required
                                         />
-                                        <label className='text-primary text-roboto text-left'>Confirmar contraseña:</label>
+                                        <label className='text-white sm:text-black text-primary text-roboto text-left'>Confirmar contraseña:</label>
                                         <input
                                             className='input-field w-full h-8 mb-6 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                                             type='password'
@@ -219,6 +233,9 @@ const Login = () => {
                                             onChange={handleChangeRegister}
                                             required
                                         />
+
+                                        {error && <p className="text-red-100 sm:text-red-500 mt-2 text-center">{error}</p>}
+
                                         <button
                                             className='button-login'
                                             type='submit'

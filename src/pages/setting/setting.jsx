@@ -1,5 +1,3 @@
-import { Box, Typography } from "@mui/material"
-import Tabs from '@mui/material/Tabs';
 import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -14,7 +12,6 @@ import Preferences from "./preferences/preferences";
 import Security from "./security/security";
 import Pay from "./pay/pay";
 import Interface from "./interface/interface";
-import Sidebar from "../../components/Sidebar";
 
 const StylesTabs = styled(TabList)(({ theme }) => ({
     '.MuiTabs-flexContainer': {
@@ -59,7 +56,7 @@ const StyledTab = styled(Tab)(({ theme, isLastTab}) => ({
     },
 }));
 
-const StyledPanel = styled(TabPanel)(({ theme }) => ({
+const StyledPanel = styled(TabPanel)(() => ({
     background: 'rgba(241, 241, 241, 1)',
     borderRadius: '10px',
     height: '90%',
@@ -77,7 +74,6 @@ function Setting() {
 
     return (
         <div className='animate__animated animate__fadeIn flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
-            <Sidebar theme={"ambiental"}/>
             <main className='lg:col-span-10 xl:col-span-11 h-[100vh] px-8 py-5'>
                 <TabContext value={currentView} >
                     <StylesTabs onChange={handleChange} centered 
