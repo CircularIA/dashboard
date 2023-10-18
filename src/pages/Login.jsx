@@ -59,7 +59,7 @@ const Login = () => {
             setCookies("access_token", res.data.token)
             window.localStorage.setItem("userId", res.data.userId)
             navigate('/')
-
+            
             // Realizar la redirección a la página de inicio después del inicio de sesión exitoso
         } catch (error) {
             console.log(error.response)

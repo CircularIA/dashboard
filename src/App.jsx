@@ -43,7 +43,6 @@ function ProtectedRoute() {
   const [loading, setLoading] = useState(true)
   const location = useLocation();
   const noHeader = location.pathname.includes('ayuda');
-
   useEffect(() => {
     // Poner el loader en false después de 1 segundo
     const timer = setTimeout(() => {
