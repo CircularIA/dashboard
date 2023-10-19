@@ -2,9 +2,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import './App.css'
+//Components
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Setting from './pages/setting/setting'
+import Seleccionador from './pages/seleccionador/main'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
