@@ -117,7 +117,6 @@ function ProtectedRoute() {
         <Route path='evaluacion' element={<Evaluation />} />
       </Route>
     </Routes>
-
   );
 }
 
@@ -127,7 +126,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<ProtectedRoute />}>
+        <Route path="*" element={<ProtectedRoute />}>
         </Route>
       </Routes>
     </Router>
