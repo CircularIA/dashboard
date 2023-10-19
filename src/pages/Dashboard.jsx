@@ -17,6 +17,12 @@ import Water from '../components/Water'
 import SupplyChain from '../components/SupplyChain'
 import Social from '../components/Social'
 import Economic from '../components/Economic'
+//Routes of api
+import { branchRoutes, userRoutes } from '../api/config.js'
+//Cookies
+import { useCookies } from 'react-cookie'
+//Libraries
+import axios from 'axios'
 
 const Panel = ({ title, index, handleClick, isExpanded, panelClass }) => (
   <div className={`flex mt-4 items-center ${panelClass} custom-shadow justify-between rounded-md shadow-lg p-3 mx-4 md:mx-8`}>
@@ -37,7 +43,7 @@ const panels = [
 ];
 
 
-const Dashboard = () => {
+const Dashboard = ({companyInfo}) => {
   // Configuraciones de tema para el dashboard
   const theme = useSelector((state) => state.theme.theme)
   // Clases basadas en el tema
@@ -135,16 +141,22 @@ const Dashboard = () => {
       </div>
     );
   }
-
-
+  const [cookies, setCookies, removeCookies] = useCookies(['access_token'])
+  // *Configuraciones para saber que sucursal tiene seleccionada el usuario
+  const currentBranch = useSelector((state) => state.user.branch)
+  
+  // *Obtener la información de la sucursal actual
+  console.log("company info en dashboard", companyInfo)
   return (
     <div className='animate__animated animate__fadeIn'>
       <div className={`mt-4 flex items-center ${gradient} custom-shadow justify-between rounded-md shadow-lg p-4 mx-4 md:mx-8`}>
         <div className='flex items-center'>
           <img src={logoEmpresa} alt='Logo empresa' className='w-[30%] md:p-1 md:ml-4 md:w-[35%]' />
           <div className='text-white ml-4'> {/* Aquí está el texto blanco */}
-            <p className='font-bold mb-3'>NotCo - Sucursal 1 - Santiago Sur</p>
-            <p>Dirección sucursal: Macul, Av. Quilín 3550</p>
+            <p className='font-bold mb-3'>
+              {companyInfo.companies.name} Sucursal: {companyInfo.companies.branches[currentBranch].name}
+            </p>
+            <p>Dirección sucursal: {companyInfo.companies.branches[currentBranch].address}</p>
             <p>Impulsora circular: Javiera Arenas</p>
           </div>
         </div>

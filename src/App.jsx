@@ -16,7 +16,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
 import { changeTheme } from './reducers/themeReducer';
 
-function AppLayout({ noHeader, animateClass }) {
+//Api routes
+import { companyRoutes } from './api/config.js'
+
+function AppLayout({ noHeader, animateClass, companyInfo }) {
+  console.log("company info", companyInfo)
   const theme = useSelector((state) => state.theme.theme);
   const defaultTheme = 'ambiental'
   const location = useLocation();
@@ -30,7 +34,7 @@ function AppLayout({ noHeader, animateClass }) {
     <div className={`animate__animated ${animateClass} flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen`}>
       <Sidebar theme={theme} />
       <main className='lg:col-span-10 xl:col-span-11 overflow-y-scroll'>
-        {!noHeader && <Header currentTheme={theme} />}
+        {!noHeader && <Header currentTheme={theme} companyInfo={companyInfo} />}
         <Outlet />
       </main>
     </div>
@@ -38,8 +42,11 @@ function AppLayout({ noHeader, animateClass }) {
 }
 
 function ProtectedRoute() {
+  console.log("protected route")
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
   const [isAuthenticated, setIsAuthenticated] = useState(null)
+  const [companyInfo, setCompanyInfo] = useState({}) // [companyInfo, setCompanyInfo
+  console.log("company info", companyInfo)
   const [loading, setLoading] = useState(true)
   const location = useLocation();
   const noHeader = location.pathname.includes('ayuda');
@@ -52,6 +59,7 @@ function ProtectedRoute() {
         if (decodedToken.exp <= currentTimeStamp) {
           // Si el token ha expirado, elimina el token y el userId
           removeCookie("access_token")
+          // !Local storage se puede manejar ocupando redux persist
           localStorage.removeItem("userId")
           setIsAuthenticated(false)
         } else {
@@ -78,7 +86,20 @@ function ProtectedRoute() {
 
     return () => clearTimeout(timer); // Limpiar el temporizador si el componente se desmonta
   }, [theme]);
-
+  //Get the whole company info
+  useEffect(() => {
+    axios.get(companyRoutes.getCompanyInfo, {
+      headers: {
+        'Authorization': `Bearer ${cookies.access_token}`
+      }
+    })
+      .then((response) => {
+        setCompanyInfo(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
   if (loading) return (
     <div className="custom-loader-container">
       <div className="custom-loader"></div>
@@ -88,11 +109,17 @@ function ProtectedRoute() {
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   return (
-    <AppLayout noHeader={noHeader} animateClass={animateClass}>
-      <Outlet />
-    </AppLayout>
+    <Routes>
+      <Route path='/' element={<AppLayout noHeader={noHeader} animateClass={animateClass} companyInfo={companyInfo} />} >
+        <Route index element={<Dashboard companyInfo={companyInfo} />} />
+        <Route path='ayuda' element={<Setting />} />
+        <Route path='evaluacion' element={<Evaluation />} />
+      </Route>
+    </Routes>
+
   );
 }
+
 
 function App() {
   return (
@@ -100,10 +127,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedRoute />}>
-          <Route index element={<Dashboard />} />
-          <Route path="ayuda" element={<Setting />} />
-          <Route path='evaluacion' element={<Evaluation />} />
-          {/* Aquí puedes agregar más rutas protegidas */}
         </Route>
       </Routes>
     </Router>

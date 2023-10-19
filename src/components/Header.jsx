@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, {useState, useEffect } from 'react'
 import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../reducers/themeReducer';
@@ -21,11 +21,11 @@ const NotificationIcon = ({ fill }) => (
 )
 
 
-const sucursals = [
-    { value: 'sucursal1', label: 'Sucursal 1 Santiago Sur' },
-    { value: 'sucursal2', label: 'Sucursal 2 Santiago Centro' },
-    { value: 'sucursal3', label: 'Sucursal 3 Santiago Norte' }
-];
+// const sucursals = [
+//     { value: 'sucursal1', label: 'Sucursal 1 Santiago Sur' },
+//     { value: 'sucursal2', label: 'Sucursal 2 Santiago Centro' },
+//     { value: 'sucursal3', label: 'Sucursal 3 Santiago Norte' }
+// ];
 
 const panels = [
     { value: 'ambiental', label: 'Panel Ambiental' },
@@ -33,7 +33,7 @@ const panels = [
     { value: 'economic', label: 'Panel Económico' }
 ];
 
-const Header = ({ currentTheme }) => {
+const Header = ({ currentTheme, companyInfo }) => {
     const dispatch = useDispatch();
     const theme = useSelector((state) => state.theme.theme);
 
@@ -44,7 +44,6 @@ const Header = ({ currentTheme }) => {
     };
 
     const currentColor = themeColors[currentTheme];
-
 
     const customStyles = {
         control: (provided) => ({
@@ -65,15 +64,29 @@ const Header = ({ currentTheme }) => {
     const handleThemeChange = (selectedOption) => {
         dispatch(changeTheme(selectedOption.value));
     };
+    //Have to obtain the current branch from redux
+    const currentBranch = useSelector((state) => state.user.branch)
+    //Have to transform branches to the format of sucursals
+    const [sucursals, setSucursals] = useState([]);
+    console.log("company info", companyInfo)
+    useEffect(() => {
+        const sucursals = companyInfo.companies.branches.map((branch) => ({
+            value: 'Sucursal ' + branch.code,
+            label: 'Sucursal ' + branch.name + ' ubicada en ' + branch.address,
+        }));
+        setSucursals(sucursals);
+    },[]) 
+    console.log("sucursals", sucursals[currentBranch])
     return (
         <header className='flex flex-col md:flex-row items-center justify-between rounded-md custom-shadow p-4 mx-4 md:mx-8'>
             <div className='flex items-center w-1/3'>
-                <span className='text-lg font-semibold'>Hola, notCo</span>
+                <span className='text-lg font-semibold'>Hola, {companyInfo.companies.name}</span>
             </div>
             <div className='flex items-center justify-center w-full p-2'>
                 <Select
                     options={sucursals}
-                    defaultValue={sucursals[0]}
+                    //Define as default value the current branch
+                    value={sucursals[currentBranch]}
                     styles={customStyles}
                     className='w-full'
                 />

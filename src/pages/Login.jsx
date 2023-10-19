@@ -32,7 +32,6 @@ const Login = () => {
         password: '',
     })
     const dispatch = useDispatch()
-    const token = useSelector(state => state.auth.token)
     // Manejar los cambios en los campos de entrada
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -55,7 +54,6 @@ const Login = () => {
 
             // Almacenar el token en el store de Redux usando la acción setToken
             dispatch(setToken(res.data))
-            console.log(token)
             setCookies("access_token", res.data.token)
             window.localStorage.setItem("userId", res.data.userId)
             navigate('/')
