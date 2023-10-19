@@ -113,8 +113,10 @@ function ProtectedRoute() {
     <Routes>
       <Route path='/' element={<AppLayout noHeader={noHeader} animateClass={animateClass} companyInfo={companyInfo} />} >
         <Route index element={<Dashboard companyInfo={companyInfo} />} />
+        <Route path='perfil' element={<Setting />} /> {/* TODO: Cambiar a /configuracion */}
         <Route path='ayuda' element={<Setting />} />
         <Route path='evaluacion' element={<Evaluation />} />
+        
       </Route>
     </Routes>
   );
