@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import increase from '../../assets/increase.svg'
 import { useRef } from 'react';
-
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { FaChevronRight, FaCheck } from 'react-icons/fa';
 
 const ScoreCircle = ({ score }) => {
   let gradientId;
@@ -158,58 +159,171 @@ const ProveedoresData = [
   { nombre: 'EnviroCare Providers', rango: '19.000 - 29.000 CLP' },
 ];
 
-const VistaDetalleMeta = ({ nombreMeta, cerrar, proyectos, proveedores, cardHeight }) => (
-  <div className="p-6 rounded-md h-screen" style={{ backgroundColor: '#7ED39A' }}>
-    <div className="breadcrumb flex mb-4">
-      <p className="font-bold text-lg" style={{ color: '#006C42' }}>{nombreMeta} / Gestión</p>
-    </div>
-    <div className="flex flex-row">
-      <div className="w-[97%] pr-2">
-        <div className='flex px-10 justify-between'>
-          <div className="w-[46%]">
-            <div style={{ backgroundColor: '#006C42', padding: '16px', borderRadius: '8px 8px 0 0' }}>
-              <h3 className="text-xl font-bold ml-2" style={{ color: 'white' }}>Proyectos</h3>
+const VistaDetalleMeta = ({ nombreMeta, cerrar, proyectos, proveedores, cardHeight }) => {
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
+  const [selectedProviderIndex, setSelectedProviderIndex] = useState(null);
+
+  const handleProjectClick = (index) => {
+    setSelectedProjectIndex(index);
+  };
+
+  const handleProviderClick = (index) => {
+    setSelectedProviderIndex(index);
+  };
+
+  const handleClose = () => {
+    cerrar();
+  };
+
+  const isOptionSelected = selectedProjectIndex !== null && selectedProviderIndex !== null;
+
+  const [confirmationView, setConfirmationView] = useState(false);
+
+  const handleConfirmationClick = () => {
+    setConfirmationView(!confirmationView);
+  };
+
+  return (
+    <div id="vistaDetalleMeta" className="p-6 rounded-md h-screen" style={{ backgroundColor: '#7ED39A' }}>
+      {!confirmationView &&
+        <div className='animate__animated animate__fadeIn'>
+          <>
+            <div className="breadcrumb flex mb-4">
+              <p className="font-bold text-lg" style={{ color: '#006C42' }}>{nombreMeta} / Gestión</p>
             </div>
-            <div
-              style={{ maxHeight: `${cardHeight * 0.6}px`, overflowY: 'auto', backgroundColor: 'white', borderRadius: '0 0 8px 8px' }}
-            >
-              <ul>
-                {proyectos.map((proyecto, index) => (
-                  <li key={index} style={{ backgroundColor: index % 2 === 0 ? '#D9D9D9' : 'white', padding: '4px' }}>
-                    <div className='ml-5'>
-                      {proyecto}
+            <div className="flex flex-row">
+              <div className="w-[97%] pr-2">
+                <div className='flex px-10 justify-between'>
+                  <div className="w-[48%]">
+                    <div style={{ backgroundColor: '#006C42', padding: '16px', borderRadius: '8px 8px 0 0' }}>
+                      <h3 className="text-xl font-bold ml-2" style={{ color: 'white' }}>Proyectos</h3>
                     </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="w-[46%]">
-            <div style={{ backgroundColor: '#006C42', padding: '16px', borderRadius: '8px 8px 0 0' }}>
-              <h3 className="text-xl font-bold ml-2" style={{ color: 'white' }}>Proveedores</h3>
-            </div>
-            <div
-              style={{ maxHeight: `${cardHeight * 0.6}px`, overflowY: 'auto', backgroundColor: 'white', borderRadius: '0 0 8px 8px' }}
-            >
-              <ul>
-                {proveedores.map((proveedor, index) => (
-                  <li key={index} style={{ backgroundColor: index % 2 === 0 ? '#D9D9D9' : 'white', padding: '4px' }}>
-                    <div className='ml-5'>
-                      {proveedor.nombre}: {proveedor.rango}
+                    <div
+                      style={{ maxHeight: `${cardHeight * 0.6}px`, overflowY: 'auto', backgroundColor: 'white', borderRadius: '0 0 8px 8px' }}
+                      className='custom-scrollbar'
+                    >
+                      <ul>
+                        {proyectos.map((proyecto, index) => (
+                          <li
+                            key={index}
+                            style={{
+                              backgroundColor: index === selectedProjectIndex ? '#00B971' : (index % 2 === 0 ? '#D9D9D9' : 'white'),
+                              color: index === selectedProjectIndex ? 'white' : 'black',
+                              padding: '4px',
+                              cursor: 'pointer'
+                            }}
+                            onClick={() => handleProjectClick(index)}>
+                            <div className='ml-5'>
+                              {proyecto}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                  <div className="w-[48%]">
+                    <div style={{ backgroundColor: '#006C42', padding: '16px', borderRadius: '8px 8px 0 0' }}>
+                      <h3 className="text-xl font-bold ml-2" style={{ color: 'white' }}>Proveedores</h3>
+                    </div>
+                    <div
+                      style={{ maxHeight: `${cardHeight * 0.6}px`, overflowY: 'auto', backgroundColor: 'white', borderRadius: '0 0 8px 8px' }}
+                      className='custom-scrollbar'
+                    >
+                      <ul>
+                        {proveedores.map((proveedor, index) => (
+                          <li
+                            key={index}
+                            style={{
+                              backgroundColor: index === selectedProviderIndex ? '#00B971' : (index % 2 === 0 ? '#D9D9D9' : 'white'),
+                              color: index === selectedProviderIndex ? 'white' : 'black',
+                              padding: '4px',
+                              cursor: 'pointer'
+                            }}
+                            onClick={() => handleProviderClick(index)}>
+                            <div className='ml-5'>
+                              {proveedor.nombre}: {proveedor.rango}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-[3%] flex flex-col justify-center items-center">
+                <button
+                  onClick={handleClose}
+                  style={{
+                    backgroundColor: 'white',
+                    border: '2px solid #989898',
+                    borderRadius: '8px',
+                    color: '#989898',
+                    padding: '10px',
+                    marginBottom: '10px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <FaChevronRight />
+                </button>
+                <button
+                  onClick={isOptionSelected ? handleConfirmationClick : null}
+                  style={{
+                    backgroundColor: isOptionSelected ? 'white' : 'gray',
+                    border: '2px solid #989898',
+                    borderRadius: '8px',
+                    color: isOptionSelected ? '#989898' : 'white',
+                    padding: '10px',
+                    marginTop: '10px',
+                    cursor: isOptionSelected ? 'pointer' : 'not-allowed'
+                  }}
+                  disabled={!isOptionSelected}
+                >
+                  <FaCheck />
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="w-[3%] flex justify-center items-center">
-        <button onClick={cerrar} className="text-xs text-gray bg-gray-300">{'>'}</button>
-      </div>
+          </>
+        </div>}
+      {confirmationView &&
+        <div className='animate__animated animate__fadeIn'>
+          <>
+            <div className="confirmation-view fade-in flex flex-col">
+              <div className='w-[full]' style={{ backgroundColor: '#006C42', padding: '16px', borderRadius: '8px 8px 0 0' }}>
+                <h3 className="text-xl font-bold ml-2" style={{ color: 'white' }}>Proveedores</h3>
+              </div>
+              <div
+                style={{ height: `${cardHeight * 0.6}px`, backgroundColor: 'white', borderRadius: '0 0 8px 8px' }}
+              >
+                <div className="p-6 text-center mt-5">
+                  <p>
+                    ¿Estás listo para iniciar tu proyecto de <strong>{proyectos[selectedProjectIndex]}</strong> con
+                    <strong> {proveedores[selectedProviderIndex]?.nombre}</strong>?
+                  </p>
+                  <p>
+                    Al hacer clic en ‘Confirmar’ te contactaremos y recibirás una respuesta en un plazo de 48 horas hábiles.
+                  </p>
+                </div>
+                <div className="flex justify-center p-4">
+                  <button
+                    onClick={handleConfirmationClick}
+                    className="bg-[#00B971] text-white font-bold mx-5 px-20 rounded-md"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={handleConfirmationClick}
+                    className="bg-[#00B971] text-white font-bold mx-5 px-20 rounded-md"
+                  >
+                    Confirmar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        </div>}
     </div>
-  </div>
-);
+  )
+};
 
 
 
@@ -226,10 +340,15 @@ const Card = ({ title, score, average, goals }) => {
   return (
     <div
       ref={cardRef}
-      className="bg-white rounded-md custom-shadow mx-4 md:mx-8 my-4 md:my-6 overflow-hidden"
+      className="cardContainer relative bg-white rounded-md custom-shadow mx-4 md:mx-8 my-4 md:my-6 overflow-hidden"
       style={vistaDetalle ? { height: `${cardHeight}px` } : {}}
     >
-      {vistaDetalle ? (
+      <CSSTransition
+        in={vistaDetalle !== null}
+        timeout={500}
+        classNames="slide"
+        unmountOnExit
+      >
         <VistaDetalleMeta
           nombreMeta={vistaDetalle}
           cerrar={() => setVistaDetalle(null)}
@@ -237,62 +356,61 @@ const Card = ({ title, score, average, goals }) => {
           proveedores={ProveedoresData}
           cardHeight={cardHeight}
         />
-      ) : (
-        <>
-          <div className="bg-custom-mid-green p-5 rounded-t-md">
-            <p className='text-roboto text-sm lg:text-2xl category-panel text-white'> {title} </p>
-          </div>
-          <div className='flex'>
-            <div className="w-1/5 p-3">
-              <ScoreCircle score={score} />
-              <div className='flex flex-col items-center'>
-                <div className="border-2 border-gray-400 p-2 rounded-lg w-[69%] flex flex-col">
-                  <div className="flex text-sm items-center justify-center">
-                    <span className='text-sm font-bold'>Promedio de anterior*</span>
+      </CSSTransition>
+      <>
+        <div className="bg-custom-mid-green p-5 rounded-t-md">
+          <p className='text-roboto text-sm lg:text-2xl category-panel text-white'> {title} </p>
+        </div>
+        <div className='flex'>
+          <div className="w-1/5 p-3">
+            <ScoreCircle score={score} />
+            <div className='flex flex-col items-center'>
+              <div className="border-2 border-gray-400 p-2 rounded-lg w-[69%] flex flex-col">
+                <div className="flex text-sm items-center justify-center">
+                  <span className='text-sm font-bold'>Promedio de anterior*</span>
+                </div>
+                <hr className="border-gray-400" />
+                <div className="flex flex-col justify-center items-center">
+                  <div className="flex text-sm items-center">
+                    <span className='text-green-600 text-xl lg:text-3xl font-bold mr-2'>{average}</span>
+                    <img src={increase} alt="decrease" className="w-5 h-5 lg:w-10 lg:h-10" />
                   </div>
-                  <hr className="border-gray-400" />
-                  <div className="flex flex-col justify-center items-center">
-                    <div className="flex text-sm items-center">
-                      <span className='text-green-600 text-xl lg:text-3xl font-bold mr-2'>{average}</span>
-                      <img src={increase} alt="decrease" className="w-5 h-5 lg:w-10 lg:h-10" />
-                    </div>
-                    <div className="flex text-sm items-center">
-                      <span className='text-sm'>mensual</span>
-                    </div>
+                  <div className="flex text-sm items-center">
+                    <span className='text-sm'>mensual</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="w-4/5 p-6">
-              <div className="flex mb-2">
-                <div className='w-[80%]'>
-                  <p className="text-roboto text-lg lg:text-xl text-gray-800 font-semibold">Metas</p>
+          </div>
+          <div className="w-4/5 p-6">
+            <div className="flex mb-2">
+              <div className='w-[80%]'>
+                <p className="text-roboto text-lg lg:text-xl text-gray-800 font-semibold">Metas</p>
+              </div>
+              <div className='w-[20%] px-6'>
+                <p className="text-roboto text-lg lg:text-xl text-gray-800 font-semibold">Gestión</p>
+              </div>
+            </div>
+            <hr className="border-gray-500 mb-4 w-[97%]" />
+            {goals.map((goal, index) => (
+              <div key={index} className="goal-container flex flex-row mb-4">
+                <div className='w-4/5'>
+                  <p className='text-start text-base'>{goal.goalTitle}</p>
+                  <ProgressBar percentage={goal.percentage} />
                 </div>
-                <div className='w-[20%] px-6'>
-                  <p className="text-roboto text-lg lg:text-xl text-gray-800 font-semibold">Gestión</p>
+                <div className="flex justify-center items-start w-1/5">
+                  <button
+                    className="bg-custom-mid-green text-white font-bold p-2 rounded-xl w-[75%]"
+                    onClick={() => handleGestionarClick(goal.goalTitle)}
+                  >
+                    Gestionar
+                  </button>
                 </div>
               </div>
-              <hr className="border-gray-500 mb-4 w-[97%]" />
-              {goals.map((goal, index) => (
-                <div key={index} className="goal-container flex flex-row mb-4">
-                  <div className='w-4/5'>
-                    <p className='text-start text-base'>{goal.goalTitle}</p>
-                    <ProgressBar percentage={goal.percentage} />
-                  </div>
-                  <div className="flex justify-center items-start w-1/5">
-                    <button
-                      className="bg-custom-mid-green text-white font-bold p-2 rounded-xl w-[75%]"
-                      onClick={() => handleGestionarClick(goal.goalTitle)}
-                    >
-                      Gestionar
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
-        </>
-      )}
+        </div>
+      </>
     </div>
   );
 };

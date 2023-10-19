@@ -6,10 +6,8 @@ import CardsContainer from './CardsContainer'
 
 
 const Evaluation = () => {
-
-
   return (
-    <div className={`animate__animated animate_fadeIn`}>
+    <div className='animate__animated animate__fadeIn'>
       <main className='lg:col-span-10 xl:col-span-11'>
         <CardsContainer />
       </main>
