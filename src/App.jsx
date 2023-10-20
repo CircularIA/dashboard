@@ -50,7 +50,7 @@ function ProtectedRoute() {
   console.log("company info", companyInfo)
   const [loading, setLoading] = useState(true)
   const location = useLocation();
-  const noHeader = location.pathname.includes('ayuda');
+  const noHeader = location.pathname.includes('perfil');
   useEffect(() => {
     // Poner el loader en false después de 1 segundo
     const timer = setTimeout(() => {
@@ -60,8 +60,6 @@ function ProtectedRoute() {
         if (decodedToken.exp <= currentTimeStamp) {
           // Si el token ha expirado, elimina el token y el userId
           removeCookie("access_token")
-          // !Local storage se puede manejar ocupando redux persist
-          localStorage.removeItem("userId")
           setIsAuthenticated(false)
         } else {
           setIsAuthenticated(true)
@@ -114,9 +112,7 @@ function ProtectedRoute() {
       <Route path='/' element={<AppLayout noHeader={noHeader} animateClass={animateClass} companyInfo={companyInfo} />} >
         <Route index element={<Dashboard companyInfo={companyInfo} />} />
         <Route path='perfil' element={<Setting />} /> {/* TODO: Cambiar a /configuracion */}
-        <Route path='ayuda' element={<Setting />} />
         <Route path='evaluacion' element={<Evaluation />} />
-        
       </Route>
     </Routes>
   );

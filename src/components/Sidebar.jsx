@@ -13,8 +13,18 @@ import contactIcon from '../assets/contact-icon.svg';
 import evaluationIcon from '../assets/evaluation-icon.svg';
 import helpIcon from '../assets/help-icon.svg';
 import { RiAlignJustify } from "react-icons/ri";
+import { useCookies } from 'react-cookie'
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Sidebar = ({ theme }) => {
+    const [open, setOpen] = useState(false);
+    const [cookies, removeCookie] = useCookies(["access_token"]);
     const [showMenu, setShowMenu] = useState(false)
     const sidebarGradientClass =
         theme === 'ambiental' ? 'bg-sidebar-gradient-green' :
@@ -38,6 +48,22 @@ const Sidebar = ({ theme }) => {
     const handleClickContacto = () => {
         setOpenContacto(!openContacto)
     }
+    const handleClick = () => {
+        setOpen(true);
+    };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleSession = () => {
+        removeCookie("access_token");
+        setOpen(true)
+    }
+
     return (
         <>
             <div className={`fixed inset-0 bg-black transition-opacity lg:hidden z-40 ${showMenu ? "opacity-50" : "opacity-0 pointer-events-none"}`} />
@@ -52,7 +78,9 @@ const Sidebar = ({ theme }) => {
                     <Collapse in={openPerfil} timeout={'auto'} unmountOnExit>
                         <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow pl-1 shadow-xl hover:bg-custom-pallete-400 transition duration-300 ease-in-out'>
                             <MenuItem icon={dashboardIcon} text={'Configuracion'} route={'/perfil'} />
-                            <MenuItem icon={dashboardIcon} text={'Cerrar Sesión'} route={'/'} />
+                            <div onClick={handleSession}>
+                                <MenuItem icon={dashboardIcon} text={'Cerrar Sesión'} />
+                            </div>
                         </ul>
                     </Collapse>
                     <MenuItem icon={dashboardIcon} text='Dashboard' route='/' />
@@ -83,6 +111,12 @@ const Sidebar = ({ theme }) => {
             <button onClick={() => setShowMenu(!showMenu)} className={`${showMenu ? "opacity-100" : "opacity-50"} lg:hidden z-50 ${sidebarButtonColor} fixed right-4 bottom-4 bg-black rounded-full w-16 h-16 flex items-center justify-center`}>
                 <RiAlignJustify size={22} color='white' />
             </button>
+            <Snackbar open={open} autoHideDuration={80000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{backgroundColor: '#008A55'}}>
+                    Cerrando sesión
+                </Alert>
+            </Snackbar>
+
         </>
     )
 }
