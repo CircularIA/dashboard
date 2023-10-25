@@ -5,7 +5,7 @@ import { TabPanel } from '@mui/lab';
 
 import { useState } from "react";
 import {styled } from '@mui/material/styles';
-
+import PropTypes from 'prop-types';
 //Components
 import Basic from './basic';
 import Preferences from "./preferences/preferences";
@@ -26,7 +26,7 @@ const StylesTabs = styled(TabList)(({ theme }) => ({
     }
 }));
 
-const StyledTab = styled(Tab)(({ theme, isLastTab}) => ({
+const StyledTab = styled(Tab)(({ theme, islasttab}) => ({
     background: 'rgba(241, 241, 241, 1)',
     border: '1px solid #989898',
     boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
@@ -41,7 +41,7 @@ const StyledTab = styled(Tab)(({ theme, isLastTab}) => ({
     [theme.breakpoints.up('lg')]: {
         '&.Mui-selected': {
             background: 'rgba(6, 189, 96, 1)',
-            margin: isLastTab ? '0px 0px 0px 23%' : '0px 23% 0px 0px',
+            margin: islasttab ? '0px 0px 0px 23%' : '0px 23% 0px 0px',
             color: '#ffff',
             //Define specific styles for the selected tab
         }
@@ -49,7 +49,7 @@ const StyledTab = styled(Tab)(({ theme, isLastTab}) => ({
     [theme.breakpoints.down('md')]: {
         '&.Mui-selected': {
             background: 'rgba(6, 189, 96, 1)',
-            margin: isLastTab ? '0px 0px 0px 13%' : '0px 13% 0px 0px',
+            margin: islasttab ? '0px 0px 0px 13%' : '0px 13% 0px 0px',
             color: '#ffff',
             //Define specific styles for the selected tab
         }
@@ -65,18 +65,20 @@ const StyledPanel = styled(TabPanel)(() => ({
     
 }));
 
-function Setting() {
+function Setting({companyInfo}) {
     const [currentView, setCurrentView] = useState('1');
     
     const handleChange = (event, newValue) => {
         setCurrentView(newValue);
     };
 
+    //Have to obtain the dats of the company
+    console.log("company info", companyInfo)
     return (
-        <div className='animate__animated animate__fadeIn flex grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
+        <div className='animate__animated animate__fadeIn  grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
             <main className='lg:col-span-10 xl:col-span-11 h-[100vh] px-8 py-5'>
                 <TabContext value={currentView} >
-                    <StylesTabs onChange={handleChange} centered 
+                    <StylesTabs onChange={handleChange}  
                         variant="scrollable"
                         scrollButtons={false}
                     >
@@ -84,10 +86,10 @@ function Setting() {
                         <StyledTab label='Preferencias' value='2' />
                         <StyledTab label='Seguridad' value='3'/>
                         <StyledTab label='Pago' value='4'/>
-                        <StyledTab label='Interfaz' value = '5' isLastTab={true}/>
+                        <StyledTab label='Interfaz' value = '5' islasttab="true"/>
                     </StylesTabs>
                     <StyledPanel value='1' index={0}>
-                        <Basic />
+                        <Basic companyInfo={companyInfo} />
                     </StyledPanel>
                     <StyledPanel value='2' index={1}>
                         <Preferences />
@@ -107,4 +109,8 @@ function Setting() {
     )
 }
 
+//Define the props of the component
+Setting.propTypes = {
+    companyInfo: PropTypes.object.isRequired,
+}
 export default Setting

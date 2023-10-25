@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect } from 'react'
+import { Skeleton } from '@mui/material';
+
 import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../reducers/themeReducer';
@@ -64,23 +66,28 @@ const Header = ({ currentTheme, companyInfo }) => {
     const handleThemeChange = (selectedOption) => {
         dispatch(changeTheme(selectedOption.value));
     };
+    const [loading, setLoading] = useState(false);
     //Have to obtain the current branch from redux
     const currentBranch = useSelector((state) => state.user.branch)
     //Have to transform branches to the format of sucursals
     const [sucursals, setSucursals] = useState([]);
-    console.log("company info", companyInfo)
     useEffect(() => {
-        const sucursals = companyInfo.companies.branches.map((branch) => ({
-            value: 'Sucursal ' + branch.code,
-            label: 'Sucursal ' + branch.name + ' ubicada en ' + branch.address,
-        }));
-        setSucursals(sucursals);
-    },[]) 
+        if (Object.keys(companyInfo).length > 0){
+            const sucursals = companyInfo.companies.branches.map((branch) => ({
+                value: 'Sucursal ' + branch.code,
+                label: 'Sucursal ' + branch.name + ' ubicada en ' + branch.address,
+            }));
+            setSucursals(sucursals);
+            setLoading(true);
+        }
+    },[companyInfo]) 
     console.log("sucursals", sucursals[currentBranch])
     return (
         <header className='flex flex-col md:flex-row items-center justify-between rounded-md custom-shadow p-4 mx-4 md:mx-8'>
             <div className='flex items-center w-1/3'>
-                <span className='text-lg font-semibold'>Hola, {companyInfo.companies.name}</span>
+                {
+                    loading ? <span className='text-lg font-semibold'>{companyInfo.companies.name}</span> : <Skeleton variant="text" width={200} height={30} />
+                }
             </div>
             <div className='flex items-center justify-center w-full p-2'>
                 <Select

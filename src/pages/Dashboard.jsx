@@ -17,12 +17,10 @@ import Water from '../components/Water'
 import SupplyChain from '../components/SupplyChain'
 import Social from '../components/Social'
 import Economic from '../components/Economic'
-//Routes of api
-import { branchRoutes, userRoutes } from '../api/config.js'
 //Cookies
 import { useCookies } from 'react-cookie'
-//Libraries
-import axios from 'axios'
+//Components of material ui
+import { Skeleton } from '@mui/material';
 
 const Panel = ({ title, index, handleClick, isExpanded, panelClass }) => (
   <div className={`flex mt-4 items-center ${panelClass} custom-shadow justify-between rounded-md shadow-lg p-3 mx-4 md:mx-8`}>
@@ -144,19 +142,27 @@ const Dashboard = ({companyInfo}) => {
   const [cookies, setCookies, removeCookies] = useCookies(['access_token'])
   // *Configuraciones para saber que sucursal tiene seleccionada el usuario
   const currentBranch = useSelector((state) => state.user.branch)
-  
+  //Use effect to refresh data of company info
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (Object.keys(companyInfo).length > 0) {
+      setLoading(true);
+    }
+  }, [companyInfo])
   // *Obtener la información de la sucursal actual
-  console.log("company info en dashboard", companyInfo)
   return (
     <div className='animate__animated animate__fadeIn'>
       <div className={`mt-4 flex items-center ${gradient} custom-shadow justify-between rounded-md shadow-lg p-4 mx-4 md:mx-8`}>
-        <div className='flex items-center'>
+        <div className='flex items-center  '>
           <img src={logoEmpresa} alt='Logo empresa' className='w-[30%] md:p-1 md:ml-4 md:w-[35%]' />
-          <div className='text-white ml-4'> {/* Aquí está el texto blanco */}
-            <p className='font-bold mb-3'>
-              {companyInfo.companies.name} Sucursal: {companyInfo.companies.branches[currentBranch].name}
-            </p>
-            <p>Dirección sucursal: {companyInfo.companies.branches[currentBranch].address}</p>
+          <div className='text-white ml-4 w-[100%] '> {/* Aquí está el texto blanco */}
+            {
+              loading ? <p className='font-bold mb-3 text-2xl'> ¡Bienvenido! {companyInfo.companies.name} Sucursal: {companyInfo.companies.branches[currentBranch].name}</p> : <Skeleton variant="text" width={200} height={30} />
+            }
+            {
+              loading ? <p>Dirección sucursal: {companyInfo.companies.branches[currentBranch].address}</p> : <Skeleton variant="text" width={200} height={30} />
+            }
+            
             <p>Impulsora circular: Javiera Arenas</p>
           </div>
         </div>

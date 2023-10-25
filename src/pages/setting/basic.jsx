@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Grid, IconButton, TextField, Typography, InputAdornment} from "@mui/material"
 import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
 import ChileIcon from './../../assets/chile.svg';
 
+import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,6 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 //Form components
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import Skeleton from '@mui/material/Skeleton';
 
 import {styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,7 +31,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     
 }));
 
-function Basic() {
+function Basic({companyInfo}) {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () =>{
@@ -39,7 +41,15 @@ function Basic() {
     const handleClose = () => {
         setOpen(false);
     }
+    //Set a loading variable to change to true when the data is loaded
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        if (Object.keys(companyInfo).length > 0) {
+            setLoading(true);
+        }
+    }, [companyInfo])
 
+    console.log("company info", companyInfo)
     return (
         <Box
             width={'100%'}
@@ -48,9 +58,11 @@ function Basic() {
             flexDirection={'column'}
         >
             <Box>
-                <Typography variant='h4' color='#000' fontWeight={'bold'}>
-                    HOLA! EMPRESA XXX
-                </Typography>
+                {
+                    loading ? <Typography variant='h4' color='#000' fontWeight={'bold'}>
+                        {companyInfo.companies.name}
+                    </Typography> : <Skeleton variant="text" width={200} />
+                }
             </Box>
             <Box
                 display={'flex'}
@@ -113,18 +125,28 @@ function Basic() {
                     >
                         {/* Row 1 */}
                         <Box>
-                            <StyledTextField
-                                label="Nombre de la Empresa"
+                            {
+                                loading ? <StyledTextField
+                                label="Nombre de la empresa"
                                 multiline
                                 maxRows={4}
                                 size= 'small'
-                            />
-                            <StyledTextField
+                                value={
+                                    companyInfo.companies.name
+                                }
+                                /> : <Skeleton variant="text" width={200} />
+                            }
+                            {
+                                loading ? <StyledTextField
                                 label="Sector / Industria"
                                 multiline
                                 maxRows={4}
                                 size= 'small'
-                            />
+                                value = {
+                                    companyInfo ? companyInfo.companies.typeIndustry : <Skeleton variant="text" width={200} />
+                                }
+                                /> : <Skeleton variant="text" width={200} />
+                            }
                         </Box>
                         {/* Row 2 */}
                         <Box>
@@ -133,13 +155,20 @@ function Basic() {
                                 multiline
                                 maxRows={4}
                                 size= 'small'
+                                
                             />
-                            <StyledTextField
+                            {
+                                loading ? <StyledTextField
                                 label="Tamaño de la empresa"
                                 multiline
                                 maxRows={4}
                                 size= 'small'
-                            />
+                                value= {
+                                    companyInfo.companies.employees
+                                }
+                                /> : <Skeleton variant="text" width={200} />
+                            }
+                            
                         </Box>
                         {/* Row 3 */}
                         <Box>
@@ -158,6 +187,7 @@ function Basic() {
                         </Box>
                         {/* Row 4  */}
                         <Box>
+                            {/* ! Drop down con todas las sucursales, mas una opcion para agregar sucursal */}
                             <StyledTextField
                                 label="Sucursal"
                                 multiline
@@ -169,7 +199,7 @@ function Basic() {
                                 maxWidth: '351px', 
                                 height: '42px'
                             }}>
-                                Agregar Sucursal
+                                Editar Sucursal
                             </StyledButton>
                         </Box>
                     </Grid>
@@ -283,12 +313,24 @@ function Basic() {
                             </Box>
                             {/* Row 3 */}
                             <Box>
+                                {/* Campos que solamente ocupen la mitad de la pantallas */}
+                                {/* Numeros */}
                                 <StyledTextField
-                                    label="Nombre de la Empresa"
-                                    size="small"
+                                    label="Empleados directos"
+                                    multiline
+                                    maxRows={4}
+                                    size= 'small'
                                     sx = {{
-                                        width: '100%',
-
+                                        maxWidth: '550px',
+                                    }}
+                                />
+                                <StyledTextField
+                                    label="Empleados sub-contratados"
+                                    multiline
+                                    maxRows={4}
+                                    size= 'small'
+                                    sx = {{
+                                        maxWidth: '550px',
                                     }}
                                 />
                             </Box>
@@ -308,5 +350,8 @@ function Basic() {
         </Box>
     )
 }
-
+//Define the proptypes
+Basic.propTypes = {
+    companyInfo: PropTypes.object.isRequired,
+}
 export default Basic
