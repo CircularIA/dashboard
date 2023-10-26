@@ -2,9 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
 import logoEmpresa from '../assets/logo-empresa.svg'
+import logoVolta from '../assets/volta/logo.jpeg'
 import ambiental from '../assets/ambiental.svg'
 import social from '../assets/social.svg'
 import economic from '../assets/economic.svg'
@@ -154,7 +153,7 @@ const Dashboard = ({companyInfo}) => {
     <div className='animate__animated animate__fadeIn'>
       <div className={`mt-4 flex items-center ${gradient} custom-shadow justify-between rounded-md shadow-lg p-4 mx-4 md:mx-8`}>
         <div className='flex items-center  '>
-          <img src={logoEmpresa} alt='Logo empresa' className='w-[30%] md:p-1 md:ml-4 md:w-[35%]' />
+          <img src={logoVolta} alt='Logo empresa' className='w-[30%] md:p-1 md:ml-4 md:w-[35%] rounded-full' />
           <div className='text-white ml-4 w-[100%] '> {/* Aquí está el texto blanco */}
             {
               loading ? <p className='font-bold mb-3 text-2xl'> ¡Bienvenido! {companyInfo.companies.name} Sucursal: {companyInfo.companies.branches[currentBranch].name}</p> : <Skeleton variant="text" width={200} height={30} />
@@ -177,5 +176,10 @@ const Dashboard = ({companyInfo}) => {
     </div>
   )
 }
+
+Dashboard.defaultProps = {
+  companyInfo: {},
+}
+
 
 export default Dashboard

@@ -124,4 +124,8 @@ const Header = ({ currentTheme, companyInfo }) => {
     );
 };
 
+Header.defaultProps = {
+    companyInfo: {}
+}
+
 export default Header;

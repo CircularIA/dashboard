@@ -354,4 +354,7 @@ function Basic({companyInfo}) {
 Basic.propTypes = {
     companyInfo: PropTypes.object.isRequired,
 }
+Basic.defaultProps = {
+    companyInfo: {},
+}
 export default Basic

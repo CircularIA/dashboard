@@ -91,7 +91,7 @@ const Sidebar = ({ theme }) => {
                         <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow pl-1 shadow-xl hover:bg-custom-pallete-400 transition duration-300 ease-in-out'>
                             <MenuItemMini icon={dashboardIcon} text={'Seleccionador'} route={'/seleccionador'} />
                             <MenuItemMini icon={dashboardIcon} text={'H.Carbono'} route={'/huellacarbono'} />
-                            <MenuItemMini icon={dashboardIcon} text={'Simulador'} route={'/estrategia'} />
+                            <MenuItemMini icon={dashboardIcon} text={'Estrategia'} route={'/estrategia'} />
                         </ul>
                     </Collapse>
                     <div onClick={handleClickContacto}>

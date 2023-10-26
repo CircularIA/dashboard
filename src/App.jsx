@@ -6,6 +6,8 @@ import './App.css'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Setting from './pages/setting/setting'
+import HuellaCarbono from './pages/huella-carbono/register'
+import Estrategia from './pages/estrategia/estrategia'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
@@ -21,7 +23,6 @@ import { changeTheme } from './reducers/themeReducer';
 import { companyRoutes } from './api/config.js'
 
 function AppLayout({ noHeader, animateClass, companyInfo }) {
-  console.log("company info", companyInfo)
   const theme = useSelector((state) => state.theme.theme);
   const defaultTheme = 'ambiental'
   const location = useLocation();
@@ -43,11 +44,9 @@ function AppLayout({ noHeader, animateClass, companyInfo }) {
 }
 
 function ProtectedRoute() {
-  console.log("protected route")
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
   const [isAuthenticated, setIsAuthenticated] = useState(null)
   const [companyInfo, setCompanyInfo] = useState({}) // [companyInfo, setCompanyInfo
-  console.log("company info", companyInfo)
   const [loading, setLoading] = useState(true)
   const location = useLocation();
   const noHeader = location.pathname.includes('perfil');
@@ -113,6 +112,8 @@ function ProtectedRoute() {
         <Route index element={<Dashboard companyInfo={companyInfo} />} />
         <Route path='perfil' element={<Setting companyInfo={companyInfo}  />} /> {/* TODO: Cambiar a /configuracion */}
         <Route path='evaluacion' element={<Evaluation />} />
+        <Route path='huellacarbono' element={<HuellaCarbono companyInfo={companyInfo}/>} />
+        <Route path='estrategia' element={<Estrategia companyInfo={companyInfo}/>} />
       </Route>
     </Routes>
   );
