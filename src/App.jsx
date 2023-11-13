@@ -93,6 +93,7 @@ function ProtectedRoute() {
       }
     })
       .then((response) => {
+        console.log(response.data)
         setCompanyInfo(response.data)
       })
       .catch((error) => {

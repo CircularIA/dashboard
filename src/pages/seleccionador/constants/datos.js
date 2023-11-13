@@ -1,7 +1,10 @@
 //Recursos
 import ImagenAmbiental from './../../../assets/seleccionador/Ambiental.svg'
+import ImagenAmbientalHover from './../../../assets/seleccionador/AmbientalHover.svg'
 import ImagenEconomico from '../../../assets/seleccionador/Economico.svg'
+import ImagenEconomicoHover from '../../../assets/seleccionador/EconomicoHover.svg'
 import ImagenSocial from '../../../assets/seleccionador/Social.svg'
+import ImagenSocialHover from '../../../assets/seleccionador/SocialHover.svg'
 import ImagenFlujos from '../../../assets/Iconos/Flujos.svg'
 import ImagenAgua from '../../../assets/Iconos/Agua.svg'
 import ImagenEmisiones from '../../../assets/Iconos/Emisiones.svg'
@@ -13,17 +16,20 @@ export const datos = [
     {
         titulo: 'AMBIENTAL',
         descripcion: 'La capacidad de mantener la productividad y biodiversidad de los recursos naturales a lo largo del plazo',
-        imagen: ImagenAmbiental
+        imagen: ImagenAmbiental,
+        imagenHover: ImagenAmbientalHover
     },
     {
         titulo: 'ECONÓMICO',
         descripcion: 'La capacidad de mantener la productividad y biodiversidad de los recursos naturales a lo largo del plazo',
-        imagen: ImagenEconomico
+        imagen: ImagenEconomico,
+        imagenHover: ImagenEconomicoHover
     },
     {
         titulo: 'SOCIAL',
         descripcion: 'La capacidad de mantener la productividad y biodiversidad de los recursos naturales a lo largo del plazo',
-        imagen: ImagenSocial
+        imagen: ImagenSocial,
+        imagenHover: ImagenSocialHover
     }
 ]
 

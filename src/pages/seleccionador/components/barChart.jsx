@@ -1,147 +1,107 @@
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
-import { ColorModeContext, tokens } from "../../../theme.js";
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
+import React, { PureComponent } from 'react';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-//Grafico
-import { ResponsiveBar } from '@nivo/bar';
-//Dats
-import {mockBarData as data} from '../constants/mockData.js';
+const data = [
+    {
+      name: 'Enero',
+      social: 4000,
+      ambiental: 2400,
+      economico: 2400,
+    },
+    {
+      name: 'Febrero',
+      social: 3000,
+      ambiental: 1398,
+      economico: 2210,
+    },
+    {
+      name: 'Marzo',
+      social: 2000,
+      ambiental: 9800,
+      economico: 2290,
+    },
+    {
+      name: 'Abril',
+      social: 2780,
+      ambiental: 3908,
+      economico: 2000,
+    },
+    {
+      name: 'Mayo',
+      social: 1890,
+      ambiental: 4800,
+      economico: 2181,
+    },
+    {
+      name: 'Junio',
+      social: 2390,
+      ambiental: 3800,
+      economico: 2500,
+    },
+    {
+      name: 'Julio',
+      social: 3490,
+      ambiental: 4300,
+      economico: 2100,
+    },
+    {
+        name: 'Agosto',
+        social: 3490,
+        ambiental: 2300,
+        economico: 1100,
+    },
+    {
+        name: 'Septiembre',
+        social: 3490,
+        ambiental: 4300,
+        economico: 2100,
+    },
+    {
+        name: 'Octubre',
+        social: 3490,
+        ambiental: 2300,
+        economico: 1100,
+    }, 
+    {
+        name: 'Noviembre',
+        social: 3490,
+        ambiental: 4300,
+        economico: 2100,
+    }, 
+    {
+        name: 'Diciembre',
+        social: 3490,
+        ambiental: 2300,
+        economico: 1100,
+    }
+  ];
 
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-const MyResponsiveBar = ({ data /* see data tab */ }) => (
-    <ResponsiveBar
-        data={data}
-        keys={[
-            'hot dog',
-            'burger',
-            'sandwich',
-            'kebab',
-            'fries',
-            'donut'
-        ]}
-        indexBy="country"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-        padding={0.3}
-        valueScale={{ type: 'linear' }}
-        indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'nivo' }}
-        defs={[
-            {
-                id: 'dots',
-                type: 'patternDots',
-                background: 'inherit',
-                color: '#38bcb2',
-                size: 4,
-                padding: 1,
-                stagger: true
-            },
-            {
-                id: 'lines',
-                type: 'patternLines',
-                background: 'inherit',
-                color: '#eed312',
-                rotation: -45,
-                lineWidth: 6,
-                spacing: 10
-            }
-        ]}
-        fill={[
-            {
-                match: {
-                    id: 'fries'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'sandwich'
-                },
-                id: 'lines'
-            }
-        ]}
-        borderColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    1.6
-                ]
-            ]
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'country',
-            legendPosition: 'middle',
-            legendOffset: 32
-        }}
-        axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'food',
-            legendPosition: 'middle',
-            legendOffset: -40
-        }}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
-        labelTextColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    1.6
-                ]
-            ]
-        }}
-        legends={[
-            {
-                dataFrom: 'keys',
-                anchor: 'bottom-right',
-                direction: 'column',
-                justify: false,
-                translateX: 120,
-                translateY: 0,
-                itemsSpacing: 2,
-                itemWidth: 100,
-                itemHeight: 20,
-                itemDirection: 'left-to-right',
-                itemOpacity: 0.85,
-                symbolSize: 20,
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemOpacity: 1
-                        }
-                    }
-                ]
-            }
-        ]}
-        role="application"
-        ariaLabel="Nivo bar chart demo"
-        barAriaLabel={e=>e.id+": "+e.formattedValue+" in country: "+e.indexValue}
-    />
-)
 
-function BarChart() {
-    
-    return (
-        <>
-            <MyResponsiveBar data={data}></MyResponsiveBar>
-        </>
-    )
+function BarChartComponent() {
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+            width={10}
+            height={300}
+            data={data}
+            margin={{
+                top: 5,
+                right: 20,
+                left: 20,
+                bottom: 0,
+            }}
+        >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" stroke="#000" />
+            <YAxis stroke="#000" />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="social" stackId='a'  fill='#2D7DD2' />
+            <Bar dataKey="ambiental" stackId='a'  fill='#00B971' />
+            <Bar dataKey="economico" stackId='a'  fill='#F3A430' />
+        </BarChart>
+    </ResponsiveContainer>
+  )
 }
 
-export default BarChart
+export default BarChartComponent

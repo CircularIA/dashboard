@@ -1,13 +1,8 @@
 //Bibliotecas
-import { useState } from 'react'
-//Componentes
-// import Search from './components/search';
-// import Seleccionado from './components/seleccionado';
-// import IndicadorValor from './components/indicadorValor';
+import { useEffect, useState } from 'react'
 //Styles
 import Grid from '@mui/material/Grid';
 import { Box, Typography, Stack, Divider } from '@mui/material';
-import { Button } from '@mui/material';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 //Recursos
@@ -20,6 +15,8 @@ import IndicadorTipo from './components/indicadorTipo';
 import Filters from './components/filters';
 import IndicadorValor from './components/indicadorValor';
 import CardPorcent from './components/cardPorcent';
+import BarChart from './components/barChart';
+import PieChart from './components/pieChart';
 
 function Main({ currentView, setCurrentView }) {
     //Hystory
@@ -31,7 +28,11 @@ function Main({ currentView, setCurrentView }) {
     const handleHystory = (e) => {
         setHystory(e.target.value);
     }
-    console.log("currentView: ", currentView)
+    
+    useEffect(() => {
+        
+    },[])
+
     if (currentView == 0) {
         return (
             <Stack
@@ -51,6 +52,7 @@ function Main({ currentView, setCurrentView }) {
                     >
                         <Indicador descripcion={datos[0].descripcion}
                             imagen={datos[0].imagen}
+                            imagenHover={datos[0].imagenHover}
                             titulo={datos[0].titulo}
                             setCurrentView={setCurrentView}
                             currentIndicator={currentIndicator}
@@ -59,6 +61,7 @@ function Main({ currentView, setCurrentView }) {
                     <Grid item xs={12} sm={6} md={4} lg={4}>
                         <Indicador descripcion={datos[1].descripcion}
                             imagen={datos[1].imagen}
+                            imagenHover={datos[1].imagenHover}
                             titulo={datos[1].titulo}
                             setCurrentView={setCurrentView}
                             currentIndicator={currentIndicator}
@@ -67,6 +70,7 @@ function Main({ currentView, setCurrentView }) {
                     <Grid item xs={12} sm={6} md={4} lg={4}>
                         <Indicador descripcion={datos[2].descripcion}
                             imagen={datos[2].imagen}
+                            imagenHover={datos[2].imagenHover}
                             titulo={datos[2].titulo}
                             setCurrentView={setCurrentView}
                             currentIndicator={currentIndicator}
@@ -243,7 +247,7 @@ function Main({ currentView, setCurrentView }) {
                                 background: '#FFF',
                                 boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
                                 textAlign: 'center',
-
+                                height: '100%',
                             }}
 
                         >
@@ -263,7 +267,7 @@ function Main({ currentView, setCurrentView }) {
                                     }}
                                 >
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Enero 2023</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Año Histórico</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
@@ -271,73 +275,46 @@ function Main({ currentView, setCurrentView }) {
                                             label="Historia"
                                             onChange={handleHystory}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value={2023}>2023</MenuItem>
+                                            <MenuItem value={2022}>2022</MenuItem>
+                                            <MenuItem value={2021}>2021</MenuItem>
+                                            <MenuItem value={2020}>2020</MenuItem>
                                         </Select>
                                     </FormControl>
 
                                 </Box>
-                                {/* <Box
-                                    height='300px'
-                                    width='90%'
+                                <Box
+                                    height='200px'
+                                    width='100%'
                                 >
                                     <BarChart></BarChart>
                                 </Box>
                                 <Box
-                                    height='150px'
                                     display='flex'
                                     flexDirection='row'
-                                    width='90%'
-                                    marginTop='1px'
-                                > */}
-                                    {/* <img src={PieGreen} alt='PieGreen' />
-                                    <img src={PieRed} alt='PieRed' />
-                                    <img src={PieYellow} alt='PieYellow' /> */}
-                                    {/* <PieChart></PieChart>
-                                    <PieChart></PieChart>
-                                    <PieChart></PieChart>
-                                </Box> */}
+                                    width='100%'
+                                    height='100%'
+                                    marginTop={5}
+                                    flexWrap={'wrap'}
+                                >
+                                    <Box
+                                        flexGrow={1}
+                                    >
+                                        <PieChart  porcentaje={15} tipo={'SOCIAL'} />
+                                    </Box>
+                                    <Box
+                                        flexGrow={1}
+                                    >
+                                        <PieChart  porcentaje={67} tipo={'AMBIENTAL'} />
+                                    </Box>
+                                    <Box
+                                        flexGrow={1}
+                                    >
+                                        <PieChart  porcentaje={67} tipo={'ECONOMICO'} />
+                                    </Box>
+                                </Box>
                             </CardContent>
                         </Card>
-
-                        <Box
-                            display='flex'
-                            flexDirection='row'
-                        >
-                            <Button
-                                sx={{
-                                    borderRadius: '10px',
-                                    paddingY: '1%',
-                                    flexGrow: 1,
-                                    background: '#B2B2B2',
-                                    boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
-                                }}
-                            >
-                                <Typography
-                                    variant='h4'
-                                    color='#FFF'
-                                >
-                                    GRÁFICO
-                                </Typography>
-                            </Button>
-                            <Button
-                                sx={{
-                                    borderRadius: '10px',
-                                    paddingY: '1%',
-                                    flexGrow: 1,
-                                    background: '#B2B2B2',
-                                    boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
-                                }}
-                            >
-                                <Typography
-                                    variant='h4'
-                                    color='#FFF'
-                                >
-                                    ESQUEMA
-                                </Typography>
-                            </Button>
-                        </Box>
                     </Grid>
                 </Grid>
             </Box>

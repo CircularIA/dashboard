@@ -5,6 +5,8 @@ import { Box} from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const steps = [
     'Seleccione una categoria de Indicador',
@@ -15,6 +17,12 @@ const steps = [
 
 function Footer({currentView, setCurrentView}) {
 
+    const handleClick = (e) => {
+        //Solamente podra viajar si el indice es menor al actual
+        if (e < currentView){
+            setCurrentView(e)
+        }
+    }
     return (
         <Box
             sx={{
@@ -23,9 +31,9 @@ function Footer({currentView, setCurrentView}) {
         >
             <Stepper activeStep={currentView} alternativeLabel>
                 {steps.map((label, index) => (
-                    <Step key={label}   >
+                    <StyledStep key={label}   onClick={() => handleClick(index)} >
                         <StepLabel>{label}</StepLabel>
-                    </Step>
+                    </StyledStep>
                 ))}
             </Stepper>
         </Box>
@@ -34,6 +42,13 @@ function Footer({currentView, setCurrentView}) {
 
 }
 
-
+Footer.propTypes = {
+    currentView: PropTypes.number.isRequired,
+    setCurrentView: PropTypes.func.isRequired
+}
 
 export default Footer
+
+const StyledStep = styled(Step)`
+    cursor: pointer;
+`

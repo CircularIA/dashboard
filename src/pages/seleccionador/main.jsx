@@ -12,10 +12,10 @@ function Main() {
                 direction={'column'}
                 sx={{
                     background: '#F2F2F2',
-                    height: '85%',
-                    justifyContent: 'space-between',
+                    height: '100%',
+                    
                 }}
-                
+                spacing={5}
             >
                 <Seleccionador currentView={currentView} setCurrentView={setCurrentView} />
                 <Footer currentView={currentView} setCurrentView={setCurrentView} />

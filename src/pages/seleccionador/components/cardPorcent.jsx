@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography} from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -30,7 +30,7 @@ const rows = [
 ];
 
 const styles = {
-    rowHeader:{
+    rowHeader: {
         fontSize: '1rem',
         color: '#989898',
         fontWeight: '700',
@@ -50,16 +50,16 @@ const styles = {
 function CardPorcent({ source, type, metric, dats, form }) {
 
     return (
-        <Grid 
-        container 
-        
-        rowSpacing = {{
-            xs: 1,
-            sm: 2,
-            md: 2,
-            lg: 2
-        }}
-        columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid
+            container
+
+            rowSpacing={{
+                xs: 1,
+                sm: 2,
+                md: 2,
+                lg: 2
+            }}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             <Grid item xs={12} >
                 <Box
                     display='flex'
@@ -84,7 +84,7 @@ function CardPorcent({ source, type, metric, dats, form }) {
                             flexGrow: 1,
                         }}
                     >
-                        <Typography variant='h4'  fontWeight={'bold'} >
+                        <Typography variant='h4' fontWeight={'bold'} >
                             TIPO
                         </Typography>
                         <Typography variant='h5' >
@@ -95,7 +95,7 @@ function CardPorcent({ source, type, metric, dats, form }) {
             </Grid>
             <Grid
                 item xs={12}
-                
+
             >
                 <CardShadow>
                     <Typography variant='h4' fontWeight={'bold'}>
@@ -108,27 +108,27 @@ function CardPorcent({ source, type, metric, dats, form }) {
             </Grid>
             <Grid
                 item xs={12}
-                
+
             >
                 <CardShadow>
                     <Typography variant='h4' fontWeight={'bold'}>
                         PORCENTAJE DE RECUPERACIÓN REAL
                     </Typography>
                     <TableContainer component={Paper}>
-                        <Table 
-                        sx={{ minWidth: 300}} aria-label="simple table">
+                        <Table
+                            sx={{ minWidth: 300 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell
-                                        sx = {
+                                        sx={
                                             styles.rowHeader
                                         }
                                     >DATOS</TableCell>
-                                    <TableCell 
-                                        sx = {
+                                    <TableCell
+                                        sx={
                                             styles.rowHeader
                                         }
-                                    align="right">UNIDAD</TableCell>
+                                        align="right">UNIDAD</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -137,18 +137,18 @@ function CardPorcent({ source, type, metric, dats, form }) {
                                         key={row.name}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell 
-                                        sx = {
-                                            styles.rowCell
-                                        }
-                                        component="th" scope="row">
+                                        <TableCell
+                                            sx={
+                                                styles.rowCell
+                                            }
+                                            component="th" scope="row">
                                             {row.name}
                                         </TableCell>
-                                        <TableCell 
-                                        sx = {
-                                            styles.rowCell2
-                                        }
-                                        align="right"
+                                        <TableCell
+                                            sx={
+                                                styles.rowCell2
+                                            }
+                                            align="right"
                                         >
                                             {row.toneladas}
                                         </TableCell>
@@ -160,29 +160,54 @@ function CardPorcent({ source, type, metric, dats, form }) {
                     {/* Table */}
                 </CardShadow>
             </Grid>
-            <Grid 
+            <Grid
                 item xs={12}
-                style = {{
+                style={{
                     alignSelf: 'flex-end',
                 }}
             >
-                <Button
+                <Box
                     sx={{
-                        borderRadius: '10px',
-                        background: '#00B971',
-                        // background: colors.primary[500],
-                        paddingY: '1%',
-                        boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
-                        width: '100%', 
+                        display: 'flex',
+                        flexDirection: 'row',
                     }}
                 >
-                    <Typography
-                        variant='h4'
-                        color='#FFF'
+                    <Button
+                        sx={{
+                            borderRadius: '10px',
+                            background: '#00B971',
+                            // background: colors.primary[500],
+                            paddingY: '1%',
+                            boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
+                            width: '100%',
+                            flexGrow: 1,
+                        }}
                     >
-                        VER FÓRMULA
-                    </Typography>
-                </Button>
+                        <Typography
+                            variant='h4'
+                            color='#FFF'
+                        >
+                            VER FÓRMULA
+                        </Typography>
+                    </Button>
+                    <Button
+                        sx={{
+                            borderRadius: '10px',
+                            background: '#B2B2B2',
+                            paddingY: '1%',
+                            boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
+                            width: '100%',
+                            flexGrow: 1,
+                        }}
+                    >
+                        <Typography
+                            variant='h4'
+                            color='#FFF'
+                        >
+                            ESQUEMA
+                        </Typography>
+                    </Button>
+                </Box>
             </Grid>
         </Grid>
     )

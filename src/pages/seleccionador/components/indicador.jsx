@@ -4,7 +4,7 @@ import { CardMedia } from '@mui/material';
 import { Box, Stack } from '@mui/material';
 import { CardActionArea } from '@mui/material';
 import { useState } from 'react';
-const Indicador = ({ titulo, descripcion, imagen, setCurrentView, currentIndicator, setCurrentIndicator }) => {
+const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, currentIndicator, setCurrentIndicator }) => {
 
 
     const [hover, setHover] = useState(false)
@@ -52,7 +52,7 @@ const Indicador = ({ titulo, descripcion, imagen, setCurrentView, currentIndicat
                 >
                     <CardMedia
                         component="img"
-                        image={imagen}
+                        image={hover ? imagenHover : imagen}
                         sx={{
                             maxWidth: '180px',
                             maxHeight: '180px',

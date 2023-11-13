@@ -73,10 +73,12 @@ const Header = ({ currentTheme, companyInfo }) => {
     const [sucursals, setSucursals] = useState([]);
     useEffect(() => {
         if (Object.keys(companyInfo).length > 0){
-            const sucursals = companyInfo.companies.branches.map((branch) => ({
-                value: 'Sucursal ' + branch.code,
+            console.log("companyInfo", companyInfo)
+            const sucursals = companyInfo.companies.branches.map((branch, index) => ({
+                value: 'Sucursal ' + index,
                 label: 'Sucursal ' + branch.name + ' ubicada en ' + branch.address,
             }));
+            console.log(sucursals)
             setSucursals(sucursals);
             setLoading(true);
         }

@@ -42,7 +42,7 @@ function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentInd
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-between',
-
+          paddingY: hover ? '0%' : '10%',  
         }}
       >
         <CardHeader
@@ -64,6 +64,7 @@ function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentInd
             maxHeight: '89px',
             width: '100%',
             height: '100%',
+            
           }}
         />
         {
