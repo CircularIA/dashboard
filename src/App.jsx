@@ -22,6 +22,7 @@ import { changeTheme } from './reducers/themeReducer';
 
 //Api routes
 import { companyRoutes } from './api/config.js'
+import InitialQuest from './pages/cuestionario/InitialQuest.jsx'
 
 function AppLayout({ noHeader, animateClass, companyInfo }) {
   const theme = useSelector((state) => state.theme.theme);
@@ -118,6 +119,7 @@ function ProtectedRoute() {
         <Route path='huellacarbono' element={<HuellaCarbono companyInfo={companyInfo}/>} />
         <Route path='estrategia' element={<Estrategia companyInfo={companyInfo}/>} />
       </Route>
+      <Route path="/welcome" element={<InitialQuest />} />
     </Routes>
   );
 }
