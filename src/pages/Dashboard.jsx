@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import logoEmpresa from '../assets/logo-empresa.svg'
 import logoVolta from '../assets/volta/logo.jpeg'
 import ambiental from '../assets/ambiental.svg'
 import social from '../assets/social.svg'
@@ -19,8 +18,8 @@ import Economic from '../components/Economic'
 //Cookies
 import { useCookies } from 'react-cookie'
 //Components of material ui
-import { Skeleton } from '@mui/material';
-
+import { Button, Skeleton } from '@mui/material';
+//Dialog component
 const Panel = ({ title, index, handleClick, isExpanded, panelClass }) => (
   <div className={`flex mt-4 items-center ${panelClass} custom-shadow justify-between rounded-md shadow-lg p-3 mx-4 md:mx-8`}>
     <p className='text-roboto text-sm lg:text-2xl category-panel text-white'> {title}</p>
@@ -38,7 +37,6 @@ const panels = [
   { title: 'Agua', component: 'Water' },
   { title: 'Cadena de suministros', component: 'SupplyChain' },
 ];
-
 
 const Dashboard = ({companyInfo}) => {
   // Configuraciones de tema para el dashboard
@@ -138,6 +136,7 @@ const Dashboard = ({companyInfo}) => {
       </div>
     );
   }
+  
   const [cookies, setCookies, removeCookies] = useCookies(['access_token'])
   // *Configuraciones para saber que sucursal tiene seleccionada el usuario
   const currentBranch = useSelector((state) => state.user.branch)

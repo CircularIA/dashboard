@@ -11,3 +11,13 @@ export const branchRoutes = {
 export const companyRoutes = {
     getCompanyInfo: 'http://localhost:5000/api/company',
 }
+
+export const indicatorRoutes = {
+    getIndicators: 'http://localhost:5000/api/indicator',
+    registerIndicators: 'http://localhost:5000/api/indicator/register',
+}
+
+export const inputDatsRoutes = {
+    getInputDats: 'http://localhost:5000/api/inputDat',
+    registerInputDats: 'http://localhost:5000/api/inputDat'
+}

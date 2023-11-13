@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Setting from './pages/setting/setting'
 import HuellaCarbono from './pages/huella-carbono/register'
 import Estrategia from './pages/estrategia/estrategia'
+import Seleccionador from './pages/seleccionador/main'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
@@ -111,6 +112,7 @@ function ProtectedRoute() {
       <Route path='/' element={<AppLayout noHeader={noHeader} animateClass={animateClass} companyInfo={companyInfo} />} >
         <Route index element={<Dashboard companyInfo={companyInfo} />} />
         <Route path='perfil' element={<Setting companyInfo={companyInfo}  />} /> {/* TODO: Cambiar a /configuracion */}
+        <Route path='seleccionador' element={<Seleccionador />} />
         <Route path='evaluacion' element={<Evaluation />} />
         <Route path='huellacarbono' element={<HuellaCarbono companyInfo={companyInfo}/>} />
         <Route path='estrategia' element={<Estrategia companyInfo={companyInfo}/>} />
