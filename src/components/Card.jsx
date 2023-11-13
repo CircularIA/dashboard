@@ -20,8 +20,9 @@ const infoColor = {
     orange: '#FBC946', // Reemplaza con el color específico que deseas
 };
 
-const Card = ({ id, title, color, children }) => (
-    <div className='w-full sm:w-1/2 p-4'>
+const Card = ({ id, title, color, children, fullWidth }) => (
+    // Aplicar una clase condicional basada en la prop fullWidth
+    <div className={`p-4 ${fullWidth ? 'sm:w-full' : 'w-full sm:w-1/2'}`}>
         <div className='mt-4 items-center custom-shadow rounded-lg p-4'>
             <div className='flex items-center mb-3'>
                 <h3 className={`text-roboto tracking-tighter text-2xl font-medium ${color}-text mr-2`}>{id}.- {title}</h3>
