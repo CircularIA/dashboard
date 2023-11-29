@@ -17,9 +17,9 @@ const rootReducer = combineReducers({
 
 const persistReducerConfig = persistReducer(persistConfig, rootReducer);
 
-const store = configureStore({
+export const store = configureStore({
   reducer: persistReducerConfig,
   
 });
 
-export default store;
+export const persistor = persistStore(store);

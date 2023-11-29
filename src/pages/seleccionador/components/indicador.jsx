@@ -4,7 +4,7 @@ import { CardMedia } from '@mui/material';
 import { Box, Stack } from '@mui/material';
 import { CardActionArea } from '@mui/material';
 import { useState } from 'react';
-const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, currentIndicator, setCurrentIndicator }) => {
+const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, currentCategorie, handleCurrentCategorie }) => {
 
 
     const [hover, setHover] = useState(false)
@@ -20,7 +20,7 @@ const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, cu
     }
     const nextView = () => {
         setCurrentView((e) => e + 1)
-        setCurrentIndicator(titulo)
+        handleCurrentCategorie(titulo)
     }
     return (
         <Stack
@@ -41,7 +41,7 @@ const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, cu
                     setHover(false)
                 }}
             >
-                <CardActionArea onClick={nextView} currentindicator={currentIndicator}
+                <CardActionArea onClick={nextView} currentindicator={currentCategorie}
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',

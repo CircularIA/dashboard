@@ -1,5 +1,6 @@
 //Bibliotecas
 import { useEffect, useState } from 'react'
+import axios from 'axios';
 //Styles
 import Grid from '@mui/material/Grid';
 import { Box, Typography, Stack, Divider } from '@mui/material';
@@ -7,7 +8,9 @@ import { Card, CardContent, CardHeader } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 //Recursos
 import { datos, tiposAmbiental, tiposEconomico, tiposSocial, datosGeneral } from './constants/datos';
-
+//Redux
+import { useSelector } from 'react-redux';
+import { changeTheme } from '../../reducers/themeReducer';
 //Define a card view using material ui
 import Indicador from './components/indicador';
 import Seleccionado from './components/seleccionado';
@@ -17,21 +20,57 @@ import IndicadorValor from './components/indicadorValor';
 import CardPorcent from './components/cardPorcent';
 import BarChart from './components/barChart';
 import PieChart from './components/pieChart';
+//API
+import { branchRoutes } from '../../api/config';
 
 function Main({ currentView, setCurrentView }) {
+    const theme = useSelector((state) => state.theme.theme);
     //Hystory
     const [hystory, setHystory] = useState('');
     //Current view change to drill Component    
-    const [currentIndicator, setCurrentIndicator] = useState("AMBIENTAL");
+    const [currentCategorie, setCurrentCategorie] = useState("AMBIENTAL");
+     
+    //Redux
+    const currentBranch = useSelector((state) => state.user.branch)
     //La idea es definir aca los tipos que se vayan seleccionando en la segunda vista
     const [currentType, setCurrentType] = useState([]);
+    //Current states
+    const handleCurrentType = (selectedOption) => {
+        console.log("selectedOption", selectedOption)
+        setCurrentType(selectedOption)
+        // setIndicators(indicators.filter((indicator) => indicator.sourceType == selectedOption.toLowerCase()))
+    }
+    const handleCurrentCategorie = (selectedOption) => {
+        setCurrentCategorie(selectedOption)
+        //Filter the indicators
+        // setIndicators(indicators.filter((indicator) => indicator.categorie == selectedOption.toLowerCase()))
+    }
     const handleHystory = (e) => {
         setHystory(e.target.value);
+        console.log(e.target.value)
     }
-    
+    const handleThemeChange = (selectedOption) => {
+        dispatch(changeTheme(selectedOption.value));
+    };
+    const [indicators, setIndicators] = useState([]);
+    console.log("indicators", indicators)
     useEffect(() => {
-        
-    },[])
+        //Obtener informacion de la actual sucursal
+        let url = branchRoutes.getIndicators + currentBranch.id
+        axios.get(url)
+            .then((response) => {
+                //Filtrar por tipo de indicador e indicator
+                let data = response.data.indicators
+                let filteredData = data.filter((indicator) => indicator.categorie == currentCategorie.toLowerCase())
+                if (currentType.length > 0) {
+                    filteredData = filteredData.filter((indicator) => indicator.sourceType == currentType.toLowerCase())
+                }
+                setIndicators(filteredData)
+            })
+            .catch((error) => {
+                console.log("error", error)
+            })
+    },[currentBranch, currentType, currentCategorie])
 
     if (currentView == 0) {
         return (
@@ -55,8 +94,8 @@ function Main({ currentView, setCurrentView }) {
                             imagenHover={datos[0].imagenHover}
                             titulo={datos[0].titulo}
                             setCurrentView={setCurrentView}
-                            currentIndicator={currentIndicator}
-                            setCurrentIndicator={setCurrentIndicator} />
+                            currentCategorie={currentCategorie}
+                            handleCurrentCategorie={handleCurrentCategorie} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} lg={4}>
                         <Indicador descripcion={datos[1].descripcion}
@@ -64,8 +103,8 @@ function Main({ currentView, setCurrentView }) {
                             imagenHover={datos[1].imagenHover}
                             titulo={datos[1].titulo}
                             setCurrentView={setCurrentView}
-                            currentIndicator={currentIndicator}
-                            setCurrentIndicator={setCurrentIndicator} />
+                            currentCategorie={currentCategorie}
+                            handleCurrentCategorie={handleCurrentCategorie} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} lg={4}>
                         <Indicador descripcion={datos[2].descripcion}
@@ -73,8 +112,8 @@ function Main({ currentView, setCurrentView }) {
                             imagenHover={datos[2].imagenHover}
                             titulo={datos[2].titulo}
                             setCurrentView={setCurrentView}
-                            currentIndicator={currentIndicator}
-                            setCurrentIndicator={setCurrentIndicator} />
+                            currentCategorie={currentCategorie}
+                            handleCurrentCategorie={handleCurrentCategorie} />
                     </Grid>
                 </Grid>
             </Stack>
@@ -96,7 +135,7 @@ function Main({ currentView, setCurrentView }) {
                     item
                     xs={12}
                 >
-                    <Seleccionado currentIndicator={currentIndicator} setCurrentIndicator={setCurrentIndicator} />
+                    <Seleccionado currentCategorie={currentCategorie} setCurrentCategorie={setCurrentCategorie} />
                 </Grid>
                 <Grid
                     item
@@ -130,8 +169,8 @@ function Main({ currentView, setCurrentView }) {
                                 key={index}
                             >
                                 <IndicadorTipo nombre={indicador.nombre} descripcion={indicador.descripcion} imagen={indicador.imagen}
-                                    setCurrentView={setCurrentView} currentIndicator={currentIndicator} setCurrentIndicator={setCurrentIndicator}
-                                    currentType={currentType} setCurrentType={setCurrentType} />
+                                    setCurrentView={setCurrentView} currentIndicator={currentCategorie} handleCurrentIndicator={handleCurrentCategorie}
+                                    currentType={currentType} handleCurrentType={handleCurrentType} />
                                 {/* <Indicador nombre={indicador.nombre} descripcion={indicador.descripcion} imagen={indicador.imagen}
                                     setCurrentView={setCurrentView} currentIndicator={currentIndicator} setCurrentIndicator={setCurrentIndicator}
                                     currentType={currentType} setCurrentType={setCurrentType} /> */}
@@ -179,18 +218,18 @@ function Main({ currentView, setCurrentView }) {
                             xl: 15,
                         }}
                     >   
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                            <IndicadorValor setCurrentView={setCurrentView} datos={datosGeneral[0]} />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                            <IndicadorValor setCurrentView={setCurrentView} datos={datosGeneral[1]} />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                            <IndicadorValor setCurrentView={setCurrentView} datos={datosGeneral[2]} />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                            <IndicadorValor setCurrentView={setCurrentView} datos={datosGeneral[3]} calc='true' />
-                        </Grid>
+                        {indicators.map((indicador, index) => {
+                            return <Grid
+                                item
+                                xs={12}
+                                sm={12}
+                                md={6}
+                                lg={6}
+                                key={index}
+                            >
+                                <IndicadorValor setCurrentView={setCurrentView} datos={indicador} />
+                            </Grid>
+                        })}
                     </Grid>
                 </Grid>
             </Grid>

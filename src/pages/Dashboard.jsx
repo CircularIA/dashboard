@@ -139,7 +139,7 @@ const Dashboard = ({companyInfo}) => {
   
   const [cookies, setCookies, removeCookies] = useCookies(['access_token'])
   // *Configuraciones para saber que sucursal tiene seleccionada el usuario
-  const currentBranch = useSelector((state) => state.user.branch)
+  const currentBranch = useSelector((state) => state.user.branch.index)
   //Use effect to refresh data of company info
   const [loading, setLoading] = useState(false);
   useEffect(() => {

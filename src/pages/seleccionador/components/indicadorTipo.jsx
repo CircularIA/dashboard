@@ -3,7 +3,7 @@ import { Card } from "@mui/material"
 import { useState } from "react"
 
 
-function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentIndicator, setCurrentIndicator, currentType, setCurrentType }) {
+function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentIndicator, setCurrentIndicator, currentType, handleCurrentType }) {
 
   const [hover, setHover] = useState(false)
   const handleHoverColor = () => {
@@ -16,6 +16,7 @@ function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentInd
     }
   }
   const nextView = () => {
+    handleCurrentType(nombre)
     setCurrentView((e) =>
       e + 1
     )

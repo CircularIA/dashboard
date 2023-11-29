@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     // * Por defecto se mostrará la sucursal 0 y el departamento 0 (es decir iniciales)
-    branch: 0,
+    branch: {
+        id: '0',
+        index: 0,
+    },
     departament: 0,
 }
 
@@ -11,7 +14,11 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setBranch: (state, action) => {
-            state.branch = action.payload;
+            console.log("cambiar sucursal")
+            console.log(action.payload)
+            console.log(state.branch)
+            state.branch.id = action.payload.id;
+            state.branch.index = action.payload.index;
         },
         setDepartament: (state, action) => {
             state.departament = action.payload;

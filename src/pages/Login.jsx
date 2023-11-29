@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import LogIn from '../assets/LogIn.png'
 import Logo from '../assets/Logo.svg'
 import axios from 'axios'
-import { setToken } from '../reducers/authSlice'
 import { SwitchTransition, CSSTransition } from "react-transition-group"
 import { useRef } from 'react'
 import { useCookies } from 'react-cookie'
@@ -53,7 +52,7 @@ const Login = () => {
             console.log(res)
 
             // Almacenar el token en el store de Redux usando la acción setToken
-            dispatch(setToken(res.data))
+            // dispatch(setToken(res.data))
             setCookies("access_token", res.data.token)
             window.localStorage.setItem("userId", res.data.userId)
             navigate('/')

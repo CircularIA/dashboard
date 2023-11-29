@@ -9,7 +9,7 @@ import { Typography } from '@mui/material';
 //Styled components
 import styled from 'styled-components';
 
-function Seleccionado({currentIndicator, setCurrentIndicator}) {
+function Seleccionado({currentCategorie, setCurrentCategorie}) {
     // const [seleccionado, setSeleccionado] = useState('AMBIENTAL');
 
     const refBotones = useRef();
@@ -24,7 +24,7 @@ function Seleccionado({currentIndicator, setCurrentIndicator}) {
     }
     const changeSeleccionado = (e) => {
         if (!e.target.className.includes('active')) {
-            setCurrentIndicator(e.target.innerText);
+            setCurrentCategorie(e.target.innerText);
             removeActive();
             e.target.classList.add('active');
             if (e.target.className.includes('economico')) {
@@ -42,7 +42,7 @@ function Seleccionado({currentIndicator, setCurrentIndicator}) {
     //Setear actual configuracion activa}
     useEffect(() => {
         refBotones.current.childNodes.forEach((e)=>{
-            if (e.innerText === currentIndicator) {
+            if (e.innerText === currentCategorie) {
                 e.classList.add('active');
                 // refLinea.current.className = 'linea-'+e.innerText.toLowerCase();
             }
@@ -58,7 +58,7 @@ function Seleccionado({currentIndicator, setCurrentIndicator}) {
             }}
         >
             <Typography variant= 'h4'>
-                {currentIndicator}
+                {currentCategorie}
             </Typography>
             <Divider 
                 sx={{

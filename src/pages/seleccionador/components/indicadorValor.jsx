@@ -50,7 +50,7 @@ function IndicadorValor({ datos, calc, setCurrentView }) {
         >
             <CardActionArea>
                 <CardHeader
-                    title={datos.nombre}
+                    title={datos.name}
                     titleTypographyProps={{
                         style: {
                             fontSize: '1.1em',
@@ -81,7 +81,7 @@ function IndicadorValor({ datos, calc, setCurrentView }) {
                     }}
                 >
                     <Typography variant='h5'>
-                        {datos.descripcion}
+                        {datos.description}
                     </Typography>
                     <Box 
                         sx={{ 

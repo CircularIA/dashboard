@@ -6,6 +6,7 @@ import { Skeleton } from '@mui/material';
 import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../reducers/themeReducer';
+import { setBranch } from '../reducers/userSlice';
 
 const SearchIcon = ({ fill }) => (
     <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,13 +23,6 @@ const NotificationIcon = ({ fill }) => (
     </svg>
 )
 
-
-// const sucursals = [
-//     { value: 'sucursal1', label: 'Sucursal 1 Santiago Sur' },
-//     { value: 'sucursal2', label: 'Sucursal 2 Santiago Centro' },
-//     { value: 'sucursal3', label: 'Sucursal 3 Santiago Norte' }
-// ];
-
 const panels = [
     { value: 'ambiental', label: 'Panel Ambiental' },
     { value: 'social', label: 'Panel Social' },
@@ -38,6 +32,7 @@ const panels = [
 const Header = ({ currentTheme, companyInfo }) => {
     const dispatch = useDispatch();
     const theme = useSelector((state) => state.theme.theme);
+    console.log("theme", theme)
 
     const themeColors = {
         ambiental: '#00B971', // Colores que coinciden con tus temas
@@ -68,14 +63,20 @@ const Header = ({ currentTheme, companyInfo }) => {
     };
     const [loading, setLoading] = useState(false);
     //Have to obtain the current branch from redux
-    const currentBranch = useSelector((state) => state.user.branch)
+    const currentBranch = useSelector((state) => state.user.branch.index)
     //Have to transform branches to the format of sucursals
     const [sucursals, setSucursals] = useState([]);
+    const handleBranchChange = (selectedOption) => {
+        console.log(selectedOption)
+        dispatch(setBranch(selectedOption))
+    }
     useEffect(() => {
         if (Object.keys(companyInfo).length > 0){
             console.log("companyInfo", companyInfo)
             const sucursals = companyInfo.companies.branches.map((branch, index) => ({
                 value: 'Sucursal ' + index,
+                id: branch._id,
+                index: index,
                 label: 'Sucursal ' + branch.name + ' ubicada en ' + branch.address,
             }));
             console.log(sucursals)
@@ -83,7 +84,6 @@ const Header = ({ currentTheme, companyInfo }) => {
             setLoading(true);
         }
     },[companyInfo]) 
-    console.log("sucursals", sucursals[currentBranch])
     return (
         <header className='flex flex-col md:flex-row items-center justify-between rounded-md custom-shadow p-4 mx-4 md:mx-8'>
             <div className='flex items-center w-1/3'>
@@ -96,6 +96,7 @@ const Header = ({ currentTheme, companyInfo }) => {
                     options={sucursals}
                     //Define as default value the current branch
                     value={sucursals[currentBranch]}
+                    onChange = {handleBranchChange}
                     styles={customStyles}
                     className='w-full'
                 />

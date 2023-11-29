@@ -6,6 +6,7 @@ export const userRoutes = {
 
 export const branchRoutes = {
     getBranches: 'http://localhost:5000/api/branch',
+    getIndicators: 'http://localhost:5000/api/branch/indicators/',
 }
 
 export const companyRoutes = {
