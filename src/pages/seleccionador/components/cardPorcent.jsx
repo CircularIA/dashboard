@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
@@ -11,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useEffect } from 'react';
 
 const CardShadow = styled(CardContent)`
     border-radius: 10px;
@@ -23,11 +25,6 @@ function createData(name, toneladas) {
     return { name, toneladas };
 }
 
-const rows = [
-    createData('Residuos generados totales', 159),
-    createData('Residuos recuperados biologicos', 237),
-    createData('Residuos recuperados técnicos', 262),
-];
 
 const styles = {
     rowHeader: {
@@ -48,7 +45,24 @@ const styles = {
 }
 
 function CardPorcent({ source, type, metric, dats, form }) {
-
+    
+    const [rows, setRows] = useState([])
+    useEffect(() => {
+        console.log("dats", dats)
+        let aux = []
+        //Filtrar los datos de entrada que se repiten
+        dats = dats.filter((dat, index, self) => {
+            return index === self.findIndex((t) => (
+                t.name === dat.name
+            ))
+        })
+        dats.map((dat) => {
+            //Push a object with name a measurement
+            aux.push(createData(dat.name, dat.measurement))
+        })
+        setRows(aux)
+    }, [dats])
+    console.log(rows.length)
     return (
         <Grid
             container
@@ -72,11 +86,11 @@ function CardPorcent({ source, type, metric, dats, form }) {
                             flexGrow: 1,
                         }}
                     >
-                        <Typography variant='h4' fontWeight={'bold'} >
+                        <Typography variant='h5' fontWeight={'bold'} >
                             Fuente
                         </Typography>
                         <Typography variant='h5' >
-                            {source}
+                            {source.toUpperCase()}
                         </Typography>
                     </CardShadow>
                     <CardShadow
@@ -84,11 +98,11 @@ function CardPorcent({ source, type, metric, dats, form }) {
                             flexGrow: 1,
                         }}
                     >
-                        <Typography variant='h4' fontWeight={'bold'} >
+                        <Typography variant='h5' fontWeight={'bold'} >
                             TIPO
                         </Typography>
                         <Typography variant='h5' >
-                            {type}
+                            {type.toUpperCase()}
                         </Typography>
                     </CardShadow>
                 </Box>
@@ -98,7 +112,7 @@ function CardPorcent({ source, type, metric, dats, form }) {
 
             >
                 <CardShadow>
-                    <Typography variant='h4' fontWeight={'bold'}>
+                    <Typography variant='h5' fontWeight={'bold'}>
                         QUE MIDE
                     </Typography>
                     <Typography variant='h5' >
@@ -111,7 +125,7 @@ function CardPorcent({ source, type, metric, dats, form }) {
 
             >
                 <CardShadow>
-                    <Typography variant='h4' fontWeight={'bold'}>
+                    <Typography variant='h5' fontWeight={'bold'}>
                         PORCENTAJE DE RECUPERACIÓN REAL
                     </Typography>
                     <TableContainer component={Paper}>
@@ -128,32 +142,34 @@ function CardPorcent({ source, type, metric, dats, form }) {
                                         sx={
                                             styles.rowHeader
                                         }
-                                        align="right">UNIDAD</TableCell>
+                                        align="right">UNIDAD {}</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row) => (
-                                    <TableRow
-                                        key={row.name}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell
-                                            sx={
-                                                styles.rowCell
-                                            }
-                                            component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell
-                                            sx={
-                                                styles.rowCell2
-                                            }
-                                            align="right"
+                                {rows.length > 0 &&
+                                    rows.map((row) => (
+                                        <TableRow
+                                            key={row.name}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            {row.toneladas}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                            <TableCell
+                                                sx={
+                                                    styles.rowCell
+                                                }
+                                                component="th" scope="row">
+                                                {row.name}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={
+                                                    styles.rowCell2
+                                                }
+                                                align="right"
+                                            >
+                                                {row.toneladas} 
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

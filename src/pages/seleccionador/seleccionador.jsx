@@ -20,47 +20,53 @@ import IndicadorValor from './components/indicadorValor';
 import CardPorcent from './components/cardPorcent';
 import BarChart from './components/barChart';
 import PieChart from './components/pieChart';
+//View component
+import LastView from './lastView';
 //API
 import { branchRoutes } from '../../api/config';
 
 function Main({ currentView, setCurrentView }) {
     const theme = useSelector((state) => state.theme.theme);
+    const handleThemeChange = (selectedOption) => {
+        dispatch(changeTheme(selectedOption.value));
+    };
+    //Redux
+    const currentBranch = useSelector((state) => state.user.branch)
     //Hystory
     const [hystory, setHystory] = useState('');
     //Current view change to drill Component    
     const [currentCategorie, setCurrentCategorie] = useState("AMBIENTAL");
-     
-    //Redux
-    const currentBranch = useSelector((state) => state.user.branch)
     //La idea es definir aca los tipos que se vayan seleccionando en la segunda vista
     const [currentType, setCurrentType] = useState([]);
+    const [indicators, setIndicators] = useState([]);
+    //Actual indicador
+    const [currentIndicator, setCurrentIndicator] = useState({});
+    const handleCurrentIndicator = (selectedOption) => {
+        console.log(selectedOption)
+        setCurrentIndicator(indicators[selectedOption])
+    }
+    console.log(currentIndicator)
     //Current states
     const handleCurrentType = (selectedOption) => {
         console.log("selectedOption", selectedOption)
         setCurrentType(selectedOption)
-        // setIndicators(indicators.filter((indicator) => indicator.sourceType == selectedOption.toLowerCase()))
     }
     const handleCurrentCategorie = (selectedOption) => {
         setCurrentCategorie(selectedOption)
-        //Filter the indicators
-        // setIndicators(indicators.filter((indicator) => indicator.categorie == selectedOption.toLowerCase()))
     }
     const handleHystory = (e) => {
         setHystory(e.target.value);
-        console.log(e.target.value)
     }
-    const handleThemeChange = (selectedOption) => {
-        dispatch(changeTheme(selectedOption.value));
-    };
-    const [indicators, setIndicators] = useState([]);
     console.log("indicators", indicators)
     useEffect(() => {
         //Obtener informacion de la actual sucursal
         let url = branchRoutes.getIndicators + currentBranch.id
+        console.log("url", url)
         axios.get(url)
             .then((response) => {
                 //Filtrar por tipo de indicador e indicator
                 let data = response.data.indicators
+                console.log("data", data)
                 let filteredData = data.filter((indicator) => indicator.categorie == currentCategorie.toLowerCase())
                 if (currentType.length > 0) {
                     filteredData = filteredData.filter((indicator) => indicator.sourceType == currentType.toLowerCase())
@@ -71,7 +77,7 @@ function Main({ currentView, setCurrentView }) {
                 console.log("error", error)
             })
     },[currentBranch, currentType, currentCategorie])
-
+    
     if (currentView == 0) {
         return (
             <Stack
@@ -169,7 +175,7 @@ function Main({ currentView, setCurrentView }) {
                                 key={index}
                             >
                                 <IndicadorTipo nombre={indicador.nombre} descripcion={indicador.descripcion} imagen={indicador.imagen}
-                                    setCurrentView={setCurrentView} currentIndicator={currentCategorie} handleCurrentIndicator={handleCurrentCategorie}
+                                    setCurrentView={setCurrentView} currentCategorie={currentCategorie} handleCurrentCategorie={handleCurrentCategorie}
                                     currentType={currentType} handleCurrentType={handleCurrentType} />
                                 {/* <Indicador nombre={indicador.nombre} descripcion={indicador.descripcion} imagen={indicador.imagen}
                                     setCurrentView={setCurrentView} currentIndicator={currentIndicator} setCurrentIndicator={setCurrentIndicator}
@@ -227,7 +233,7 @@ function Main({ currentView, setCurrentView }) {
                                 lg={6}
                                 key={index}
                             >
-                                <IndicadorValor setCurrentView={setCurrentView} datos={indicador} />
+                                <IndicadorValor setCurrentView={setCurrentView} datos={indicador} setCurrentIndicator={handleCurrentIndicator} index={index}/>
                             </Grid>
                         })}
                     </Grid>
@@ -237,127 +243,105 @@ function Main({ currentView, setCurrentView }) {
     }
     else if (currentView == 3) {
         return (
-            <Box
-                display='flex'
-                flexDirection='column'
-                alignContent='flex-start'
-            >
-                <Typography variant="h4" component="h2"fontWeight={'bold'}>
-                    PORCENTAJE CIRCULARIDAD DE SALIDA
-                </Typography>
-                <Divider
-                    sx={{
-                        width: '100%',
-                        height: '1px',
-                        marginTop: '1%',
-                        background: '#989898',
-                        border: '1px solid #989898',
-                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
-                    }}
-                ></Divider>
-                <Grid container
-                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-
-                    marginTop='2%'
-                >
-                    <Grid item xs={6} 
-                        style = {{
-                            display: 'flex',
-                        }}
-                    >
-                        {/* Fuentes */}
-                        <CardPorcent source='CTI'
-                            type='Flujos'
-                            metric='Porcentaje de recuperacion real'
-                            dats={{
-                                'residuosTotales': 89
-                            }}
-                            form='ax+by+c'
-                        >
-                        </CardPorcent>
-
-                    </Grid>
-                    <Grid item xs={6}>
-                        {/* Graficos */}
-                        <Card
-                            sx={{
-                                borderRadius: '10px',
-                                border: '1px solid #989898',
-                                background: '#FFF',
-                                boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
-                                textAlign: 'center',
-                                height: '100%',
-                            }}
-
-                        >
-                            <CardHeader
-                                title='COMPORTAMIENTO HISTORICO'
-                                titleTypographyProps= {{
-                                    variant: 'h4',
-                                    fontWeight: 'bold',
-                                }}
-                            />
-                            <CardContent>
-                                <Box
-                                    sx={{
-                                        width: '60%',
-                                        margin: 'auto',
-                                        marginY: '0%',
-                                    }}
-                                >
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Año Histórico</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={hystory}
-                                            label="Historia"
-                                            onChange={handleHystory}
-                                        >
-                                            <MenuItem value={2023}>2023</MenuItem>
-                                            <MenuItem value={2022}>2022</MenuItem>
-                                            <MenuItem value={2021}>2021</MenuItem>
-                                            <MenuItem value={2020}>2020</MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                </Box>
-                                <Box
-                                    height='200px'
-                                    width='100%'
-                                >
-                                    <BarChart></BarChart>
-                                </Box>
-                                <Box
-                                    display='flex'
-                                    flexDirection='row'
-                                    width='100%'
-                                    height='100%'
-                                    marginTop={5}
-                                    flexWrap={'wrap'}
-                                >
-                                    <Box
-                                        flexGrow={1}
-                                    >
-                                        <PieChart  porcentaje={15} tipo={'SOCIAL'} />
-                                    </Box>
-                                    <Box
-                                        flexGrow={1}
-                                    >
-                                        <PieChart  porcentaje={67} tipo={'AMBIENTAL'} />
-                                    </Box>
-                                    <Box
-                                        flexGrow={1}
-                                    >
-                                        <PieChart  porcentaje={67} tipo={'ECONOMICO'} />
-                                    </Box>
-                                </Box>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Box>
+            <LastView currentIndicator={currentIndicator} setCurrentView={setCurrentView} />
         )
+        // return (
+        //     <Box
+        //         display='flex'
+        //         flexDirection='column'
+        //         alignContent='flex-start'
+        //     >
+        //         <Typography variant="h5" component="h2"fontWeight={'bold'}>
+        //             {currentIndicator.name.toUpperCase()}
+        //         </Typography>
+        //         <Divider
+        //             sx={{
+        //                 width: '100%',
+        //                 height: '1px',
+        //                 marginTop: '1%',
+        //                 background: '#989898',
+        //                 border: '1px solid #989898',
+        //                 boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
+        //             }}
+        //         ></Divider>
+        //         <Grid container
+        //             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        //             marginTop='2%'
+        //         >
+        //             <Grid item xs={6} 
+        //                 style = {{
+        //                     display: 'flex',
+        //                 }}
+        //             >
+        //                 {/* Fuentes */}
+        //                 <CardPorcent source={currentIndicator.source}
+        //                     type={currentIndicator.sourceType}
+        //                     metric='Porcentaje de recuperacion real'
+        //                     dats={currentIndicator.inputDats}
+        //                     form='ax+by+c'
+        //                 >   
+        //                 </CardPorcent>
+
+        //             </Grid>
+        //             <Grid item xs={6}>
+        //                 {/* Graficos */}
+        //                 <Card
+        //                     sx={{
+        //                         borderRadius: '10px',
+        //                         border: '1px solid #989898',
+        //                         background: '#FFF',
+        //                         boxShadow: '4px 4px 10px 0px rgba(0, 0, 0, 0.25)',
+        //                         textAlign: 'center',
+        //                         height: '100%',
+        //                     }}
+
+        //                 >
+        //                     <CardHeader
+        //                         title='COMPORTAMIENTO HISTORICO'
+        //                         titleTypographyProps= {{
+        //                             variant: 'h5',
+        //                             fontWeight: 'bold',
+        //                         }}
+        //                     />
+        //                     <CardContent>
+        //                         <Box
+        //                             sx={{
+        //                                 width: '60%',
+        //                                 margin: 'auto',
+        //                                 marginY: '0%',
+        //                             }}
+        //                         >
+        //                             <FormControl fullWidth>
+        //                                 <InputLabel id="demo-simple-select-label">Año Histórico</InputLabel>
+        //                                 <Select
+        //                                     labelId="demo-simple-select-label"
+        //                                     id="demo-simple-select"
+        //                                     value={hystory}
+        //                                     label="Historia"
+        //                                     onChange={handleHystory}
+        //                                 >
+        //                                     <MenuItem value={2023}>2023</MenuItem>
+        //                                     <MenuItem value={2022}>2022</MenuItem>
+        //                                     <MenuItem value={2021}>2021</MenuItem>
+        //                                     <MenuItem value={2020}>2020</MenuItem>
+        //                                 </Select>
+        //                             </FormControl>
+        //                         </Box>
+        //                         <Box
+        //                             height='400px'
+        //                             width='100%'
+        //                             sx = {{
+        //                                 marginTop: '2%',
+        //                             }}
+        //                         >
+        //                             <BarChart dats={currentIndicator.inputDats}  ></BarChart>
+        //                         </Box>
+        //                     </CardContent>
+        //                 </Card>
+        //             </Grid>
+        //         </Grid>
+        //     </Box>
+        // )
     }
 }
 

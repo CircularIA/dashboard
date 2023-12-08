@@ -23,12 +23,11 @@ const BorderLinearProgress = styled(LinearProgress)(() => ({
   }));
 
 
-function IndicadorValor({ datos, calc, setCurrentView }) {
-    
-    console.log(datos)
+function IndicadorValor({ datos, calc, setCurrentView, setCurrentIndicator, index }) {
     //True es que fue calculado
     const color = calc ? 'linear-gradient( 90deg, rgba(0, 138, 85, 1), rgba(13, 255, 110, 1))' : '#989898';
     const nextView = () =>{
+        setCurrentIndicator(index)
         setCurrentView((e) =>
             e + 1
         )

@@ -16,9 +16,11 @@ export const companyRoutes = {
 export const indicatorRoutes = {
     getIndicators: 'http://localhost:5000/api/indicator',
     registerIndicators: 'http://localhost:5000/api/indicator/register',
+    getIndicatorValues: 'http://localhost:5000/api/indicator/values', //:branch/:indicator/:year/:month?
 }
 
 export const inputDatsRoutes = {
     getInputDats: 'http://localhost:5000/api/inputDat',
+    getInputDatsByIndicator: 'http://localhost:5000/api/inputDat/byIndicator/', //:branch/:indicator
     registerInputDats: 'http://localhost:5000/api/inputDat'
 }

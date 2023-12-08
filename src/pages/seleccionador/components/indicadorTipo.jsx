@@ -3,15 +3,15 @@ import { Card } from "@mui/material"
 import { useState } from "react"
 
 
-function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentIndicator, setCurrentIndicator, currentType, handleCurrentType }) {
+function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentCategorie, handleCurrentCategorie, currentType, handleCurrentType }) {
 
   const [hover, setHover] = useState(false)
   const handleHoverColor = () => {
-    if (currentIndicator === 'ECONOMICO') {
+    if (currentCategorie === 'ECONOMICO') {
       return '#F3A430'
-    } else if (currentIndicator === 'SOCIAL') {
+    } else if (currentCategorie === 'SOCIAL') {
       return '#2D7DD2'
-    } else if (currentIndicator === 'AMBIENTAL') {
+    } else if (currentCategorie === 'AMBIENTAL') {
       return '#00B971'
     }
   }
