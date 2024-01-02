@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 //Icon
 import SearchOffIcon from '@mui/icons-material/SearchOff';
+import FormulaDialog from './components/formulaDialog';
 
 const BarChartRender = ({ dats, indicatorName, loading }) => {
     console.log("dats", dats)
@@ -78,6 +79,15 @@ function LastView({ currentIndicator, }) {
     //Datos de entrada
     const [inputDats, setInputDats] = useState([]);
     const [indicatorValues, setIndicatorValues] = useState([]);
+    //Dialog formula
+    const [openFormulaDialog, setOpenFormulaDialog] = useState(false);
+    const handleOpenFormulaDialog = () => {
+        setOpenFormulaDialog(true);
+    }
+    const handleCloseFormulaDialog = () => {
+        setOpenFormulaDialog(false);
+    }
+
     console.log("indicatorValues", indicatorValues)
     useEffect(() => {
         let url = inputDatsRoutes.getInputDatsByIndicator + currentBranch.id + '/' + currentIndicator._id;
@@ -148,6 +158,8 @@ function LastView({ currentIndicator, }) {
                         metric='Porcentaje de recuperacion real'
                         dats={inputDats}
                         form='ax+by+c'
+                        handleOpenFormulaDialog = {handleOpenFormulaDialog}
+                        handleClose = {handleCloseFormulaDialog}
                     >
                     </CardPorcent>
 
@@ -200,6 +212,7 @@ function LastView({ currentIndicator, }) {
                         </CardContent>
                     </Card>
                 </Grid>
+                <FormulaDialog open={openFormulaDialog} handleClose={handleCloseFormulaDialog} indicator={currentIndicator}></FormulaDialog>
             </Grid>
         </Box>
     )

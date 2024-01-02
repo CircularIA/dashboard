@@ -44,8 +44,7 @@ const styles = {
     }
 }
 
-function CardPorcent({ source, type, metric, dats, form }) {
-    
+function CardPorcent({ source, type, metric, dats, form, handleOpenFormulaDialog, handleCloseFormulaDialog }) {
     const [rows, setRows] = useState([])
     useEffect(() => {
         console.log("dats", dats)
@@ -198,6 +197,7 @@ function CardPorcent({ source, type, metric, dats, form }) {
                             width: '100%',
                             flexGrow: 1,
                         }}
+                        onClick={handleOpenFormulaDialog}
                     >
                         <Typography
                             variant='h4'

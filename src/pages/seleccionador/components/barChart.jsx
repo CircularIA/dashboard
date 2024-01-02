@@ -64,6 +64,7 @@ function BarChartComponent({dats, indicatorName}) {
   console.log("data Input", dats)
   console.log("indicatorName", indicatorName)
   const [data, setData] = useState([])
+  console.log("data", data)
   useEffect(() => {
     //Transform dats to the format of the bar chart
     const aux = dats.map((dat) => {
@@ -73,7 +74,7 @@ function BarChartComponent({dats, indicatorName}) {
       if (dat.value !== -1) {
         return {
           month: month,
-          value: dat.value
+          Porcentaje: dat.value
         }
       }
     })
@@ -101,7 +102,7 @@ function BarChartComponent({dats, indicatorName}) {
             <YAxis stroke="#000" />
             <Tooltip />
             <Legend />
-            <Bar dataKey="Valor del indicador" fill= '#00B971' />
+            <Bar dataKey="Porcentaje" fill= '#00B971' />
             {/* <Bar dataKey="social" stackId='a'  fill='#2D7DD2' />
             <Bar dataKey="ambiental" stackId='a'  fill='#00B971' />
             <Bar dataKey="economico" stackId='a'  fill='#F3A430' /> */}
