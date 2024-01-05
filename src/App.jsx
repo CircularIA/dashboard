@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 //Components
 import Login from './pages/Login'
+import ResetPasswordView from './pages/ResetPasswordView.jsx'
 import Dashboard from './pages/Dashboard'
 import Setting from './pages/setting/setting'
 import HuellaCarbono from './pages/huella-carbono/register'
 import Estrategia from './pages/estrategia/estrategia'
 import Seleccionador from './pages/seleccionador/main'
+import Simulador from './pages/simulador/Simulador.jsx'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
@@ -51,7 +53,8 @@ function ProtectedRoute() {
   const [companyInfo, setCompanyInfo] = useState({}) // [companyInfo, setCompanyInfo
   const [loading, setLoading] = useState(true)
   const location = useLocation();
-  const noHeader = location.pathname.includes('perfil');
+  const noHeader_routes = ['perfil', 'ingreso']
+  const noHeader = noHeader_routes.some(ruta => location.pathname.includes(ruta));
   useEffect(() => {
     // Poner el loader en false después de 1 segundo
     const timer = setTimeout(() => {
@@ -113,11 +116,12 @@ function ProtectedRoute() {
     <Routes>
       <Route path='/' element={<AppLayout noHeader={noHeader} animateClass={animateClass} companyInfo={companyInfo} />} >
         <Route index element={<Dashboard companyInfo={companyInfo} />} />
-        <Route path='perfil' element={<Setting companyInfo={companyInfo}  />} /> {/* TODO: Cambiar a /configuracion */}
+        <Route path='perfil' element={<Setting companyInfo={companyInfo} />} /> {/* TODO: Cambiar a /configuracion */}
         <Route path='seleccionador' element={<Seleccionador />} />
         <Route path='evaluacion' element={<Evaluation />} />
-        <Route path='huellacarbono' element={<HuellaCarbono companyInfo={companyInfo}/>} />
-        <Route path='estrategia' element={<Estrategia companyInfo={companyInfo}/>} />
+        <Route path='huellacarbono' element={<HuellaCarbono companyInfo={companyInfo} />} />
+        <Route path='estrategia' element={<Estrategia companyInfo={companyInfo} />} />
+        <Route path='ingreso' element={<Simulador companyInfo={companyInfo} />} />
       </Route>
       <Route path="/welcome" element={<InitialQuest />} />
     </Routes>
@@ -129,6 +133,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/reset-password/:recoveryPassToken" element={<ResetPasswordView />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ProtectedRoute />}>
         </Route>

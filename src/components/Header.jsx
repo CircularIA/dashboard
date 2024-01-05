@@ -77,7 +77,7 @@ const Header = ({ currentTheme, companyInfo }) => {
                 value: 'Sucursal ' + index,
                 id: branch._id,
                 index: index,
-                label: 'Sucursal ' + branch.name + ' ubicada en ' + branch.address,
+                label: 'Sucursal ' + branch.name,
             }));
             console.log(sucursals)
             setSucursals(sucursals);

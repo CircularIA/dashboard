@@ -41,7 +41,7 @@ function Register({ companyInfo }) {
                     }}
                 >
                     <Typography variant='h4' color='#1E1E1E' fontWeight={'bold'} >
-                        Registro Mensual
+                        Registro mensual
                     </Typography>
                     <IconButton size='small' >
 

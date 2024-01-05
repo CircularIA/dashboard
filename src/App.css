@@ -98,6 +98,22 @@
     text-decoration: none;
 }
 
+.forgot-text {
+    text-align: center;
+    font-size: 1rem;
+}
+
+.forgot-text a {
+    font-weight: bold;
+    color: #008A55;
+    text-decoration: none;
+}
+
+.forgot-text a:hover {
+    text-decoration: underline;
+    color: #0DFF6E;
+}
+
 @media (max-width: 500px) {
     .signup-text {
         color: white;
@@ -111,7 +127,7 @@
 
 .signup-text a:hover {
     text-decoration: underline;
-    color: #00B971;
+    color: #0DFF6E;
 }
 
 .fade-enter {

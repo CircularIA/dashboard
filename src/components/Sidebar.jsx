@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import { Collapse } from '@mui/material';
 // Íconos
+import { BiChevronDown, BiChevronUp } from "react-icons/bi";
+import { FaCog, FaSignOutAlt, FaHandPointer, FaChess, FaFileImport } from "react-icons/fa";
+import { FaTreeCity } from "react-icons/fa6";
 import profileIcon from '../assets/profile-icon.svg';
 import dashboardIcon from '../assets/dashboard-icon.svg';
 import functionsIcon from '../assets/functions-icon.svg';
-import contactIcon from '../assets/contact-icon.svg';
 import evaluationIcon from '../assets/evaluation-icon.svg';
 import helpIcon from '../assets/help-icon.svg';
 import { RiAlignJustify } from "react-icons/ri";
@@ -23,6 +25,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const Sidebar = ({ theme }) => {
+    const [openPanel, setOpenPanel] = useState(null);
     const [open, setOpen] = useState(false);
     const [cookies, removeCookie] = useCookies(["access_token"]);
     const [showMenu, setShowMenu] = useState(false)
@@ -37,17 +40,14 @@ const Sidebar = ({ theme }) => {
                 'bg-custom-mid-orange';
     const [openPerfil, setOpenPerfil] = useState(false);
     const [openFunciones, setOpenFunciones] = useState(false);
-    const [openContacto, setOpenContacto] = useState(false);
     const handleClickPerfil = () => {
-        console.log("entra a esta funcion")
-        setOpenPerfil(!openPerfil);
+        setOpenPanel(openPanel !== 'perfil' ? 'perfil' : null);
     }
+
     const handleClickFunciones = () => {
-        setOpenFunciones(!openFunciones);
+        setOpenPanel(openPanel !== 'funciones' ? 'funciones' : null);
     }
-    const handleClickContacto = () => {
-        setOpenContacto(!openContacto)
-    }
+
     const handleClick = () => {
         setOpen(true);
     };
@@ -64,6 +64,7 @@ const Sidebar = ({ theme }) => {
         setOpen(true)
     }
 
+
     return (
         <>
             <div className={`fixed inset-0 bg-black transition-opacity lg:hidden z-40 ${showMenu ? "opacity-50" : "opacity-0 pointer-events-none"}`} />
@@ -72,35 +73,27 @@ const Sidebar = ({ theme }) => {
                     <img src={logo} alt='Logo' className='w-17 h-17 object-cover' />
                 </Link>
                 <ul className='pt-12 pb-12 lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
-                    <div onClick={handleClickPerfil}>
-                        <MenuItem icon={profileIcon} text='Perfil' />
+                    <div onClick={handleClickPerfil} className='w-full'>
+                        <MenuItem icon={profileIcon} text='Perfil' isCollapsible={true} isOpen={openPerfil} />
                     </div>
-                    <Collapse in={openPerfil} timeout={'auto'} unmountOnExit>
+                    <Collapse in={openPanel === 'perfil'} timeout={'auto'} unmountOnExit>
                         <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow pl-1 shadow-xl hover:bg-custom-pallete-400 transition duration-300 ease-in-out'>
-                            <MenuItem icon={dashboardIcon} text={'Configuracion'} route={'/perfil'} />
+                            <MenuItem icon={<FaCog />} text={'Configuración'} route={'/perfil'} />
                             <div onClick={handleSession}>
-                                <MenuItem icon={dashboardIcon} text={'Cerrar Sesión'} />
+                                <MenuItem icon={<FaSignOutAlt />} text={'Cerrar Sesión'} />
                             </div>
                         </ul>
                     </Collapse>
                     <MenuItem icon={dashboardIcon} text='Dashboard' route='/' />
                     <div onClick={handleClickFunciones}>
-                        <MenuItem icon={functionsIcon} text='Funciones' />
+                        <MenuItem icon={functionsIcon} text='Funciones' isCollapsible={true} isOpen={openFunciones} />
                     </div>
-                    <Collapse in={openFunciones} timeout={'auto'} unmountOnExit>
+                    <Collapse in={openPanel === 'funciones'} timeout={'auto'} unmountOnExit>
                         <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow pl-1 shadow-xl hover:bg-custom-pallete-400 transition duration-300 ease-in-out'>
-                            <MenuItemMini icon={dashboardIcon} text={'Seleccionador'} route={'/seleccionador'} />
-                            <MenuItemMini icon={dashboardIcon} text={'H.Carbono'} route={'/huellacarbono'} />
-                            <MenuItemMini icon={dashboardIcon} text={'Estrategia'} route={'/estrategia'} />
-                        </ul>
-                    </Collapse>
-                    <div onClick={handleClickContacto}>
-                        <MenuItem icon={contactIcon} text='Contacto' />
-                    </div>
-                    <Collapse in={openContacto} timeout={'auto'} unmountOnExit>
-                        <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow'>
-                            <MenuItem icon={dashboardIcon} text={'Sobre Nosotros'} route={'/'} />
-                            <MenuItem icon={dashboardIcon} text={'Reportar Problema'} route={'/'} />
+                            <MenuItemMini icon={<FaHandPointer />} text={'Seleccionador'} route={'/seleccionador'} />
+                            <MenuItemMini icon={<FaTreeCity />} text={'H.Carbono'} route={'/huellacarbono'} />
+                            <MenuItemMini icon={<FaChess />} text={'Estrategia'} route={'/estrategia'} />
+                            <MenuItemMini icon={<FaFileImport />} text={'Ingreso de datos'} route={'/ingreso'} />
                         </ul>
                     </Collapse>
                     <MenuItem icon={evaluationIcon} text='Evaluación' route='/evaluacion' />
@@ -112,7 +105,7 @@ const Sidebar = ({ theme }) => {
                 <RiAlignJustify size={22} color='white' />
             </button>
             <Snackbar open={open} autoHideDuration={80000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{backgroundColor: '#008A55'}}>
+                <Alert onClose={handleClose} severity="success" sx={{ backgroundColor: '#008A55' }}>
                     Cerrando sesión
                 </Alert>
             </Snackbar>
@@ -121,22 +114,38 @@ const Sidebar = ({ theme }) => {
     )
 }
 
-const MenuItem = ({ icon, text, route }) => {
+const MenuItem = ({ icon, text, route, isOpen, isCollapsible }) => {
     return (
-        <li className='flex md:flex-col flex-row items-center ml-4 md:ml-0 space-y-2 py-2'>
-            <Link to={route} className='flex md:flex-col flex-row items-center'>
-                <img src={icon} alt={text} className='w-6 h-6 object-contain' />
-                <span className='font-roboto text-white text-sm ml-2 md:ml-0'>{text}</span>
+        <li className='relative flex items-center space-y-2 py-2'>
+            <Link to={route ?? '#'} className='flex items-center justify-center w-full'>
+                <div className='flex flex-col items-center'>
+                    {
+                        typeof icon === 'string'
+                            ? <img src={icon} alt={text} className='w-6 h-6 object-contain' />
+                            : React.cloneElement(icon, { className: 'w-6 h-6 text-white' })
+                    }
+                    <span className='font-roboto text-white text-sm'>{text}</span>
+                </div>
             </Link>
+            {isCollapsible && (
+                <div className='absolute right-3 bottom-6 flex items-center'>
+                    {isOpen ? <BiChevronUp className='text-white' /> : <BiChevronDown className='text-white' />}
+                </div>
+            )}
         </li>
     );
 };
+
 
 const MenuItemMini = ({ icon, text, route }) => {
     return (
         <li className='flex md:flex-col flex-row items-center ml-4 md:ml-0 space-y-2 py-2'>
             <Link to={route} className='flex md:flex-col flex-row items-center'>
-                <img src={icon} alt={text} className='w-5 h-5 object-contain' />
+                {
+                    typeof icon === 'string'
+                        ? <img src={icon} alt={text} className='w-6 h-6 object-contain' />
+                        : React.cloneElement(icon, { className: 'w-6 h-6 text-white' })
+                }
                 <span className='font-roboto text-white text-sm ml-2 md:ml-0'>{text}</span>
             </Link>
         </li>

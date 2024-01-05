@@ -1,0 +1,168 @@
+/* En tu archivo CSS */
+
+/* Estilos base para las casillas de verificación */
+.checkbox-custom {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    /* Esto hace que la casilla de verificación sea completamente redonda */
+    border: 2px solid transparent;
+    background-origin: border-box;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Estilos para cuando la casilla de verificación no está seleccionada */
+.checkbox-ambiental {
+    border-color: #0DFF6E;
+}
+
+.checkbox-social {
+    border-color: #40B7FF;
+}
+
+.checkbox-economico {
+    border-color: #FBC946;
+}
+
+/* Estilos para cuando la casilla de verificación está seleccionada */
+.checkbox-ambiental:checked {
+    background-color: #00B971;
+    /* Usa tu variable de color o un valor de color directo */
+}
+
+.checkbox-social:checked {
+    background-color: #2D7DD2;
+}
+
+.checkbox-economico:checked {
+    background-color: #F3A430;
+}
+
+.text-ambiental-selected {
+    color: #00B971;
+    /* Color verde cuando está seleccionado */
+}
+
+.text-social-selected {
+    color: #2D7DD2;
+    /* Color azul cuando está seleccionado */
+}
+
+.text-economico-selected {
+    color: #F3A430;
+    /* Color amarillo cuando está seleccionado */
+}
+
+/* En tu archivo styles.css */
+
+.button-text-style:disabled {
+    background-color: #ccc;
+    /* color gris */
+    cursor: not-allowed;
+}
+
+.button-text-style {
+    color: #FFF;
+    text-align: center;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.view-transition-enter {
+    opacity: 0;
+}
+
+.view-transition-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+}
+
+.view-transition-exit {
+    opacity: 1;
+}
+
+.view-transition-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-out;
+}
+
+/* Estilo para barra de progreso */
+progress {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #4AD25A66;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background-image: linear-gradient(to right, #009211, #4AD25A);
+    border-radius: 10px;
+}
+
+.react-datepicker-custom-input {
+    border-radius: 0.5rem;
+    padding-right: 2.5rem;
+    border-color: hsl(0, 0%, 80%);
+}
+
+.react-datepicker-calendar-icon {
+    position: relative;
+    right: 4%;
+    cursor: pointer;
+}
+
+.react-datepicker__header {
+    border-bottom: solid 5px var(--light) !important;
+    background: #00B971 !important;
+    color: #ffffff !important;
+}
+
+.button-text-custom:disabled {
+    background-color: #ccc;
+    /* color gris */
+    cursor: not-allowed;
+}
+
+/* Estilos normales del botón */
+.button-text-custom {
+    margin-top: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #00B971;
+    /* color verde personalizado */
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+/* Cambia el color del botón cuando está habilitado y se pasa el cursor por encima */
+.button-text-custom:hover:not(:disabled) {
+    background-color: #0DFF6E;
+    /* color verde más oscuro */
+}
+
+.background-thanks {
+    background-image: url('../../../assets/bg-thanks.svg');
+    /* Ajusta la ruta de la imagen según sea necesario */
+    background-size: cover;
+    background-position: center;
+    height: 90vh
+}

@@ -75,7 +75,7 @@ function Card({title, icon, color}) {
                                 fontWeight: '600',
                             }}
                         >
-                            Tipo Fuente
+                            Tipo fuente
                         </InputLabel>
                         <TextField id="typeSource" variant="outlined" fullWidth  size="small" label='Info'
                             sx = {{
@@ -94,7 +94,7 @@ function Card({title, icon, color}) {
                                 fontWeight: '600',
                             }}
                         >
-                            Fuente de Emisión
+                            Fuente de emisión
                         </InputLabel>
                         <TextField id="emisionSource" variant="outlined" fullWidth  size="small" label='Info'
                             sx = {{
@@ -113,7 +113,7 @@ function Card({title, icon, color}) {
                                 fontWeight: '600',
                             }}
                         >
-                            Detalle Fuente
+                            Detalle fuente
                         </InputLabel>
                         <TextField id="detailSource" variant="outlined" fullWidth  size="small" label='Info'
                             sx = {{
