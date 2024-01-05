@@ -9,6 +9,11 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      textColor: {
+        'ambiental': '#00B971', // Un verde personalizado
+        'social': '#1F81B9',    // Un azul personalizado
+        'economico': '#F3A430', // Un amarillo personalizado
+      },
       backgroundImage: {
         'sidebar-gradient-green': 'linear-gradient(0deg, #0DFF6E 20%, #00B971 60%, #008A55 80%)',
         'green-horizontal-gradient': 'linear-gradient(90deg, #008A55 0%, #00B971 72.39%, #5AFF9C 100%)',
