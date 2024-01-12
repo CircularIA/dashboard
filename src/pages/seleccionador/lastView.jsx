@@ -91,6 +91,9 @@ function LastView({ currentIndicator }) {
     const [cookies] = useCookies(['access_token']);
     //Obtain the current year
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+    const handleChangeYear = (event) => {
+        setCurrentYear(event.target.value);
+    }
     const [loading, setLoading] = useState(true);
     const currentBranch = useSelector((state) => state.user.branch)
     //Datos de entrada
@@ -126,9 +129,6 @@ function LastView({ currentIndicator }) {
             })
     }, [currentIndicator, currentYear, currentBranch, cookies.access_token])
 
-    const handleChangeYear = (event) => {
-        setCurrentYear(event.target.value);
-    }
     return (
         <Box
             display='flex'

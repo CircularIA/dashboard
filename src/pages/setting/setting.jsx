@@ -73,10 +73,9 @@ function Setting({companyInfo}) {
     };
 
     //Have to obtain the dats of the company
-    console.log("company info", companyInfo)
     return (
-        <div className='animate__animated animate__fadeIn  grid lg:grid-cols-11 xl:grid-cols-12 h-screen w-screen'>
-            <main className='lg:col-span-10 xl:col-span-11 h-[100vh] px-8 py-5'>
+        <div className='animate__animated animate__fadeIn'>
+            <main className='lg:col-span-10 xl:col-span-11 h-screen px-8 py-5'>
                 <TabContext value={currentView} >
                     <StylesTabs onChange={handleChange}  
                         variant="scrollable"

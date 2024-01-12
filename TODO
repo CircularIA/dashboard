@@ -1,0 +1,16 @@
+Project: Desarrollo Interfaz Gráfica de Usuario
+Author:  Circularia
+Date:    2023-03-21
+
+TODOS:
+  New:
+    ☐ Agregar capacidad de poder editar una sucursal
+    ☐ Agregar capacidad de poder agregar una sucursal @started(24-01-12 16:56)
+    ☐ Agregar ilustraciones a la vista de seleccionador
+    ☐ Agregar ilustraciones a la vista de dashboard
+    ☐ Conectar datos e indicadores a la vista de dashboard
+  Done:
+    ✔ Agregar transiciones fade_in a todas las vistas @done(24-01-12 16:56)
+  Cancelled:
+    ✘ Agregar capacidad de poder eliminar una sucursal @cancelled(24-01-12 16:56)
+  

@@ -156,7 +156,7 @@ const Dashboard = ({companyInfo}) => {
           <div className='text-white ml-4 w-[100%] '> {/* Aquí está el texto blanco */}
             {
               loading ? <p className='font-bold mb-3 text-2xl'> ¡Bienvenido! {companyInfo.companies.name} Sucursal: {companyInfo.companies.branches[currentBranch].name}</p> : <Skeleton variant="text" width={200} height={30} />
-            }lwin
+            }
             {
               loading ? <p>Dirección sucursal: {companyInfo.companies.branches[currentBranch].address}</p> : <Skeleton variant="text" width={200} height={30} />
             }

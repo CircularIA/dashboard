@@ -316,147 +316,149 @@ function Estrategia({ companyInfo }) {
   const handleClose = () => setOpen(false)
 
   return (
-    <main className='lg:col-span-12 xl:col-span-12'>
-      <Stack
-        direction={'column'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        marginTop={3}
-        spacing={1}
-      >
-        {/* Container ambiental */}
-        <Grid container rowSpacing={2}
+    <div className='animate__animated animate__fadeIn'>
+      <main className='lg:col-span-12 xl:col-span-12'>
+        <Stack
+          direction={'column'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          marginTop={3}
+          spacing={1}
         >
-          <Grid item xs={12} md={12} lg={12}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+          {/* Container ambiental */}
+          <Grid container rowSpacing={2}
           >
-            <StyledCard index={16} text='Alianzas para lograr los objetivos' type='ambiental' handleOpen={handleOpen} />
-          </Grid>
-          <Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={13} text={'Vida submarina'} type='ambiental' handleOpen={handleOpen} />
-            </Box>
-          </Grid>
-          <Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={14} text={'Vida de ecosistemas terrestres'} type='ambiental' handleOpen={handleOpen} />
-            </Box>
-          </Grid>
-          <Grid item xs={4} md={4} lg={4}>
-            <CardGroup value={80} type='ambiental' />
-          </Grid>
-          <Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={5} text={'Agua limpia y saneamiento'} type='ambiental' handleOpen={handleOpen} />
-            </Box>
-          </Grid><Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={12} text={'Acción por el clima'} type='ambiental' handleOpen={handleOpen} />
-            </Box>
-          </Grid>
-        </Grid>
-        {/* Container Social */}
-        <Grid container rowSpacing={2} >
-          {/* Left container */}
-          <Grid item xs={4} md={4} lg={4}>
-            <Grid container
-              rowSpacing={2}
+            <Grid item xs={12} md={12} lg={12}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={0} text={'Fin de la pobreza'} type='social' handleOpen={handleOpen} />
-                </Box>
+              <StyledCard index={16} text='Alianzas para lograr los objetivos' type='ambiental' handleOpen={handleOpen} />
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={13} text={'Vida submarina'} type='ambiental' handleOpen={handleOpen} />
+              </Box>
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={14} text={'Vida de ecosistemas terrestres'} type='ambiental' handleOpen={handleOpen} />
+              </Box>
+            </Grid>
+            <Grid item xs={4} md={4} lg={4}>
+              <CardGroup value={80} type='ambiental' />
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={5} text={'Agua limpia y saneamiento'} type='ambiental' handleOpen={handleOpen} />
+              </Box>
+            </Grid><Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={12} text={'Acción por el clima'} type='ambiental' handleOpen={handleOpen} />
+              </Box>
+            </Grid>
+          </Grid>
+          {/* Container Social */}
+          <Grid container rowSpacing={2} >
+            {/* Left container */}
+            <Grid item xs={4} md={4} lg={4}>
+              <Grid container
+                rowSpacing={2}
+              >
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={0} text={'Fin de la pobreza'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={6} text={'Energía asequible y no contaminante'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={1} text={'Hambre cero'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={2} text={'Salud y bienestar'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={6} text={'Energía asequible y no contaminante'} type='social' handleOpen={handleOpen} />
-                </Box>
-              </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={1} text={'Hambre cero'} type='social' handleOpen={handleOpen} />
-                </Box>
-              </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={2} text={'Salud y bienestar'} type='social' handleOpen={handleOpen} />
-                </Box>
+            </Grid>
+            {/* Center container */}
+            <Grid item xs={4} md={4} lg={4}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <CardGroup value={80} type='social' />
+            </Grid>
+            {/* Right container */}
+            <Grid item xs={4} md={4} lg={4}>
+              <Grid container rowSpacing={2}>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={10} text={'Ciudades y comunidades sostenibles'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={15} text={'Paz, justicia e institución sólidas'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={3} text={'Educación de calidad'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <StyledCard index={4} text={'Igualdad de género'} type='social' handleOpen={handleOpen} />
+                  </Box>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-          {/* Center container */}
-          <Grid item xs={4} md={4} lg={4}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+          {/* Container Economico */}
+          <Grid container rowSpacing={2}
           >
-            <CardGroup value={80} type='social' />
-          </Grid>
-          {/* Right container */}
-          <Grid item xs={4} md={4} lg={4}>
-            <Grid container rowSpacing={2}>
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={10} text={'Ciudades y comunidades sostenibles'} type='social' handleOpen={handleOpen} />
-                </Box>
-              </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={15} text={'Paz, justicia e institución sólidas'} type='social' handleOpen={handleOpen} />
-                </Box>
-              </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={3} text={'Educación de calidad'} type='social' handleOpen={handleOpen} />
-                </Box>
-              </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                  <StyledCard index={4} text={'Igualdad de género'} type='social' handleOpen={handleOpen} />
-                </Box>
-              </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={7} text={'Trabajo decente y crecimiento económico'} type='economico' handleOpen={handleOpen} />
+              </Box>
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={8} text={'Industria, innovación e infraestructura'} type='economico' handleOpen={handleOpen} />
+              </Box>
+            </Grid>
+            <Grid item xs={4} md={4} lg={4}>
+              <CardGroup value={80} type='economico' />
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={9} text={'Reducción de las desigualdades'} type='economico' handleOpen={handleOpen} />
+              </Box>
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <StyledCard index={11} text={'Producción y consumo responsables'} type='economico' handleOpen={handleOpen} />
+              </Box>
             </Grid>
           </Grid>
-        </Grid>
-        {/* Container Economico */}
-        <Grid container rowSpacing={2}
-        >
-          <Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={7} text={'Trabajo decente y crecimiento económico'} type='economico' handleOpen={handleOpen} />
-            </Box>
-          </Grid>
-          <Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={8} text={'Industria, innovación e infraestructura'} type='economico' handleOpen={handleOpen} />
-            </Box>
-          </Grid>
-          <Grid item xs={4} md={4} lg={4}>
-            <CardGroup value={80} type='economico' />
-          </Grid>
-          <Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={9} text={'Reducción de las desigualdades'} type='economico' handleOpen={handleOpen} />
-            </Box>
-          </Grid>
-          <Grid item xs={2} md={2} lg={2}>
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <StyledCard index={11} text={'Producción y consumo responsables'} type='economico' handleOpen={handleOpen} />
-            </Box>
-          </Grid>
-        </Grid>
-        {/* Form Dialog */}
-        <IndicadorDialog open={open} image={image} ods={ods} type={type} handleClose={handleClose} />
-      </Stack>
-    </main>
+          {/* Form Dialog */}
+          <IndicadorDialog open={open} image={image} ods={ods} type={type} handleClose={handleClose} />
+        </Stack>
+      </main>
+    </div>
   )
 }
 

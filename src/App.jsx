@@ -11,6 +11,7 @@ import HuellaCarbono from './pages/huella-carbono/register'
 import Estrategia from './pages/estrategia/estrategia'
 import Seleccionador from './pages/seleccionador/main'
 import Simulador from './pages/simulador/Simulador.jsx'
+import Ayuda from './pages/ayuda/main.jsx'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
@@ -53,7 +54,7 @@ function ProtectedRoute() {
   const [companyInfo, setCompanyInfo] = useState({}) // [companyInfo, setCompanyInfo
   const [loading, setLoading] = useState(true)
   const location = useLocation();
-  const noHeader_routes = ['perfil', 'ingreso','seleccionador']
+  const noHeader_routes = ['perfil', 'ingreso','seleccionador', 'huellacarbono', 'estrategia', 'evaluacion']
   const noHeader = noHeader_routes.some(ruta => location.pathname.includes(ruta));
   useEffect(() => {
     // Poner el loader en false después de 1 segundo
@@ -122,6 +123,7 @@ function ProtectedRoute() {
         <Route path='huellacarbono' element={<HuellaCarbono companyInfo={companyInfo} />} />
         <Route path='estrategia' element={<Estrategia companyInfo={companyInfo} />} />
         <Route path='ingreso' element={<Simulador companyInfo={companyInfo} />} />
+        <Route path='ayuda' element={<Ayuda companyInfo={companyInfo} />} />
       </Route>
       <Route path="/welcome" element={<InitialQuest />} />
     </Routes>
