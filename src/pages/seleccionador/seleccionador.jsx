@@ -86,8 +86,11 @@ function Main({ currentView, setCurrentView}) {
     //Actual indicador
     const [currentIndicator, setCurrentIndicator] = useState({});
     const handleCurrentIndicator = (selectedOption) => {
+        console.log("selectedOption", selectedOption)
+        console.log("indicators", indicators[selectedOption])
         setCurrentIndicator(indicators[selectedOption])
     }
+    console.log("currentIndicator", currentIndicator)
     //Current view change to drill Component    
     const [currentCategorie, setCurrentCategorie] = useState("AMBIENTAL"); //AMBIENTAL, ECONOMICO, SOCIAL
     const handleCurrentCategorie = (selectedOption) => {
@@ -241,7 +244,7 @@ function Main({ currentView, setCurrentView}) {
                     item
                     xs={12}
                 >
-                    <Filters tiposAmbiental={tiposAmbiental} tiposEconomico={tiposEconomico} tiposSocial={tiposSocial} 
+                    <Filters currentCategorie={currentCategorie} tiposAmbiental={tiposAmbiental} tiposEconomico={tiposEconomico} tiposSocial={tiposSocial} 
                         currentType={currentType} setCurrentType={setCurrentType} addCurrentType={addCurrentType} removeCurrentType={removeCurrentType} 
                     />
                 </Grid>

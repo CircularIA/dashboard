@@ -28,7 +28,7 @@ function IndicadorValor({ datos,setCurrentView, setCurrentIndicator, index }) {
     //True es que fue calculado
     // const color = calc ? 'linear-gradient( 90deg, rgba(0, 138, 85, 1), rgba(13, 255, 110, 1))' : '#989898';
     const color = '#989898'
-    const calc = true
+    const calc = false
     const nextView = () =>{
         setCurrentIndicator(index)
         setCurrentView((e) =>

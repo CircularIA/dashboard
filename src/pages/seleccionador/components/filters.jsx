@@ -1,5 +1,5 @@
 import './../css/filters.css'
-import { H4, HR, BotonCalcular, BotonAmbiental, BotonEconomico, BotonSocial} from "../styles/Seleccionado";
+import { BotonCalcular, BotonAmbiental, BotonEconomico, BotonSocial} from "../styles/Seleccionado";
 //Recursos
 
 import ImagenCalcular from '../../../assets/Iconos/icon_bar.svg';
@@ -10,7 +10,7 @@ import { useEffect, useRef} from 'react';
 //PropTypes
 import PropTypes from 'prop-types'
 
-function Filters({tiposAmbiental, tiposEconomico, tiposSocial, currentType, addCurrentType, removeCurrentType}) {
+function Filters({currentCategorie, tiposAmbiental, tiposEconomico, tiposSocial, currentType, addCurrentType, removeCurrentType}) {
     const refBotones = useRef();
     useEffect(() => {
         refBotones.current.childNodes.forEach((e)=>{
@@ -92,27 +92,37 @@ function Filters({tiposAmbiental, tiposEconomico, tiposSocial, currentType, addC
                     <img src={ImagenNoCalcular} alt=""/>
                     No Calculado 
                 </BotonCalcular>
-                {tiposAmbiental.map((indicador, index) =>{
-                    return <BotonAmbiental key={index} 
-                    onClick = {setActiveState}
-                    className="boton ambiental">{indicador.nombre}</BotonAmbiental>
-                } )}
-                {tiposEconomico.map((indicador, index) => {
-                    return <BotonEconomico key={index} 
-                    onClick = {setActiveState}
-                    className="boton economico">{indicador.nombre}</BotonEconomico>
-                })}
-                {tiposSocial.map((indicador, index) => {
-                    return <BotonSocial key={index} 
-                    onClick = {setActiveState}
-                    className="boton social">{indicador.nombre}</BotonSocial>
-                })}
+                {
+                    currentCategorie.toLowerCase() === 'ambiental' &&
+                    tiposAmbiental.map((indicador, index) =>{
+                        return <BotonAmbiental key={index} 
+                        onClick = {setActiveState}
+                        className="boton ambiental">{indicador.nombre}</BotonAmbiental>
+                    } )
+                }
+                {
+                    currentCategorie.toLowerCase() === 'económico' &&
+                    tiposEconomico.map((indicador, index) => {
+                        return <BotonEconomico key={index} 
+                        onClick = {setActiveState}
+                        className="boton economico">{indicador.nombre}</BotonEconomico>
+                    })
+                }
+                {
+                    currentCategorie.toLowerCase() === 'social' &&
+                    tiposSocial.map((indicador, index) => {
+                        return <BotonSocial key={index} 
+                        onClick = {setActiveState}
+                        className="boton social">{indicador.nombre}</BotonSocial>
+                })
+                }
             </Box>
         </Box>
     )
 }
 
 Filters.propTypes = {
+    currentCategorie: PropTypes.string.isRequired,
     tiposAmbiental: PropTypes.array.isRequired,
     tiposEconomico: PropTypes.array.isRequired,
     tiposSocial: PropTypes.array.isRequired,

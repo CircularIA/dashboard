@@ -13,6 +13,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useEffect } from 'react';
+//Proptypes
+import PropTypes from 'prop-types'
 
 const CardShadow = styled(CardContent)`
     border-radius: 10px;
@@ -44,24 +46,16 @@ const styles = {
     }
 }
 
-function CardPorcent({ source, type, metric, dats, form, handleOpenFormulaDialog, handleCloseFormulaDialog }) {
-    const [rows, setRows] = useState([])
+function CardPorcent({ source, type, metric, dats, handleOpenFormulaDialog}) {
+    const [rows, setRows] = useState(dats)
     useEffect(() => {
-        console.log("dats", dats)
         let aux = []
-        //Filtrar los datos de entrada que se repiten
-        dats = dats.filter((dat, index, self) => {
-            return index === self.findIndex((t) => (
-                t.name === dat.name
-            ))
-        })
         dats.map((dat) => {
             //Push a object with name a measurement
             aux.push(createData(dat.name, dat.measurement))
         })
         setRows(aux)
     }, [dats])
-    console.log(rows.length)
     return (
         <Grid
             container
@@ -156,7 +150,7 @@ function CardPorcent({ source, type, metric, dats, form, handleOpenFormulaDialog
                                                     styles.rowCell
                                                 }
                                                 component="th" scope="row">
-                                                {row.name}
+                                                {row.name[0].toUpperCase() + row.name.slice(1).toLowerCase()}
                                             </TableCell>
                                             <TableCell
                                                 sx={
@@ -227,6 +221,17 @@ function CardPorcent({ source, type, metric, dats, form, handleOpenFormulaDialog
             </Grid>
         </Grid>
     )
+}
+
+//Proptypes
+CardPorcent.propTypes = {
+    source: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    metric: PropTypes.string.isRequired,
+    dats: PropTypes.array.isRequired,
+    form: PropTypes.string.isRequired,
+    handleOpenFormulaDialog: PropTypes.func.isRequired,
+    handleCloseFormulaDialog: PropTypes.func.isRequired,
 }
 
 export default CardPorcent

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Card, CardContent, CardHeader, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import CardPorcent from './components/cardPorcent';
 import BarChart from './components/barChart';
@@ -6,13 +6,15 @@ import CircularProgress from '@mui/material/CircularProgress';
 //Proptypes
 import PropTypes from 'prop-types'
 //Routes
-import { inputDatsRoutes, indicatorRoutes } from '../../api/config';
+import { indicatorRoutes } from '../../api/config';
 import axios from 'axios';
 //Redux
 import { useSelector } from 'react-redux';
 //Icon
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import FormulaDialog from './components/formulaDialog';
+//Cookies
+import { useCookies } from 'react-cookie';
 
 const BarChartRender = ({ dats, indicatorName, loading }) => {
     console.log("dats", dats)
@@ -70,15 +72,28 @@ const BarChartRender = ({ dats, indicatorName, loading }) => {
     }
 }
 
+const getMenuItemYears =  () => {
+    const currentYear = new Date().getFullYear();
+    //Get the 10 years before the current year
+    let years = [];
+    for (let i = 0; i < 10; i++) {
+        years.push(currentYear - i);
+    }
+    return years.map((year, index) => {
+        return (
+            <MenuItem key={index} value={year}>{year}</MenuItem>
+        )
+    })
+}
+
 function LastView({ currentIndicator }) {
-    console.log("currentIndicator", currentIndicator)
+    //Cookies
+    const [cookies] = useCookies(['access_token']);
     //Obtain the current year
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [loading, setLoading] = useState(true);
-    console.log("currentYear", currentYear)
     const currentBranch = useSelector((state) => state.user.branch)
     //Datos de entrada
-    const [inputDats, setInputDats] = useState([]);
     const [indicatorValues, setIndicatorValues] = useState([]);
     //Dialog formula
     const [openFormulaDialog, setOpenFormulaDialog] = useState(false);
@@ -88,31 +103,19 @@ function LastView({ currentIndicator }) {
     const handleCloseFormulaDialog = () => {
         setOpenFormulaDialog(false);
     }
-
-    console.log("indicatorValues", indicatorValues)
-    useEffect(() => {
-        const url = inputDatsRoutes.getInputDatsByIndicator + currentBranch.id + '/' + currentIndicator.indicator._id;
-        console.log(url)
-        axios.get(url)
-            .then((res) => {
-                const inputDats = res.data.inputDats;
-                setInputDats(inputDats);
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }, [currentBranch, currentIndicator])
     useEffect(() => {
         setLoading(true);
         //Obtener valores del indicador actual
-        let url = indicatorRoutes.getIndicatorValues + '/' + currentBranch.id + '/' + currentIndicator._id + '/' + currentYear;
+        const url = indicatorRoutes.getIndicatorValues + '/' + currentBranch.id + '/' + currentIndicator.indicator._id + '/' + currentYear;
         // http://localhost:5000/api/indicator/values/6530197508ef83055adffb0d/655b9e24cdde154317288e35/2023
-        console.log("url",url)
-        axios.get(url)
+        axios.get(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + cookies.access_token,
+            }
+        })
             .then((res) => {
-                console.log("res", res)
                 const indicatorValues = res.data.monthValues;
-                console.log("indicatorValues", indicatorValues)
                 setIndicatorValues(indicatorValues);
             })
             .catch((err) => {
@@ -121,7 +124,7 @@ function LastView({ currentIndicator }) {
             .finally(() => {
                 setLoading(false);
             })
-    }, [currentIndicator, currentYear, currentBranch])
+    }, [currentIndicator, currentYear, currentBranch, cookies.access_token])
 
     const handleChangeYear = (event) => {
         setCurrentYear(event.target.value);
@@ -154,11 +157,10 @@ function LastView({ currentIndicator }) {
                         display: 'flex',
                     }}
                 >
-                    {/* Fuentes */}
-                    <CardPorcent source={currentIndicator.source}
-                        type={currentIndicator.sourceType}
+                    <CardPorcent source={currentIndicator.indicator.source}
+                        type={currentIndicator.indicator.sourceType}
                         metric='Porcentaje de recuperacion real'
-                        dats={inputDats}
+                        dats={currentIndicator.indicator.inputDats}
                         form='ax+by+c'
                         handleOpenFormulaDialog = {handleOpenFormulaDialog}
                         handleClose = {handleCloseFormulaDialog}
@@ -203,10 +205,7 @@ function LastView({ currentIndicator }) {
                                         label="Historia"
                                         onChange={handleChangeYear}
                                     >
-                                        <MenuItem value={2023}>2023</MenuItem>
-                                        <MenuItem value={2022}>2022</MenuItem>
-                                        <MenuItem value={2021}>2021</MenuItem>
-                                        <MenuItem value={2020}>2020</MenuItem>
+                                        {getMenuItemYears()}
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -214,7 +213,7 @@ function LastView({ currentIndicator }) {
                         </CardContent>
                     </Card>
                 </Grid>
-                <FormulaDialog open={openFormulaDialog} handleClose={handleCloseFormulaDialog} indicator={currentIndicator}></FormulaDialog>
+                <FormulaDialog open={openFormulaDialog} handleClose={handleCloseFormulaDialog} indicator={currentIndicator.indicator}></FormulaDialog>
             </Grid>
         </Box>
     )
@@ -222,6 +221,12 @@ function LastView({ currentIndicator }) {
 
 LastView.propTypes = {
     currentIndicator: PropTypes.object.isRequired,
+}
+
+BarChartRender.propTypes = {
+    dats: PropTypes.array.isRequired,
+    indicatorName: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
 }
 
 export default LastView
