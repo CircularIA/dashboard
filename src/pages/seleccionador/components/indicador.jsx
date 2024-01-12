@@ -1,15 +1,17 @@
-
 import { Card, CardContent, Typography } from '@mui/material';
 import { CardMedia } from '@mui/material';
 import { Box, Stack } from '@mui/material';
 import { CardActionArea } from '@mui/material';
 import { useState } from 'react';
+
+//PropTypes
+import PropTypes from 'prop-types';
+
 const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, currentCategorie, handleCurrentCategorie }) => {
-
-
     const [hover, setHover] = useState(false)
 
     const handleHoverColor = () => {
+        console.log(titulo)
         if (titulo == 'AMBIENTAL'){
             return '#00B971'
         } else if (titulo == 'SOCIAL'){
@@ -58,7 +60,6 @@ const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, cu
                             maxHeight: '180px',
                             width: '100%',
                             height: '100%',
-
                         }}
                     />
                     {
@@ -93,55 +94,15 @@ const Indicador = ({ titulo, descripcion, imagen,imagenHover, setCurrentView, cu
     )
 }
 
-
-
-
-
-
-
-
-
-
-
-// function Indicador({ nombre, descripcion, imagen, titulo = '', setCurrentView, currentIndicator, setCurrentIndicator, currentType, setCurrentType }) {
-//   const nextView = () => {
-//     setCurrentView((e) =>
-//       e + 1
-//     )
-//     if (titulo) {
-//       setCurrentIndicator(titulo.toUpperCase())
-//     } else{
-//       setCurrentType((e) =>
-//         //Necesito agregar un valor a la lista definida en el useState
-//         [...e, nombre.toLowerCase()]
-//       )
-//     }
-//   }
-//   const currentHeight = nombre ? '100%' : '420px';
-//   return (
-//     <Box
-//       sx={{
-//         display: 'flex',
-//         flexDirection: 'column',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         maxWidth: '370px',
-//         maxHeight: '420px',
-//         width: '100%',
-//         height: currentHeight,
-//       }}
-//     >
-//       <CardView onClick={nextView} nombre={nombre} currentindicator={currentIndicator}>
-//         <CardView.Header nombre={nombre} > {nombre}</CardView.Header>
-//         <CardView.Body>
-//           <CardView.Img src={imagen} nombre={nombre}></CardView.Img>
-//           <CardView.Text nombre={nombre} titulo={titulo} >{descripcion}</CardView.Text>
-//         </CardView.Body>
-//       </CardView>
-//       <CardView.Footer nombre={nombre} titulo={titulo} >{titulo}</CardView.Footer>
-//     </Box>
-//   )
-// }
+Indicador.propTypes = {
+    titulo: PropTypes.string.isRequired,
+    descripcion: PropTypes.string,
+    imagen: PropTypes.string.isRequired,
+    imagenHover: PropTypes.string.isRequired,
+    setCurrentView: PropTypes.func.isRequired,
+    currentCategorie: PropTypes.string.isRequired,
+    handleCurrentCategorie: PropTypes.func.isRequired,
+}
 
 Indicador.defaultProps = {
     descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',

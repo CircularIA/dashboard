@@ -7,9 +7,10 @@ import ImagenNoCalcular from '../../../assets/Iconos/icon_hard.svg'
 import {Box, Typography} from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { useEffect, useRef} from 'react';
+//PropTypes
+import PropTypes from 'prop-types'
 
-
-function Filters({tiposAmbiental, tiposEconomico, tiposSocial, tipo, currentType, setCurrentType}) {
+function Filters({tiposAmbiental, tiposEconomico, tiposSocial, currentType, addCurrentType, removeCurrentType}) {
     const refBotones = useRef();
     useEffect(() => {
         refBotones.current.childNodes.forEach((e)=>{
@@ -27,13 +28,12 @@ function Filters({tiposAmbiental, tiposEconomico, tiposSocial, tipo, currentType
         //Si esta activo, se debe eliminar de la lista
         //Si no esta activo, se debe agregar a la lista
         if (e.target.classList.contains('active')) {
-            setCurrentType((object) =>
-                object.filter((item) => item !== e.target.innerText.toLowerCase())
-            )
+            removeCurrentType(e.target.innerText.toLowerCase())
         } else {
-            setCurrentType((object) =>
-                [...object, e.target.innerText.toLowerCase()]
-            )
+            addCurrentType(e.target.innerText.toLowerCase())
+            // setCurrentType((object) =>
+            //     [...object, e.target.innerText.toLowerCase()]
+            // )
         }
     }
     return (
@@ -110,6 +110,17 @@ function Filters({tiposAmbiental, tiposEconomico, tiposSocial, tipo, currentType
             </Box>
         </Box>
     )
+}
+
+Filters.propTypes = {
+    tiposAmbiental: PropTypes.array.isRequired,
+    tiposEconomico: PropTypes.array.isRequired,
+    tiposSocial: PropTypes.array.isRequired,
+    tipo: PropTypes.string.isRequired,
+    currentType: PropTypes.array.isRequired,
+    setCurrentType: PropTypes.func.isRequired,
+    addCurrentType: PropTypes.func.isRequired,
+    removeCurrentType: PropTypes.func.isRequired,
 }
 
 export default Filters

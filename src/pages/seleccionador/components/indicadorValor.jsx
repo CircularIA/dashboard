@@ -4,11 +4,12 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-
 import styled from 'styled-components';
-
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import CircularProgress from '@mui/material/CircularProgress';
+//PropTypes
+import PropTypes from 'prop-types'
+
 
 const BorderLinearProgress = styled(LinearProgress)(() => ({
     height: 10,
@@ -23,9 +24,11 @@ const BorderLinearProgress = styled(LinearProgress)(() => ({
   }));
 
 
-function IndicadorValor({ datos, calc, setCurrentView, setCurrentIndicator, index }) {
+function IndicadorValor({ datos,setCurrentView, setCurrentIndicator, index }) {
     //True es que fue calculado
-    const color = calc ? 'linear-gradient( 90deg, rgba(0, 138, 85, 1), rgba(13, 255, 110, 1))' : '#989898';
+    // const color = calc ? 'linear-gradient( 90deg, rgba(0, 138, 85, 1), rgba(13, 255, 110, 1))' : '#989898';
+    const color = '#989898'
+    const calc = true
     const nextView = () =>{
         setCurrentIndicator(index)
         setCurrentView((e) =>
@@ -153,15 +156,15 @@ function IndicadorValor({ datos, calc, setCurrentView, setCurrentIndicator, inde
                 </CardContent>
             </CardActionArea>
         </Card>
-        // <CardPorcent onClick={nextView} >
-        //     <CardPorcent.Header calc={calc}>{datos.nombre}</CardPorcent.Header>
-        //     <CardPorcent.Body>
-        //         <CardPorcent.Text>
-        //             {datos.descripcion}
-        //         </CardPorcent.Text>
-        //     </CardPorcent.Body>
-        // </CardPorcent>
     )
+}
+
+//Proptypes
+IndicadorValor.propTypes = {
+    datos: PropTypes.object.isRequired,
+    setCurrentView: PropTypes.func.isRequired,
+    setCurrentIndicator: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
 }
 
 export default IndicadorValor

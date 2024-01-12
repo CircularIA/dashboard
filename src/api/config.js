@@ -1,34 +1,33 @@
 //Have to use env variable to get the api url
-
+console.log(import.meta.env.VITE_BACKEND_URL)
 export const userRoutes = {
-    getUser: 'http://localhost:5000/user',
+    getUser: `${import.meta.env.VITE_BACKEND_URL}/user`,
 }
 
 export const authRoutes = {
-    loginRoute: 'http://localhost:5000/auth',
-    forgetPasswordRoute: 'http://localhost:5000/auth/forgetPassword'
+    loginRoute: `${import.meta.env.VITE_BACKEND_URL}/auth`,
+    forgetPasswordRoute: `${import.meta.env.VITE_BACKEND_URL}/auth/forgetPassword`
 }
 
 export const branchRoutes = {
-    getBranches: 'http://localhost:5000/branch',
-    getIndicators: 'http://localhost:5000/branch/indicators/',
+    getBranches: `${import.meta.env.VITE_BACKEND_URL}/branch`,
 }
 
 export const companyRoutes = {
-    getCompanyInfo: 'http://localhost:5000/company',
+    getCompanyInfo: `${import.meta.env.VITE_BACKEND_URL}/company`,
 }
 
 export const indicatorRoutes = {
-    getIndicators: 'http://localhost:5000/indicator',
-    registerIndicators: 'http://localhost:5000/indicator/register',
-    getIndicatorValues: 'http://localhost:5000/indicator/values'
+    getIndicators: `${import.meta.env.VITE_BACKEND_URL}/indicator/`, //:branch
+    registerIndicators: `${import.meta.env.VITE_BACKEND_URL}/indicator/register`,
+    getIndicatorValues: `${import.meta.env.VITE_BACKEND_URL}/indicator/values`
 }
 
 export const inputDatsRoutes = {
-    getInputDats: 'http://localhost:5000/inputDat',
-    registerInputDats: 'http://localhost:5000/inputDat',
-    getInputDatsByIndicator: 'http://localhost:5000/inputDat/byIndicator',
-    updateInputDats: 'http://localhost:5000/inputDat/update',
-    registerInputDatsMany: 'http://localhost:5000/inputDat/many/',
-    getIndicatorsByBranch: 'http://localhost:5000/indicator'
+    getInputDats: `${import.meta.env.VITE_BACKEND_URL}/inputDat`,
+    registerInputDats: `${import.meta.env.VITE_BACKEND_URL}/inputDat`,
+    getInputDatsByIndicator: `${import.meta.env.VITE_BACKEND_URL}/inputDat/byIndicator`,
+    updateInputDats: `${import.meta.env.VITE_BACKEND_URL}/inputDat/update`,
+    registerInputDatsMany: `${import.meta.env.VITE_BACKEND_URL}/inputDat/many/`,
+    getIndicatorsByBranch: `${import.meta.env.VITE_BACKEND_URL}/indicator`
 }

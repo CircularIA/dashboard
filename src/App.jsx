@@ -53,7 +53,7 @@ function ProtectedRoute() {
   const [companyInfo, setCompanyInfo] = useState({}) // [companyInfo, setCompanyInfo
   const [loading, setLoading] = useState(true)
   const location = useLocation();
-  const noHeader_routes = ['perfil', 'ingreso']
+  const noHeader_routes = ['perfil', 'ingreso','seleccionador']
   const noHeader = noHeader_routes.some(ruta => location.pathname.includes(ruta));
   useEffect(() => {
     // Poner el loader en false después de 1 segundo

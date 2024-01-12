@@ -18,7 +18,7 @@ import Economic from '../components/Economic'
 //Cookies
 import { useCookies } from 'react-cookie'
 //Components of material ui
-import { Button, Skeleton } from '@mui/material';
+import {  Skeleton } from '@mui/material';
 //Dialog component
 const Panel = ({ title, index, handleClick, isExpanded, panelClass }) => (
   <div className={`flex mt-4 items-center ${panelClass} custom-shadow justify-between rounded-md shadow-lg p-3 mx-4 md:mx-8`}>
@@ -156,12 +156,13 @@ const Dashboard = ({companyInfo}) => {
           <div className='text-white ml-4 w-[100%] '> {/* Aquí está el texto blanco */}
             {
               loading ? <p className='font-bold mb-3 text-2xl'> ¡Bienvenido! {companyInfo.companies.name} Sucursal: {companyInfo.companies.branches[currentBranch].name}</p> : <Skeleton variant="text" width={200} height={30} />
-            }
+            }lwin
             {
               loading ? <p>Dirección sucursal: {companyInfo.companies.branches[currentBranch].address}</p> : <Skeleton variant="text" width={200} height={30} />
             }
-            
-            <p>Impulsora circular: Javiera Arenas</p>
+            {
+              loading ? <p>Encargada: {companyInfo.companies.branches[currentBranch].manager.name}</p> : <Skeleton variant="text" width={200} height={30} />
+            }
           </div>
         </div>
       </div>

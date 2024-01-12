@@ -1,13 +1,15 @@
-import { Box, CardActionArea, CardContent, CardHeader, CardMedia, Typography } from "@mui/material"
+import { CardActionArea, CardContent, CardHeader, CardMedia, Typography } from "@mui/material"
 import { Card } from "@mui/material"
 import { useState } from "react"
 
+//PropTypes
+import PropTypes from 'prop-types'
 
-function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentCategorie, handleCurrentCategorie, currentType, handleCurrentType }) {
+function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentCategorie, setCurrentType }) {
 
   const [hover, setHover] = useState(false)
   const handleHoverColor = () => {
-    if (currentCategorie === 'ECONOMICO') {
+    if (currentCategorie === 'ECONÓMICO') {
       return '#F3A430'
     } else if (currentCategorie === 'SOCIAL') {
       return '#2D7DD2'
@@ -16,7 +18,7 @@ function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentCat
     }
   }
   const nextView = () => {
-    handleCurrentType(nombre)
+    setCurrentType([nombre.toLowerCase()])
     setCurrentView((e) =>
       e + 1
     )
@@ -80,6 +82,17 @@ function IndicadorTipo({ nombre, descripcion, imagen, setCurrentView, currentCat
       </CardActionArea>
     </Card>
   )
+}
+
+IndicadorTipo.propTypes = {
+  nombre: PropTypes.string.isRequired,
+  descripcion: PropTypes.string.isRequired,
+  imagen: PropTypes.string.isRequired,
+  setCurrentView: PropTypes.func.isRequired,
+  currentCategorie: PropTypes.string.isRequired,
+  currentType: PropTypes.string.isRequired,
+  handleCurrentType: PropTypes.func.isRequired,
+  setCurrentType: PropTypes.func.isRequired,
 }
 
 export default IndicadorTipo

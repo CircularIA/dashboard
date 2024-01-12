@@ -70,7 +70,8 @@ const BarChartRender = ({ dats, indicatorName, loading }) => {
     }
 }
 
-function LastView({ currentIndicator, }) {
+function LastView({ currentIndicator }) {
+    console.log("currentIndicator", currentIndicator)
     //Obtain the current year
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [loading, setLoading] = useState(true);
@@ -90,7 +91,8 @@ function LastView({ currentIndicator, }) {
 
     console.log("indicatorValues", indicatorValues)
     useEffect(() => {
-        let url = inputDatsRoutes.getInputDatsByIndicator + currentBranch.id + '/' + currentIndicator._id;
+        const url = inputDatsRoutes.getInputDatsByIndicator + currentBranch.id + '/' + currentIndicator.indicator._id;
+        console.log(url)
         axios.get(url)
             .then((res) => {
                 const inputDats = res.data.inputDats;
@@ -131,7 +133,7 @@ function LastView({ currentIndicator, }) {
             alignContent='flex-start'
         >
             <Typography variant="h5" component="h2" fontWeight={'bold'}>
-                {currentIndicator.name.toUpperCase()}
+                {currentIndicator.indicator.name.toUpperCase()}
             </Typography>
             <Divider
                 sx={{
