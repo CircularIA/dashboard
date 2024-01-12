@@ -4,13 +4,18 @@ Date:    2023-03-21
 
 TODOS:
   New:
-    ☐ Agregar capacidad de poder editar una sucursal
-    ☐ Agregar capacidad de poder agregar una sucursal @started(24-01-12 16:56)
-    ☐ Agregar ilustraciones a la vista de seleccionador
-    ☐ Agregar ilustraciones a la vista de dashboard
-    ☐ Conectar datos e indicadores a la vista de dashboard
+    Configuración Empresa:
+      ☐ Agregar capacidad de poder editar una sucursal @started(24-01-12 17:23)
+      ☐ Agregar capacidad de poder agregar una sucursal @started(24-01-12 16:56)
+    Seleccionador:
+      ☐ Agregar ilustraciones a la vista de seleccionador
+      ☐ Agregar ilustraciones a la vista de dashboard
+    Dashboard:
+      ☐ Conectar datos e indicadores a la vista de dashboard
   Done:
     ✔ Agregar transiciones fade_in a todas las vistas @done(24-01-12 16:56)
+    ✔ Arreglar problemas de vista de seleccionador @done(24-01-12 17:42)
+    ✔ Agregar información de la empresa en su vista @done(24-01-12 17:42)
   Cancelled:
     ✘ Agregar capacidad de poder eliminar una sucursal @cancelled(24-01-12 16:56)
   
