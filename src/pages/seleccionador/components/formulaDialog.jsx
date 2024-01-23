@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { Dialog, DialogTitle, Typography, IconButton, Divider, } from "@mui/material"
-import { DialogContent, DialogContentText, DialogActions, Button, Box, InputAdornment } from "@mui/material"
-import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
+import { Dialog, DialogTitle, Typography, IconButton, Divider, Stack, } from "@mui/material"
+import { DialogContent, DialogContentText, Box } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
-import { Grid, Paper } from "@mui/material";
+
+//Component
+import Formule from "./formule";
 
 const setFirstLetterToUpperCase = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -26,41 +25,33 @@ const DialogContentIndicator = (indicatorName) => {
                 <DialogContentText>
                     <Box
                         display={'flex'}
-                        flexDirection={'row'}
+                        flexDirection={'column'}
                         alignItems={'center'}
                         justifyContent={'center'}
-                        padding={'2%'}
+                        padding={'10%'}
                     >
+                        {/* Numerador */}
                         <Box
                             display={'flex'}
-                            flexDirection={'column'}
+                            flexDirection={'row'}
                             alignItems={'center'}
                             justifyContent={'center'}
+                            marginBottom={'2%'}
                         >
-                            {/* Numerador */}
-                            <Box
-                                display={'flex'}
-                                flexDirection={'row'}
-                                alignItems={'center'}
-                                justifyContent={'center'}
-                                marginTop={'2%'}>
-                                <Typography variant='h5' color='#008A55'>
-                                    Val Compostaje + Val Biodigestión + Val Riles * 100
-                                </Typography>
-                            </Box>
-                            <Divider sx={{ width: '100%', marginTop: '2%', marginBottom: '2%' }} />
-                            {/* Denominador */}
-                            <Box
-                                display={'flex'}
-                                flexDirection={'row'}
-                                alignItems={'center'}
-                                justifyContent={'center'}
-                                marginTop={'2%'}>
-                                <Typography variant='h5' color='#008A55'>
-                                    (Entrada Residuos + Factor Composición) / 100
-                                </Typography>
-                            </Box>
+                            <Formule direction={'top'} formulaText={"Residuos reciclados"} formulaNumber={"M1"}/>
                         </Box>
+                        <Divider sx={{ width: '100%', marginTop: '2%', marginBottom: '2%' }} />
+                        {/* Denominador */}
+                        <Stack
+                            direction={'row'}
+                            gap={10}
+                        >
+                            <Formule direction={'bottom'} formulaText={"Residuos reciclados"} formulaNumber={"M1"}/>
+                            <Typography variant="h4">
+                                +
+                            </Typography>
+                            <Formule direction={'bottom'} formulaText={"Residuos no reciclados"} formulaNumber={"M2"}/>
+                        </Stack>
                     </Box>
                 </DialogContentText>
             </DialogContent>

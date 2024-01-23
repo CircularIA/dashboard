@@ -4,12 +4,19 @@ Date:    2023-03-21
 
 TODOS:
   New:
+    General:
+      ☐ Cambiar fuente según la imagen enviada
     Configuración Empresa:
       ☐ Agregar capacidad de poder editar una sucursal @started(24-01-12 17:23)
       ☐ Agregar capacidad de poder agregar una sucursal @started(24-01-12 16:56)
     Seleccionador:
+      ☐ Agregar todos los indicadores a la vista de seleccionador
       ☐ Agregar ilustraciones a la vista de seleccionador
       ☐ Agregar ilustraciones a la vista de dashboard
+      ☐ Agregar formulas a la vista de seleccionador
+        ✘ Crear componente para formulas en seleccionador @started(24-01-16 13:17) @cancelled(24-01-23 15:34) @wasted(1w2h17m5s)
+        ☐ Pasar imagenes de formulas a la vista de seleccionador
+        ☐ Pasar imagenes de ilustraciones a la vista de seleccionador
     Dashboard:
       ☐ Conectar datos e indicadores a la vista de dashboard
   Done:

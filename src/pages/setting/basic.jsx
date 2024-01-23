@@ -44,10 +44,11 @@ function Basic({companyInfo}) {
     }
     //Redux
     const currentBranch = useSelector((state) => state.user.branch)
+    const [branch, setBranch] = useState(currentBranch._id);
     //Set a loading variable to change to true when the data is loaded
     const [loading, setLoading] = useState(false);
     useEffect(() => {
-        if (Object.keys(companyInfo).length > 0) {
+        if (Object.keys(companyInfo).length > 0 && companyInfo.companies.branches.length > 0) {
             setLoading(true);
         }
     }, [companyInfo])
@@ -204,8 +205,11 @@ function Basic({companyInfo}) {
                                 multiline
                                 size= 'small'
                                 value = {
-                                    currentBranch ? currentBranch._id : <Skeleton variant="text" width={200} />
+                                    branch
                                 }
+                                onChange={(e) => {
+                                    setBranch(e.target.value)
+                                }}
                             >
                                 {
                                     companyInfo.companies.branches.map((branch, index) => {
