@@ -7,14 +7,15 @@ TODOS:
     General:
       ☐ Cambiar fuente según la imagen enviada
     Configuración Empresa:
-      ☐ Agregar capacidad de poder editar una sucursal @started(24-01-12 17:23)
+      ✔ Agregar capacidad de poder editar una sucursal @started(24-01-12 17:23) @done(24-01-27 21:37) @lasted(2w1d4h14m47s)
+      ☐ Agregar modal de confirmación de edición de sucursal
       ☐ Agregar capacidad de poder agregar una sucursal @started(24-01-12 16:56)
     Seleccionador:
       ☐ Agregar todos los indicadores a la vista de seleccionador
       ☐ Agregar ilustraciones a la vista de seleccionador
       ☐ Agregar ilustraciones a la vista de dashboard
       ☐ Agregar formulas a la vista de seleccionador
-        ✘ Crear componente para formulas en seleccionador @started(24-01-16 13:17) @cancelled(24-01-23 15:34) @wasted(1w2h17m5s)
+        ✘ Crear componente para formulas en seleccionador @started(24-01-16 13:17) @cancelled(24-01-26 11:30) @wasted(1w2d22h13m45s)
         ☐ Pasar imagenes de formulas a la vista de seleccionador
         ☐ Pasar imagenes de ilustraciones a la vista de seleccionador
     Dashboard:

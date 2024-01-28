@@ -1,385 +1,202 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, IconButton, TextField, Typography, InputAdornment, Select, MenuItem} from "@mui/material"
-import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
-import ChileIcon from './../../assets/chile.svg';
+import { TextField, MenuItem } from "@mui/material";
+import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 
-import PropTypes from 'prop-types';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import PropTypes from "prop-types";
 //Form components
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Skeleton from '@mui/material/Skeleton';
-
-import {styled } from '@mui/material/styles';
-import CloseIcon from '@mui/icons-material/Close';
+import Button from "@mui/material/Button";
+//Components
+import Loading from "../../components/Loading";
+import { styled } from "@mui/material/styles";
 //Redux
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import DialogEditBranch from "./components/dialogEditBranch";
+import DialogAddBranch from "./components/dialogAddBranch";
 
-const StyledButton = styled(Button)(({ theme }) => ({
-    background: 'linear-gradient(90deg, #008A55 0%, #06BD60 50.52%, #0DFF6E 100%)',
-    borderRadius: '12px',
-    color: '#ffff',
-    padding: '0px 5% 0px 5%',
+const StyledButton = styled(Button)(() => ({
+	background:
+		"linear-gradient(90deg, #008A55 0%, #06BD60 50.52%, #0DFF6E 100%)",
+	borderRadius: "12px",
+	color: "#ffff",
+	padding: "0px 5% 0px 5%",
 }));
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-    background: '#FFF',
-    borderRadius: '8px',
-    border: '1px solid #BBB',
-    
-}));
+const getSelectedBranch = (branches, idBranch) => {
+	const branchSelected = branches.find((branch) => branch._id === idBranch);
+	return branchSelected;
+};
 
-function Basic({companyInfo}) {
-    const [open, setOpen] = useState(false);
+function Basic({ companyInfo }) {
+	console.log(companyInfo);
+	const [open, setOpen] = useState(false);
+	const [openAdd, setOpenAdd] = useState(false);
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+	const handleClickOpenAdd = () => {
+		setOpenAdd(true);
+	};
+	const handleClose = () => {
+		setOpen(false);
+	};
+	const handleCloseAdd = () => {
+		setOpenAdd(false);
+	};
+	//Redux
+	const currentBranch = useSelector((state) => state.user.branch);
+	const [idBranch, setIdBranch] = useState(currentBranch._id);
 
-    const handleClickOpen = () =>{
-        setOpen(true);
-    }
-    const handleClose = () => {
-        setOpen(false);
-    }
-    //Redux
-    const currentBranch = useSelector((state) => state.user.branch)
-    const [branch, setBranch] = useState(currentBranch._id);
-    //Set a loading variable to change to true when the data is loaded
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        if (Object.keys(companyInfo).length > 0 && companyInfo.companies.branches.length > 0) {
-            setLoading(true);
-        }
-    }, [companyInfo])
+	//Set a loading variable to change to true when the data is loaded
+	const [loading, setLoading] = useState(true);
+	useEffect(() => {
+		if (
+			Object.keys(companyInfo).length > 0 &&
+			companyInfo.companies.branches.length > 0
+		) {
+			setLoading(false);
+		}
+	}, [companyInfo]);
 
-    console.log("company info", companyInfo)
-    return (
-        <Box
-            width = {'100%'}
-            height={'max-content'}
-            display={'flex'}
-            flexDirection={'column'}
-            padding={'1%'}
-        >
-            <Grid container >
-                <Grid item xs={5} sm={4} md={3} lg={3} xl={3}
-                    sx = {{
-                        display: 'flex',
-                        alignItems: 'start',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                    }}
-                >
-                    <Stack  spacing={6} 
-                        sx = {{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        {
-                            loading ? 
-                            <Typography variant='h4' color='#000' fontWeight={'bold'}>
-                                {companyInfo.companies.name}
-                            </Typography> : <Skeleton variant="text" width={200} />
-                        }
-                        <Box
-                            sx = {{
-                                borderRadius: '50%',
-                                width: '170px',
-                                height: '170px',
-                                backgroundColor:'#D9D9D9',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <CameraAltRoundedIcon 
-                            sx = {{ 
-                                color: '#000', 
-                                fontSize: 50,
-                                borderRadius: '50%',
-                                background: 'rgba(217, 217, 217, 1)',
-                            }}/>
-                        </Box>
-                        <StyledButton component="label" variant="contained" size="large" sx = {{ width: '170px', height: '50px'}}>
-                            Cargar Imagen
-                            <input type="file" hidden />
-                        </StyledButton>
-                    </Stack>
-                </Grid>
-                <Grid item xs={7} sm={8} md={9} lg={9} xl={9}
-                    component={'form'}
-                    sx = {{
-                        paddingY: '2%',
-                        paddingX: '5%',
-                        '& .MuiTextField-root': {
-                            width: '100%',
-                            maxWidth: '351px',
-                            margin: '0px 5px 10% 0px',
-                        }
-                    }}
-                >
-                    {/* Row 1 */}
-                    <Box>
-                        {
-                            loading ? <StyledTextField
-                            label="Nombre de la empresa"
-                            multiline
-                            size= 'small'
-                            value={
-                                companyInfo.companies.name
-                            }
-                            /> : <Skeleton variant="text" width={200} />
-                        }
-                        {
-                            loading ? <StyledTextField
-                            label="Sector / Industria"
-                            multiline
-                            size= 'small'
-                            value = {
-                                companyInfo ? companyInfo.companies.typeIndustry : <Skeleton variant="text" width={200} />
-                            }
-                            /> : <Skeleton variant="text" width={200} />
-                        }
-                    </Box>
-                    {/* Row 2 */}
-                    <Box>
-                        {
-                            loading ? 
-                            <StyledTextField
-                                label="Telefono"
-                                multiline
-                                size= 'small'  
-                                value = {
-                                    companyInfo.companies.phone
-                                }
-                            /> : <Skeleton variant="text" width={200} />
-                        }
-                        {
-                            loading ? <StyledTextField
-                            label="Tamaño de la empresa"
-                            multiline
-                            size= 'small'
-                            value= {
-                                companyInfo.companies.size
-                            }
-                            /> : <Skeleton variant="text" width={200} />
-                        }
-                        
-                    </Box>
-                    {/* Row 3 */}
-                    <Box>
-                        {
-                            loading ? 
-                            <StyledTextField
-                                label="Region"
-                                multiline
-                                size= 'small'
-                                value = {
-                                    companyInfo.companies.region
-                                }
-                            /> : <Skeleton variant="text" width={200} />
-                        }
-                        {
-                            loading  ? 
-                            <StyledTextField
-                                label="Ubicacion"
-                                multiline
-                                size= 'small'
-                                value  = {
-                                    companyInfo.companies.address
-                                }
-                            /> : <Skeleton variant="text" width={200} />
-                        }
-                    </Box>
-                    {/* Row 4  */}
-                    <Box>
-                        {/* ! Drop down con todas las sucursales, mas una opcion para agregar sucursal */}
-                        {
-                            loading ? 
-                            <StyledTextField
-                                label="Sucursal"
-                                select
-                                multiline
-                                size= 'small'
-                                value = {
-                                    branch
-                                }
-                                onChange={(e) => {
-                                    setBranch(e.target.value)
-                                }}
-                            >
-                                {
-                                    companyInfo.companies.branches.map((branch, index) => {
-                                        return (
-                                            <MenuItem key={index} value={branch._id}>{branch.name}</MenuItem>
-                                        )
-                                    })
-                                }
-                            </StyledTextField> : <Skeleton variant="text" width={200} />
-                        }
-                        <StyledButton onClick={handleClickOpen} variant="contained" size="large" sx = {{ 
-                            width: '100%',
-                            maxWidth: '351px', 
-                            height: '42px'
-                        }}>
-                            Editar Sucursal
-                        </StyledButton>
-                    </Box>
-                </Grid>
-            </Grid>   
-            {/* Dialog */}
-            <Dialog open={open} onClose={handleClose}
-                maxWidth={'lg'}
-                fullWidth={true}
-                sx = {{
-                    '& .MuiDialog-paper': {
-                        background: 'rgba(241, 241, 241, 1)',
-                    }
-                }}
-            >
-                <DialogTitle
-                    sx = {{
-                        background: 'linear-gradient(90deg, #0DFF6E 0%, #00945E 100%)',
-                        color: '#ffff',
-                        paddingLeft: '5%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Typography variant='h4' color='#ffff' >
-                        Datos de Sucursal
-                    </Typography>
-                    <IconButton onClick={handleClose}>
-                        <CloseIcon fontSize="large" sx = {{ color: '#ffff' }}/>
-                    </IconButton>
-                </DialogTitle>
-                <DialogContent
-                    sx = {{
-                        paddingLeft: '5%',
-                    }}
-                >
-                    {/* Form */}
-                    <DialogContentText paddingTop={'5%'} >
-                        <Box
-                            component={'form'}
-                            width={'100%'}
-                            height={'100%'}
-                            sx = {{
-                                '& .MuiTextField-root': {
-                                    margin: '0px 5px 2% 0px',
-                                    width: '100%',
-                                    
-                                }
-                            }}
-                        >
-                            {/* Row 1 */}
-                            <Box>
-                                <StyledTextField
-                                    label="Nombre legal de la sucursal"
-                                    multiline
-                                    maxRows={4}
-                                    size= 'small'
-                                    sx = {{
-                                        maxWidth: '550px',
-                                    }}
-                                />
-                                <StyledTextField
-                                    label="Nombre del encargado"
-                                    multiline
-                                    maxRows={4}
-                                    size= 'small'
-                                    sx = {{
-                                        maxWidth: '550px',
-                                    }}
-                                />
-                            </Box>
-                            {/* Row 2 */}
-                            <Box>
-                                <StyledTextField
-                                    label="Correo de contacto de la sucursal"
-                                    size= 'small'
-                                    multiline
-                                    maxRows={4}
-                                    sx = {{
-                                        maxWidth: '550px',
-                                    }}
-                                />
-                                {/* Dos campos por telefono */}
-                                
-                                <StyledTextField
-                                    label="+569"
-                                    size= 'small'
-                                    multiline
-                                    maxRows={4}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <img src={ChileIcon} />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx = {{
-                                        maxWidth: '150px',
-                                    }}
-                                />
-                                <StyledTextField
-                                    label="00 000 000"
-                                    multiline
-                                    maxRows={4}
-                                    size= 'small'
-                                    sx = {{
-                                        maxWidth: '400px',
-                                    }}
-                                />
-                            </Box>
-                            {/* Row 3 */}
-                            <Box>
-                                {/* Campos que solamente ocupen la mitad de la pantallas */}
-                                {/* Numeros */}
-                                <StyledTextField
-                                    label="Empleados directos"
-                                    multiline
-                                    maxRows={4}
-                                    size= 'small'
-                                    sx = {{
-                                        maxWidth: '550px',
-                                    }}
-                                />
-                                <StyledTextField
-                                    label="Empleados sub-contratados"
-                                    multiline
-                                    maxRows={4}
-                                    size= 'small'
-                                    sx = {{
-                                        maxWidth: '550px',
-                                    }}
-                                />
-                            </Box>
-                        </Box>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancelar</Button>
-                    <StyledButton onClick={handleClose}
-                        sx = {{
-                            height: '42px',
-                            width: '370px',
-                        }}
-                    >Guardar</StyledButton>
-                </DialogActions>
-            </Dialog>
-        </Box>
-    )
+	return (
+		<section>
+			{loading ? (
+				<Loading />
+			) : (
+				<>
+					<section className="flex flex-wrap box-border w-full h-full py-8">
+						<article className="flex flex-col justify-between items-center content-between w-full sm:w-4/12 p-3 ">
+							<h2 className="text-3xl font-bold uppercase">
+								{companyInfo.companies.name}
+							</h2>
+							<CameraAltRoundedIcon
+								sx={{
+									color: "#000",
+									fontSize: 50,
+									borderRadius: "50%",
+									background: "rgba(217, 217, 217, 1)",
+								}}
+							/>
+							<StyledButton
+								component="label"
+								variant="contained"
+								size="large"
+								sx={{ width: "170px", height: "50px" }}
+							>
+								Cargar Imagen
+								<input type="file" hidden />
+							</StyledButton>
+						</article>
+						<section className="flex flex-col sm:grid sm:grid-cols-2 gap-x-4 gap-y-24 p-3 w-full sm:w-8/12 ">
+							<TextField
+								label="Nombre de la empresa"
+								size="small"
+								multiline
+								value={companyInfo.companies.name}
+							/>
+							<TextField
+								label="Sector / Industria"
+								size="small"
+								multiline
+								value={companyInfo.companies.typeIndustry}
+							/>
+							<TextField
+								label="Telefono"
+								size="small"
+								multiline
+								value={companyInfo.companies.phone}
+							/>
+							<TextField
+								label="Tamaño de la empresa"
+								size="small"
+								multiline
+								value={companyInfo.companies.size}
+							/>
+							<TextField
+								label="Region"
+								size="small"
+								multiline
+								value={companyInfo.companies.region}
+							/>
+							<TextField
+								label="Ubicacion"
+								size="small"
+								multiline
+								value={companyInfo.companies.address}
+							/>
+							<TextField
+								label="Sucursal"
+								select
+								size="small"
+								multiline
+								value={idBranch}
+								onChange={(e) => {
+									setIdBranch(e.target.value);
+								}}
+							>
+								{companyInfo.companies.branches.map(
+									(branch, index) => {
+										return (
+											<MenuItem
+												key={index}
+												value={branch._id}
+											>
+												{branch.name}
+											</MenuItem>
+										);
+									}
+								)}
+							</TextField>
+							<div className="flex justify-between gap-2">
+								{/* Botons */}
+								<StyledButton
+									onClick={handleClickOpen}
+									variant="contained"
+									size="large"
+									sx={{
+										width: "100%",
+										maxWidth: "351px",
+										height: "42px",
+									}}
+								>
+									Editar Sucursal
+								</StyledButton>
+								<StyledButton
+									onClick={handleClickOpenAdd}
+									variant="contained"
+									size="large"
+									sx={{
+										width: "100%",
+										maxWidth: "351px",
+										height: "42px",
+									}}
+								>
+									Agregar Sucursal
+								</StyledButton>
+							</div>
+						</section>
+					</section>
+					<DialogEditBranch
+						open={open}
+						handleClose={handleClose}
+						selectedBranch={getSelectedBranch(
+							companyInfo.companies.branches,
+							idBranch
+						)}
+					/>
+					<DialogAddBranch
+						open={openAdd}
+						handleClose={handleCloseAdd}
+					/>
+				</>
+			)}
+		</section>
+	);
 }
 //Define the proptypes
 Basic.propTypes = {
-    companyInfo: PropTypes.object.isRequired,
-}
+	companyInfo: PropTypes.object.isRequired,
+};
 Basic.defaultProps = {
-    companyInfo: {},
-}
-export default Basic
+	companyInfo: {},
+};
+export default Basic;
