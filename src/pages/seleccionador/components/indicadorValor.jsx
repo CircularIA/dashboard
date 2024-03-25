@@ -31,7 +31,10 @@ const firstLetterUpper = (string) => {
 	return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 };
 
-function IndicadorValor({ datos, setCurrentView, setCurrentIndicator, index }) {
+function IndicadorValor({ datos, completionPercentage, setCurrentView, setCurrentIndicator, index }) {
+	console.log("Datos",datos)
+	console.log("Porcentaje completado", completionPercentage + "%")
+	console.log()
 	//True es que fue calculado
 	// const color = calc ? 'linear-gradient( 90deg, rgba(0, 138, 85, 1), rgba(13, 255, 110, 1))' : '#989898';
 	const color = "#989898";

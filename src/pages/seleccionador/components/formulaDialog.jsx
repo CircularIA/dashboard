@@ -1,6 +1,7 @@
-import { Dialog, DialogTitle, Typography, IconButton, Divider, Stack, } from "@mui/material"
+import { Dialog, DialogTitle, Typography, IconButton, Divider, Stack, Chip, } from "@mui/material"
 import { DialogContent, DialogContentText, Box } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
+import CircularidadSalida from '../../../assets/formulas/SalidaFormula.png'
 
 //Component
 import Formule from "./formule";
@@ -11,6 +12,7 @@ const setFirstLetterToUpperCase = (string) => {
 
 
 const DialogContentIndicator = (indicatorName) => {
+    console.log(indicatorName)
     if (indicatorName === 'porcentaje de valorizacion ciclo biologico') {
         return (
             <DialogContent
@@ -105,6 +107,64 @@ const DialogContentIndicator = (indicatorName) => {
                                 </Typography>
                             </Box>
                         </Box>
+                    </Box>
+                </DialogContentText>
+            </DialogContent>
+        )
+    } else if (indicatorName === 'porcentaje de circularidad de salida') {
+        return (
+            <DialogContent
+                sx={{
+                    position: 'relative', // Añade posicionamiento relativo al contenido del diálogo
+                    background: '#FFF',
+                    borderRadius: '8px',
+                    border: '1px solid #BBB',
+                    width: '100%',
+                    height: '100%',
+                    padding: '16px', // Agrega padding para que la leyenda no toque los bordes del diálogo
+                }}
+            >
+                <DialogContentText>
+                    {/* Aquí puedes colocar tu imagen de la fórmula */}
+                    <Box
+                        display={'flex'}
+                        flexDirection={'column'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        padding={'15%'}
+                    >
+                        <img src={CircularidadSalida} alt="Fórmula" style={{ maxWidth: '90%', height: 'auto' }} />
+                    </Box>
+                    {/* Aquí puedes crear tu leyenda */}
+                    <Box
+                        sx={{
+                            position: 'absolute', // Posicionamiento absoluto para la leyenda
+                            bottom: '10%', // Ajusta la distancia desde la parte inferior
+                            right: '10%', // Ajusta la distancia desde la parte derecha
+                           
+                            borderRadius: '20px', // Bordes redondeados
+                            border: '3px solid #00945E', // Borde con el color deseado
+                            padding: '8px', // Padding interno de la leyenda
+                        }}
+                    >
+                        <Typography variant="subtitle1">
+                        <Box component="span" sx={{ fontWeight: 'bold', color: '#00B971' }}>
+                            M1
+                        </Box>
+                        {' '}<span style={{ color: 'black' }}>Residuos valorizados</span>
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        <Box component="span" sx={{ fontWeight: 'bold', color: '#00B971' }}>
+                            M2
+                        </Box>
+                        {' '}<span style={{ color: 'black' }}>Residuos no valorizados</span>
+                        </Typography>
+                        <Typography variant="subtitle1">
+                        <Box component="span" sx={{ fontWeight: 'bold', color: '#00B971' }}>
+                            M1 + M2
+                        </Box>
+                        {' '}<span style={{ color: 'black' }}>Residuos totales</span>
+                        </Typography>
                     </Box>
                 </DialogContentText>
             </DialogContent>

@@ -51,7 +51,7 @@ const firstLetterUpper = (string) => {
 	return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 };
 
-function CardPorcent({ source, type, metric, dats, handleOpenFormulaDialog }) {
+function CardPorcent({ source, type, metric, dats, handleOpenFormulaDialog, handleOpenSchemaDialog }) {
 	const [rows, setRows] = useState(dats);
 	useEffect(() => {
 		let aux = [];
@@ -199,12 +199,14 @@ function CardPorcent({ source, type, metric, dats, handleOpenFormulaDialog }) {
 					<Button
 						sx={{
 							borderRadius: "10px",
-							background: "#B2B2B2",
+							background: "#00B971",
+							// background: colors.primary[500],
 							paddingY: "1%",
 							boxShadow: "4px 4px 10px 0px rgba(0, 0, 0, 0.25)",
 							width: "100%",
 							flexGrow: 1,
 						}}
+						onClick={handleOpenSchemaDialog}
 					>
 						<Typography variant="h4" color="#FFF">
 							ESQUEMA
@@ -225,6 +227,8 @@ CardPorcent.propTypes = {
 	form: PropTypes.string.isRequired,
 	handleOpenFormulaDialog: PropTypes.func.isRequired,
 	handleCloseFormulaDialog: PropTypes.func.isRequired,
+	handleOpenSchemaDialog: PropTypes.func.isRequired,
+	handleCloseSchemaDialog: PropTypes.func.isRequired,
 };
 
 export default CardPorcent;

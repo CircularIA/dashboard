@@ -16,6 +16,7 @@ module.exports = {
       },
       backgroundImage: {
         'sidebar-gradient-green': 'linear-gradient(0deg, #0DFF6E 20%, #00B971 60%, #008A55 80%)',
+        'header-green-gradient': 'linear-gradient(90deg, #00945E 0%, #00945E 30%, #0DFF6E 100%);',
         'green-horizontal-gradient': 'linear-gradient(90deg, #008A55 0%, #00B971 72.39%, #5AFF9C 100%)',
         'sidebar-gradient-blue': 'linear-gradient(0deg, #40B7FF 10%, #2D7DD1 60%, #1D36AE 80%)',
         'blue-horizontal-gradient': 'linear-gradient(90deg, #1D36AE 0%, #38B1E8 72.39%, #40B7FF 100%)',

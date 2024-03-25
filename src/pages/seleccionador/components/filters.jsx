@@ -60,14 +60,14 @@ function Filters({
 		>
 			<Box display="flex" flexDirection="row">
 				<Typography
-					variant="h4"
+					variant="h5"
 					sx={{
 						marginRight: "90%",
 					}}
 				>
 					INDICADORES
 				</Typography>
-				<Typography variant="h4">TIPO</Typography>
+				<Typography variant="h5">TIPO</Typography>
 			</Box>
 			<Divider
 				sx={{

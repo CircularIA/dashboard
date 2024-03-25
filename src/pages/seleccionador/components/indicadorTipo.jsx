@@ -15,6 +15,7 @@ function IndicadorTipo({
   nombre,
   descripcion,
   imagen,
+  imagenHover,
   setCurrentView,
   currentCategorie,
   setCurrentType,
@@ -71,7 +72,7 @@ function IndicadorTipo({
         />
         <CardMedia
           component="img"
-          image={imagen}
+          image={hover ? imagenHover : imagen}
           sx={{
             maxWidth: "89px",
             maxHeight: "89px",
@@ -100,6 +101,7 @@ IndicadorTipo.propTypes = {
   nombre: PropTypes.string.isRequired,
   descripcion: PropTypes.string.isRequired,
   imagen: PropTypes.string.isRequired,
+  imagenHover: PropTypes.string.isRequired,
   setCurrentView: PropTypes.func.isRequired,
   currentCategorie: PropTypes.string.isRequired,
   currentType: PropTypes.string.isRequired,

@@ -6,6 +6,10 @@ const initialState = {
 		_id: "0",
 		index: 0,
 	},
+	company: {
+		_id: "1",
+		index: 1,
+	},
 	departament: 0,
 };
 
@@ -20,12 +24,16 @@ const userSlice = createSlice({
 			state.branch._id = action.payload._id;
 			state.branch.index = action.payload.index;
 		},
+		setCompany: (state, action) => {
+			state.company._id = action.payload._id;
+			state.company.index = action.payload.index;
+		},
 		setDepartament: (state, action) => {
 			state.departament = action.payload;
 		},
 	},
 });
 
-export const { setBranch, setDepartament } = userSlice.actions;
+export const { setBranch, setDepartament, setCompany } = userSlice.actions;
 
 export default userSlice.reducer;

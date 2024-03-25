@@ -76,7 +76,7 @@ export default class Example extends PureComponent {
     render() {
         return (
             <div className='flex flex-wrap mx-0 py-0 md:mx-4 md:py-4'>
-                <Card id='1' title='Porcentaje de Residuos' color='green'>
+                <Card id='1' title='Porcentaje de Residuos' color='green' panelType='valorización'>
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                             <Pie dataKey="value" data={data01} cx="50%" cy="50%">
@@ -89,7 +89,7 @@ export default class Example extends PureComponent {
                         </PieChart>
                     </ResponsiveContainer>
                 </Card>
-                <Card id='2' title='Taza de valorización' color='green'>
+                <Card id='2' title='Taza de valorización' color='green' panelType='valorización'>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -107,7 +107,7 @@ export default class Example extends PureComponent {
                         </BarChart>
                     </ResponsiveContainer>
                 </Card>
-                <Card id='3' title='Ecoequivalencia' color='green'>
+                <Card id='3' title='Ecoequivalencia' color='green' panelType='valorización'>
                     <div className="flex h-full">
                         {/* Mitad izquierda */}
                         <div className="w-1/2 p-4">
@@ -177,7 +177,7 @@ export default class Example extends PureComponent {
                     </div>
                 </Card>
 
-                <Card id='4' title='Valorización de residuos de empleados' color='green'>
+                <Card id='4' title='Valorización de residuos de empleados' color='green' panelType='valorización'>
                     <div className="flex h-full">
                         {/* Mitad izquierda */}
                         <div className="w-1/2 flex flex-col items-center justify-center">

@@ -6,10 +6,31 @@ import ImagenEconomicoHover from "../../../assets/seleccionador/EconomicoHover.s
 import ImagenSocial from "../../../assets/seleccionador/Social.svg";
 import ImagenSocialHover from "../../../assets/seleccionador/SocialHover.svg";
 import ImagenFlujos from "../../../assets/Iconos/Flujos.svg";
+import ImagenFlujosHover from "../../../assets/Iconos/FlujosHover.svg";
 import ImagenAgua from "../../../assets/Iconos/Agua.svg";
+import ImagenAguaHover from "../../../assets/Iconos/AguaHover.svg";
 import ImagenEmisiones from "../../../assets/Iconos/Emisiones.svg";
+import ImagenEmisionesHover from "../../../assets/Iconos/EmisionesHover.svg";
 import ImagenEnergia from "../../../assets/Iconos/Energia.svg";
-import ImagenEficiencia from "../../../assets/Iconos/Eficiencia.svg";
+import ImagenEnergiaHover from "../../../assets/Iconos/EnergiaHover.svg";
+import ImagenCadenaSuministros from "../../../assets/Iconos/CadenaSuministros.svg";
+import ImagenCadenaSuministrosHover from "../../../assets/Iconos/CadenaSuministrosHover.svg";
+import ImagenIngresoCircular from "../../../assets/Iconos/IngresoCircular.svg";
+import ImagenIngresoCircularHover from "../../../assets/Iconos/IngresoCircularHover.svg";
+import ImagenInversionCircular from "../../../assets/Iconos/InversionCircular.svg";
+import ImagenInversionCircularHover from "../../../assets/Iconos/InversionCircularHover.svg";
+import ImagenAhorro from "../../../assets/Iconos/Ahorro.svg";
+import ImagenAhorroHover from "../../../assets/Iconos/AhorroHover.svg";
+import ImagenEmpleos from "../../../assets/Iconos/Empleos.svg";
+import ImagenEmpleosHover from "../../../assets/Iconos/EmpleosHover.svg";
+import ImagenEducacion from "../../../assets/Iconos/Educacion.svg";
+import ImagenEducacionHover from "../../../assets/Iconos/EducacionHover.svg";
+import ImagenSeguridad from "../../../assets/Iconos/Seguridad.svg";
+import ImagenSeguridadHover from "../../../assets/Iconos/SeguridadHover.svg";
+import ImagenSinergia from "../../../assets/Iconos/Sinergia.svg";
+import ImagenSinergiaHover from "../../../assets/Iconos/SinergiaHover.svg";
+import ImagenCulturaInterna from "../../../assets/Iconos/CulturaInterna.svg";
+import ImagenCulturaInternaHover from "../../../assets/Iconos/CulturaInternaHover.svg";
 import ImagenOrganizacional from "../../../assets/Iconos/Organizacional.svg";
 
 export const datos = [
@@ -40,30 +61,35 @@ export const tiposAmbiental = [
   {
     nombre: "Valorización de Residuos",
     imagen: ImagenFlujos,
+    imagenHover: ImagenFlujosHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Agua",
     imagen: ImagenAgua,
+    imagenHover: ImagenAguaHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Emisiones",
     imagen: ImagenEmisiones,
+    imagenHover: ImagenEmisionesHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Energia",
     imagen: ImagenEnergia,
+    imagenHover: ImagenEnergiaHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Cadena de Suministros",
-    imagen: ImagenEficiencia,
+    imagen: ImagenCadenaSuministros,
+    imagenHover: ImagenCadenaSuministrosHover,
     descripcion:
       "Indicadores relacionados con la entrada y salida de materiales",
   },
@@ -173,19 +199,22 @@ export const datosGeneral = [
 export const tiposEconomico = [
   {
     nombre: "Ingreso Circ.",
-    imagen: ImagenFlujos,
+    imagen: ImagenIngresoCircular,
+    imagenHover: ImagenIngresoCircularHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Inversion Circ.",
-    imagen: ImagenEmisiones,
+    imagen: ImagenInversionCircular,
+    imagenHover: ImagenInversionCircularHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Ahorro",
-    imagen: ImagenAgua,
+    imagen: ImagenAhorro,
+    imagenHover: ImagenAhorroHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
@@ -194,31 +223,36 @@ export const tiposEconomico = [
 export const tiposSocial = [
   {
     nombre: "Empleos",
-    imagen: ImagenFlujos,
+    imagen: ImagenEmpleos,
+    imagenHover: ImagenEmpleosHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Educacion",
-    imagen: ImagenAgua,
+    imagen: ImagenEducacion,
+    imagenHover: ImagenEducacionHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Seguridad",
-    imagen: ImagenEmisiones,
+    imagen: ImagenSeguridad,
+    imagenHover: ImagenSeguridadHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Sinergía",
-    imagen: ImagenEmisiones,
+    imagen: ImagenSinergia,
+    imagenHover: ImagenSinergiaHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },
   {
     nombre: "Interno",
-    imagen: ImagenEmisiones,
+    imagen: ImagenCulturaInterna,
+    imagenHover: ImagenCulturaInternaHover,
     descripcion:
       "Indicadores relacionados con el nivel de circularidad de los flujos de entrada y salida",
   },

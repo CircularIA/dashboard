@@ -114,11 +114,12 @@ progress::-webkit-progress-value {
     border-radius: 0.5rem;
     padding-right: 2.5rem;
     border-color: hsl(0, 0%, 80%);
+    margin-top: 1rem
 }
 
 .react-datepicker-calendar-icon {
     position: relative;
-    right: 4%;
+    right: 1.5rem;
     cursor: pointer;
 }
 

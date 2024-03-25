@@ -35,6 +35,6 @@ export const inputDatsRoutes = {
 		import.meta.env.VITE_BACKEND_URL
 	}/inputDat/byIndicator`,
 	updateInputDats: `${import.meta.env.VITE_BACKEND_URL}/inputDat/update`,
-	registerInputDatsMany: `${import.meta.env.VITE_BACKEND_URL}/inputDat/many/`,
+	registerInputDatsMany: `${import.meta.env.VITE_BACKEND_URL}/inputDat/many`,
 	getIndicatorsByBranch: `${import.meta.env.VITE_BACKEND_URL}/indicator`,
 };

@@ -3,20 +3,22 @@
 import React, { useState } from 'react'
 import logo from '../assets/dashboard-logo.svg'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux'
 import { Collapse } from '@mui/material';
 // Íconos
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
-import { FaCog, FaSignOutAlt, FaHandPointer, FaChess, FaFileImport } from "react-icons/fa";
-import { FaTreeCity } from "react-icons/fa6";
 import profileIcon from '../assets/profile-icon.svg';
 import dashboardIcon from '../assets/dashboard-icon.svg';
+import signOutIcon from '../assets/signOutIcon.svg'
+import configIcon from '../assets/configIcon.svg'
+import strategyIcon from '../assets/strategyIcon.svg'
+import carbonFootprintIcon from '../assets/carbonFootprintIcon.svg'
+import inputDataIcon from '../assets/inputDataIcon.svg'
+import selectorIcon from '../assets/selectorIcon.svg'
 import functionsIcon from '../assets/functions-icon.svg';
 import evaluationIcon from '../assets/evaluation-icon.svg';
 import helpIcon from '../assets/help-icon.svg';
 import { RiAlignJustify } from "react-icons/ri";
 import { useCookies } from 'react-cookie'
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
@@ -78,9 +80,9 @@ const Sidebar = ({ theme }) => {
                     </div>
                     <Collapse in={openPanel === 'perfil'} timeout={'auto'} unmountOnExit>
                         <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow pl-1 shadow-xl hover:bg-custom-pallete-400 transition duration-300 ease-in-out'>
-                            <MenuItem icon={<FaCog />} text={'Configuración'} route={'/perfil'} />
+                            <MenuItem icon={configIcon} text={'Configuración'} route={'/perfil'} />
                             <div onClick={handleSession}>
-                                <MenuItem icon={<FaSignOutAlt />} text={'Cerrar Sesión'} />
+                                <MenuItem icon={signOutIcon} text={'Cerrar Sesión'} />
                             </div>
                         </ul>
                     </Collapse>
@@ -90,13 +92,13 @@ const Sidebar = ({ theme }) => {
                     </div>
                     <Collapse in={openPanel === 'funciones'} timeout={'auto'} unmountOnExit>
                         <ul className='lg:pt-4 lg:pb-8 flex flex-col justify-between flex-grow pl-1 shadow-xl hover:bg-custom-pallete-400 transition duration-300 ease-in-out'>
-                            <MenuItemMini icon={<FaHandPointer />} text={'Seleccionador'} route={'/seleccionador'} />
-                            <MenuItemMini icon={<FaTreeCity />} text={'H.Carbono'} route={'/huellacarbono'} />
-                            <MenuItemMini icon={<FaChess />} text={'Estrategia'} route={'/estrategia'} />
-                            <MenuItemMini icon={<FaFileImport />} text={'Ingreso de datos'} route={'/ingreso'} />
+                            <MenuItemMini icon={selectorIcon} text={'Seleccionador'} route={'/seleccionador'} />
+                            {/* <MenuItemMini icon={carbonFootprintIcon} text={'H.Carbono'} route={'/huellacarbono'} /> */}
+                            {/* <MenuItemMini icon={strategyIcon} text={'Estrategia'} route={'/estrategia'} /> */}
+                            <MenuItemMini icon={inputDataIcon} text={'Ingreso de datos'} route={'/ingreso'} />
                         </ul>
                     </Collapse>
-                    <MenuItem icon={evaluationIcon} text='Evaluación' route='/evaluacion' />
+                    {/* <MenuItem icon={evaluationIcon} text='Evaluación' route='/evaluacion' /> */}
                     <MenuItem icon={helpIcon} text='Ayuda' route='/ayuda' />
                 </ul>
             </div>

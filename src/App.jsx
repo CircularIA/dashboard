@@ -71,6 +71,7 @@ function ProtectedRoute() {
 		"huellacarbono",
 		"estrategia",
 		"evaluacion",
+		"ayuda"
 	];
 	const noHeader = noHeader_routes.some((ruta) =>
 		location.pathname.includes(ruta)
@@ -157,14 +158,14 @@ function ProtectedRoute() {
 				{/* TODO: Cambiar a /configuracion */}
 				<Route path="seleccionador" element={<Seleccionador />} />
 				<Route path="evaluacion" element={<Evaluation />} />
-				<Route
+				{/* <Route
 					path="huellacarbono"
 					element={<HuellaCarbono companyInfo={companyInfo} />}
-				/>
-				<Route
+				/> */}
+				{/* <Route
 					path="estrategia"
 					element={<Estrategia companyInfo={companyInfo} />}
-				/>
+				/> */}
 				<Route
 					path="ingreso"
 					element={<Simulador companyInfo={companyInfo} />}

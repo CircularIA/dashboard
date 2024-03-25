@@ -80,7 +80,7 @@ export default class Example extends PureComponent {
         )) + 100;
         return (
             <div className='flex flex-wrap mx-0 py-0 md:mx-4 md:py-4'>
-                <Card id='1' title='Consumo de agua / empleado' color='green'>
+                <Card id='1' title='Consumo de agua / empleado' color='green' panelType='agua'>
                     <div className="flex h-full">
                         {/* Mitad izquierda */}
                         <div className="w-1/2">
@@ -132,7 +132,7 @@ export default class Example extends PureComponent {
 
                     </div>
                 </Card>
-                <Card id='2' title='Agua circular' color='green'>
+                <Card id='2' title='Agua circular' color='green' panelType='agua'>
                     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
                         {/* Sección del Gráfico (60%) */}

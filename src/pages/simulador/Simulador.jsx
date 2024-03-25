@@ -18,7 +18,6 @@ import {
 } from "./constants/datos";
 import { CSSTransition } from "react-transition-group";
 import { useDispatch, useSelector } from "react-redux";
-import ValorizationCard from "./ValorizationCard";
 
 // Importaciones necesarias para el calendario y el dropdown
 import axios from "axios";
@@ -29,7 +28,6 @@ import { useCookies } from "react-cookie";
 import "react-datepicker/dist/react-datepicker.css";
 import { setBranch } from "../../reducers/userSlice";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { current } from "@reduxjs/toolkit";
 
 function normalizeText(text) {
 	return text
@@ -94,53 +92,27 @@ const ConfirmationModal = ({ onConfirm, onCancel }) => {
 	);
 };
 
-const Simulador = () => {
-	const [allValuesUndefined, setAllValuesUndefined] = useState(null);
+const Simulador = ({ companyInfo }) => {
 	const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+	// Información de la branch actual
+	const currentBranch = useSelector((state) => state.user.branch);
+	const currentBranchIndex = useSelector((state) => state.user.branch.index);
+	const currentCompanyIndex = useSelector((state) => state.user.company.index);
 	const [sucursals, setSucursals] = useState([]);
 	const [branchIndicators, setBranchIndicators] = useState(null);
+	const [inputDats, setInputDats] = useState(null)
 	const [loading, setLoading] = useState(false);
 	const [selectedDate, setSelectedDate] = useState(new Date()); // Estado para la fecha seleccionada
 	const dispatch = useDispatch();
 	const datePickerRef = useRef();
 	const [showModal, setShowModal] = useState(false);
 	const [actionToConfirm, setActionToConfirm] = useState(null);
+	// Estado necesario para manejar de forma individual las peticiones
+	const [selectedIndicatorId, setSelectedIndicatorId] = useState(null);
+	const [nombresSeleccionados, setNombresSeleccionados] = useState({})
 
 	// Añade un estado para almacenar los datos de entrada para cada indicador
 	const [inputData, setInputData] = useState({});
-
-	// Efecto para obtener información de las sucursales
-	useEffect(() => {
-		axios
-			.get(companyRoutes.getCompanyInfo, {
-				headers: {
-					Authorization: `Bearer ${cookies.access_token}`,
-				},
-			})
-			.then((response) => {
-				if (Object.keys(response.data).length > 0) {
-					const sucursals = response.data.companies.branches.map(
-						(branch, index) => ({
-							value: "Sucursal " + index,
-							id: branch._id,
-							index: index,
-							label:
-								"Sucursal " +
-								branch.name +
-								" ubicada en " +
-								branch.address,
-						})
-					);
-
-					setSucursals(sucursals);
-					setLoading(true);
-				}
-			})
-			.catch((error) => {});
-	}, [cookies.access_token]);
-	// Información de la branch actual
-	const currentBranch = useSelector((state) => state.user.branch);
-	const currentBranchIndex = useSelector((state) => state.user.branch.index);
 
 	const [indicators, setIndicators] = useState(null);
 
@@ -160,6 +132,25 @@ const Simulador = () => {
 			}
 		});
 	}, [currentType]);
+
+	useEffect(() => {
+		if (Object.keys(companyInfo).length > 0) {
+			console.log("companyInfo", companyInfo);
+			console.log(currentBranchIndex)
+			console.log(currentCompanyIndex)
+			const sucursals = companyInfo.companies[currentCompanyIndex].branches.map(
+				(branch, index) => ({
+					value: "Sucursal " + index,
+					_id: branch._id,
+					index: index,
+					label: "Sucursal " + branch.name,
+				})
+			);
+			console.log(sucursals);
+			setSucursals(sucursals);
+			setLoading(true);
+		}
+	}, [companyInfo]);
 
 	const setActiveState = (e, tipo) => {
 		const nombre = e.target.innerText;
@@ -214,7 +205,7 @@ const Simulador = () => {
 
 		const response = await fetch(
 			inputDatsRoutes.getInputDatsByIndicator +
-				`/${branchId}/${indicatorId}/${year}/${month}`,
+			`/${branchId}/${indicatorId}/${year}/${month}`,
 			{
 				method: "GET",
 				headers: {
@@ -229,13 +220,12 @@ const Simulador = () => {
 		const data = await response.json();
 		console.log("data", data);
 		console.log("date", date);
-		setAllValuesUndefined(false);
 		// Si no hay datos, inicializa con la estructura predeterminada sin valores asignados
 		if (data.inputDats.length === 0) {
-			setAllValuesUndefined(true);
 			// Encuentra el indicador por su ID para inicializar sus inputDats
+			console.log(branchIndicators)
 			const indicator = branchIndicators.indicators.find(
-				(ind) => ind._id === indicatorId
+				(ind) => ind.indicator._id === indicatorId
 			);
 			if (indicator) {
 				date.setUTCHours(16, 0, 0, 0);
@@ -258,27 +248,27 @@ const Simulador = () => {
 
 	// Efecto que se dispara cuando la sucursal o la fecha cambian
 	useEffect(() => {
-		if (currentBranch && selectedDate && indicators) {
-			// Asegurarse de que indicators no sea null
-			indicators.forEach((indicator) => {
-				fetchInputData(currentBranch._id, indicator._id, selectedDate);
-			});
+		if (currentBranch && selectedDate && inputDats) {
+			console.log(inputDats)
 		}
-	}, [currentBranch, selectedDate, indicators]);
+	}, [currentBranch, selectedDate, inputDats]);
 
 	// Función para actualizar el inputData con los valores modificados
 	const handleInputDataUpdate = (indicatorId, dataId, newValue) => {
-		console.log(inputData);
-		console.log(inputData[0]);
+		console.log(inputData)
+		console.log(inputData[0])
+		const numericValue = Number(newValue)
 		setInputData((prevData) => ({
 			...prevData,
 			[indicatorId]: prevData[indicatorId].map((data) => {
 				if (data._id === dataId) {
-					return { ...data, value: newValue };
+					return { ...data, value: numericValue };
 				}
 				return data;
 			}),
 		}));
+
+
 	};
 
 	const handleNextView = () => {
@@ -289,26 +279,20 @@ const Simulador = () => {
 	};
 
 	// Esta función se llamará cuando se haga clic en el botón "Ingresar Datos"
-	const handleUpdateData = async () => {
+	const handleUpdateData = async (indicatorId) => {
 		try {
-			// Crear un arreglo de todos los inputDats con value definido
-			let inputDatsToSave = [];
-			Object.values(inputData).forEach((indicatorData) => {
-				const filteredData = indicatorData.filter(
-					(inputDat) => inputDat.value !== undefined
-				);
-				inputDatsToSave = inputDatsToSave.concat(filteredData);
-			});
+			// Encuentra los datos específicos del indicador
+			const indicatorData = inputData[indicatorId].filter(data => data.value !== undefined);
 
 			// Asegurar que existen datos
-			if (inputDatsToSave.length === 0) {
+			if (indicatorData.length === 0) {
 				console.log("No hay datos para guardar.");
 				return;
 			}
 
 			// Preparar el cuerpo de la solicitud
 			const requestBody = {
-				inputDats: inputDatsToSave.map((inputDat) => ({
+				inputDats: indicatorData.map(inputDat => ({
 					id: inputDat._id,
 					name: inputDat.name,
 					value: inputDat.value,
@@ -340,170 +324,87 @@ const Simulador = () => {
 		}
 	};
 
-	const handleSendData = async () => {
-		let requestBody = {};
+	const handleSendData = async (indicatorId) => {
+		// Obtener los datos específicos para el indicador
+		const specificData = inputData[indicatorId];
 
-		// Recopilar todos los inputDats modificados por indicador
-		Object.keys(inputData).forEach((indicatorId) => {
-			const indicatorData = inputData[indicatorId];
-			const filteredData = indicatorData.filter(
-				(inputDat) => inputDat.value !== undefined
-			);
+		// Verificar que hay datos para enviar
+		if (!specificData || specificData.length === 0) {
+			console.log("No hay datos para enviar.");
+			return;
+		}
 
-			// Agregar al cuerpo de la solicitud, estructurado por indicador
-			requestBody[indicatorId] = filteredData.map((inputDat) => ({
-				name: inputDat.name,
-				value: inputDat.value,
-				date: inputDat.date, // Asegúrate de usar la fecha seleccionada en el formato correcto
-				measurement: inputDat.measurement,
-			}));
-		});
+		// Filtrar los datos para asegurarse de que todos tienen un valor definido
+		const dataToSend = specificData.filter(data => data.value !== undefined);
 
-		// Configuración del header de autorización
-		const config = {
-			headers: { Authorization: `Bearer ${cookies.access_token}` },
+		// Preparar el cuerpo de la solicitud con los datos a enviar
+		const requestBody = {
+			inputDats: dataToSend.map(data => ({
+				id: data._id,
+				name: data.name,
+				value: data.value,
+				date: data.date,
+				measurement: data.measurement,
+			})),
 		};
 
-		console.log("Request Body", requestBody);
+		// Configurar los headers para la petición, incluyendo el token de autenticación
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${cookies.access_token}`,
+			},
+		};
 
 		try {
-			// Realizar la petición al endpoint para cada indicador
-			for (const [indicatorId, inputDats] of Object.entries(
-				requestBody
-			)) {
-				const response = await axios.post(
-					inputDatsRoutes.registerInputDatsMany +
-						`/${currentBranch._id}/${indicatorId}`,
-					{ inputDats },
-					config
-				);
+			// Realizar la petición POST para enviar los datos al servidor
+			const response = await axios.post(
+				`${inputDatsRoutes.registerInputDatsMany}/${currentBranch._id}/${indicatorId}`,
+				requestBody,
+				config
+			);
 
-				// Manejar la respuesta del servidor
-				if (response.status === 200) {
-					console.log(
-						`Datos ingresados con éxito para el indicador ${indicatorId}:`,
-						response.data
-					);
-					handleNextView();
-				}
+			// Verificar la respuesta del servidor
+			if (response.status === 200) {
+				console.log(`Datos enviados con éxito para el indicador ${indicatorId}:`, response.data);
+				// Aquí podrías manejar la transición a la siguiente vista o mostrar un mensaje de éxito
 			}
 		} catch (error) {
+			// Manejar cualquier error que ocurra durante la petición
 			console.error("Error al enviar los datos:", error);
 		}
 	};
 
+
 	const handleModelarClick = async () => {
-		try {
-			// Realiza la petición al endpoint con el id de la sucursal
-			const response = await fetch(
-				inputDatsRoutes.getIndicatorsByBranch + `/${currentBranch._id}`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${cookies.access_token}`,
-					},
-				}
-			);
-			if (!response.ok) {
-				throw new Error("Hubo un error al obtener los indicadores");
-			}
-			const result = await response.json();
-			console.log(result);
-			setBranchIndicators(result);
-
-			const indicators = result.branchIndicators.indicators;
-
-			// Procesa cada indicador para obtener los títulos
-			const processedIndicators = indicators.reduce(
-				(acc, indicatorWrapper) => {
-					const indicator = indicatorWrapper.indicator;
-					if (!indicator) return acc;
-					const normalizedIndicatorName = normalizeText(
-						indicator.name
-					);
-
-					// Verifica si el indicador está en las selecciones para cada categoría
-					Object.entries(selecciones).forEach(
-						([category, selectedIds]) => {
-							// Iterar sobre los IDs seleccionados
-							Object.keys(selectedIds).forEach((id) => {
-								if (selectedIds[id]) {
-									// Si el ID está seleccionado
-									const title = opcionesTarjetas[
-										category
-									].find(
-										(opcion) => opcion.id === parseInt(id)
-									)?.nombre;
-									const normalizedTitle =
-										normalizeText(title);
-									// Si el título normalizado coincide con el nombre del indicador
-									if (
-										normalizedIndicatorName ===
-										normalizedTitle
-									) {
-										acc.push({
-											_id: indicator._id,
-											title: indicator.name,
-											renderTitle: title,
-											category: category,
-										});
-									}
-								}
-							});
-						}
-					);
-					return acc;
-				},
-				[]
-			); // Inicia con un arreglo vacío para acumular los indicadores procesados
-
-			// Actualiza el estado o realiza acciones con los indicadores procesados
-			setBranchIndicators(result.branchIndicators);
-			setIndicators(processedIndicators);
-			handleNextView();
-		} catch (error) {
-			console.error("Error en handleModelarClick: ", error);
-		}
+		console.log("Selecciones hechas", selecciones)
+		setNombresSeleccionados(Object.keys(selecciones).reduce((accumulator, categoria) => {
+			accumulator[categoria] = opcionesTarjetas[categoria]
+				.filter(opcion => selecciones[categoria][opcion.id.toString()])
+				.map(opcionSeleccionada => opcionSeleccionada.nombre);
+			return accumulator;
+		}, {}))
+		console.log("Nombres", nombresSeleccionados)
+		handleNextView();
 	};
 
 	const handleBranchChange = (selectedOption) => {
 		dispatch(setBranch(selectedOption));
 	};
 
-	const areAllValuesDefined = (inputData) => {
-		// Recorrer todos los indicadores en inputData
-		for (const indicatorData of Object.values(inputData)) {
-			// Recorrer todos los datos de cada indicador
-			for (const data of indicatorData) {
-				// Si algún valor es undefined, retornar false
-				console.log(data.value);
-				if (data.value === undefined) {
-					return false;
-				}
-			}
-		}
-		// Si todos los valores están definidos, retornar true
-		return true;
-	};
+	// MANEJO DEL MODAL
 
-	// Manejo del MODAL
-
-	const handleUpdateDataClick = () => {
-		setActionToConfirm("UPDATE");
-		setShowModal(true);
-	};
-
-	const handleSendDataClick = () => {
+	const handleSendDataClick = (indicatorId) => {
+		setSelectedIndicatorId(indicatorId);
 		setActionToConfirm("SEND");
 		setShowModal(true);
 	};
 
 	const handleConfirm = () => {
 		if (actionToConfirm === "UPDATE") {
-			handleUpdateData();
+			handleUpdateData(selectedIndicatorId);
 		} else if (actionToConfirm === "SEND") {
-			handleSendData();
+			handleSendData(selectedIndicatorId);
 		}
 		setShowModal(false);
 	};
@@ -513,7 +414,7 @@ const Simulador = () => {
 	};
 
 	return (
-		<div className="relative w-[85%] mt-10 mx-auto animate__animated animate__fadeIn">
+		<div className="relative w-[90%] mt-10 mx-auto animate__animated animate__fadeIn">
 			<CSSTransition
 				in={currentView === 1}
 				timeout={600}
@@ -521,73 +422,6 @@ const Simulador = () => {
 				unmountOnExit
 			>
 				<div className="absolute inset-0 transition-all">
-					{/* Panel de control heading */}
-					<div className="mt-4 items-center custom-shadow rounded-lg p-4">
-						<h2 className="text-2xl font-bold text-gray-900 mb-8 border-b">
-							PANEL DE CONTROL
-						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-							<div>
-								<label
-									className="block text-gray-700 text-sm font-bold mb-2"
-									htmlFor="nombre"
-								>
-									Nombre
-								</label>
-								<input
-									className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-									id="nombre"
-									type="text"
-									placeholder="Pepito"
-								/>
-							</div>
-							<div>
-								<label
-									className="block text-gray-700 text-sm font-bold mb-2"
-									htmlFor="sucursal"
-								>
-									Sucursal
-								</label>
-								<input
-									className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-									id="sucursal"
-									type="text"
-									placeholder="Valparaíso"
-								/>
-							</div>
-							<div>
-								<label
-									className="block text-gray-700 text-sm font-bold mb-2"
-									htmlFor="tipo-proyecto"
-								>
-									Tipo de proyecto
-								</label>
-								<select
-									className="border rounded w-full py-2 px-3 text-gray-700 shadow leading-tight focus:outline-none focus:shadow-outline"
-									id="tipo-proyecto"
-								>
-									<option>Universitario</option>
-									{/* Otras opciones */}
-								</select>
-							</div>
-							<div>
-								<label
-									className="block text-gray-700 text-sm font-bold mb-2"
-									htmlFor="tipo"
-								>
-									Tipo
-								</label>
-								<select
-									className="border rounded w-full py-2 px-3 text-gray-700 shadow leading-tight focus:outline-none focus:shadow-outline"
-									id="tipo"
-								>
-									<option>Todos</option>
-									{/* Otras opciones */}
-								</select>
-							</div>
-						</div>
-					</div>
-
 					<div className="mt-4 items-center custom-shadow rounded-lg p-4">
 						<p className="text-lg">Aspectos a incluir</p>
 						<Box
@@ -674,13 +508,12 @@ const Simulador = () => {
 												>
 													<input
 														type="checkbox"
-														id={`${item.nombre.toLowerCase()}-${
-															opcion.id
-														}`}
+														id={`${item.nombre.toLowerCase()}-${opcion.id
+															}`}
 														className={`mr-2 checkbox-custom checkbox-${item.tipo}`}
 														checked={
 															selecciones[
-																item.nombre
+															item.nombre
 															]?.[opcion.id] ||
 															false
 														}
@@ -692,9 +525,8 @@ const Simulador = () => {
 														}
 													/>
 													<label
-														htmlFor={`${item.nombre.toLowerCase()}-${
-															opcion.id
-														}`}
+														htmlFor={`${item.nombre.toLowerCase()}-${opcion.id
+															}`}
 														className={
 															labelColorClass
 														}
@@ -754,41 +586,54 @@ const Simulador = () => {
 								/>
 							</div>
 						</header>
-						{indicators &&
-							indicators.map((indicator) => (
-								<ValorizationCard
-									key={indicator._id}
-									id={indicator._id}
-									renderTitle={indicator.renderTitle}
-									title={indicator.title}
-									inputData={inputData[indicator._id]}
-									onUpdate={(dataId, newValue) =>
-										handleInputDataUpdate(
-											indicator._id,
-											dataId,
-											newValue
-										)
-									}
-								/>
-							))}
-						{currentView === 2 && !allValuesUndefined && (
-							<button
-								className="mb-4 items-center bg-custom-mid-green w-[100%] rounded-lg p-3 button-text-style"
-								onClick={handleUpdateDataClick}
-								disabled={!areAllValuesDefined(inputData)}
-							>
-								MODIFICAR DATOS
-							</button>
-						)}
-						{currentView === 2 && allValuesUndefined && (
-							<button
-								className="mb-4 items-center bg-custom-mid-green w-[100%] rounded-lg p-3 button-text-style"
-								onClick={handleSendDataClick}
-								disabled={!areAllValuesDefined(inputData)}
-							>
-								INGRESAR DATOS
-							</button>
-						)}
+						{Object.keys(nombresSeleccionados).map((categoria) => (
+							<div key={categoria} className="mt-4 custom-shadow rounded-lg p-4">
+								<h2 className="text-xl font-bold mb-4">{categoria}</h2>
+								<div className="flex">
+									<div className="w-1/2 p-2">
+										{nombresSeleccionados[categoria].map((nombre) => (
+											<div key={nombre} className="flex flex-col md:flex-row mb-4">
+												<div className="w-full mb-2 md:mb-0 md:pr-2">
+													<label className="block text-sm font-semibold mb-1" htmlFor={`input-${nombre}`}>{nombre}</label>
+													<input
+														type="number"
+														id={`input-${nombre}`}
+														className="block w-full my-2 border rounded"
+														placeholder="Valor"
+													/>
+													<input
+														type="text"
+														id={`input-${nombre}`}
+														className="block w-full my-2 border rounded"
+														placeholder="Descripción"
+													/>
+													<input
+														type="text"
+														id={`input-${nombre}`}
+														className="block w-full my-2 border rounded"
+														placeholder="Norma"
+													/>
+												</div>
+											</div>
+										))}
+									</div>
+									<div className="w-1/2 p-2">
+										{/* Aquí irían los gráficos en el futuro. Por ahora, podrías colocar un placeholder o dejarlo en blanco. */}
+										<div className="w-full h-full bg-gray-100 rounded">
+											<p className="text-center text-gray-500 pt-4">Espacio para gráficos</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						))}
+
+						<button
+							className="button-text-custom mb-4 p-4"
+							onClick={handleModelarClick}
+							disabled={isSeleccionesEmpty()}
+						>
+							INGRESAR DATOS
+						</button>
 					</div>
 				</CSSTransition>
 			)}

@@ -93,7 +93,7 @@ export default class Example extends PureComponent {
         )) + 100;
         return (
             <div className='flex flex-wrap mx-0 py-0 md:mx-4 md:py-4'>
-                <Card id='1' title='Emisiones por tonelada producida promedio' color='green'>
+                <Card id='1' title='Emisiones por tonelada producida promedio' color='green' panelType='emisiones'>
                     <div className="flex h-full">
                         {/* Mitad izquierda */}
                         <div className="w-1/2 flex flex-col items-center justify-center">
@@ -144,7 +144,7 @@ export default class Example extends PureComponent {
                         </div>
                     </div>
                 </Card>
-                <Card id='2' title='Emisiones' color='green'>
+                <Card id='2' title='Emisiones' color='green' panelType='emisiones'>
                     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
                         {/* Sección del Gráfico (60%) */}
@@ -210,7 +210,7 @@ export default class Example extends PureComponent {
                     </div>
                 </Card>
 
-                <Card id='3' title='Porcentaje de Residuos' color='green'>
+                <Card id='3' title='Huella asociada a proveedores' color='green' panelType='emisiones'>
                     <div className="flex h-full">
                         <div className='w-1/2'>
                             <ResponsiveContainer width="100%" height="100%">
@@ -255,7 +255,7 @@ export default class Example extends PureComponent {
                         </div>
                     </div>
                 </Card>
-                <Card id='4' title='Huella asociada a residuos' color='green'>
+                <Card id='4' title='Huella asociada a residuos' color='green' panelType='emisiones'>
                     <div className="flex h-full">
                         <div className='w-1/2'>
                             <ResponsiveContainer width="100%" height="100%">

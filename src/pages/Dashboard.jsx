@@ -156,12 +156,14 @@ const Dashboard = ({ companyInfo }) => {
 	const [cookies, setCookies, removeCookies] = useCookies(["access_token"]);
 	// *Configuraciones para saber que sucursal tiene seleccionada el usuario
 	const currentBranch = useSelector((state) => state.user.branch.index);
+	const currentCompany = useSelector((state) => state.user.company.index);
 	//Use effect to refresh data of company info
 	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		if (Object.keys(companyInfo).length > 0) {
 			setLoading(true);
 		}
+		console.log(companyInfo)
 	}, [companyInfo]);
 	// *Obtener la información de la sucursal actual
 	return (
@@ -181,10 +183,10 @@ const Dashboard = ({ companyInfo }) => {
 						{loading ? (
 							<p className="font-bold mb-3 text-2xl">
 								{" "}
-								¡Bienvenido! {companyInfo.companies.name}{" "}
-								Sucursal:{" "}
+								¡Bienvenido! {companyInfo.companies[currentCompany].name}{", "}
+								Sucursal{" "}
 								{
-									companyInfo.companies.branches[
+									companyInfo.companies[currentCompany].branches[
 										currentBranch
 									].name
 								}
@@ -196,21 +198,9 @@ const Dashboard = ({ companyInfo }) => {
 							<p>
 								Dirección sucursal:{" "}
 								{
-									companyInfo.companies.branches[
+									companyInfo.companies[currentCompany].branches[
 										currentBranch
 									].address
-								}
-							</p>
-						) : (
-							<Skeleton variant="text" width={200} height={30} />
-						)}
-						{loading ? (
-							<p>
-								Encargada:{" "}
-								{
-									companyInfo.companies.branches[
-										currentBranch
-									].manager.name
 								}
 							</p>
 						) : (

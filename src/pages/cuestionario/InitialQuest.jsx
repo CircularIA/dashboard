@@ -9,6 +9,8 @@ import imagebg4 from '../../assets/imagebg-4.png';
 import imagebg5 from '../../assets/imagebg-5.png';
 import imagebg6 from '../../assets/imagebg-6.png';
 import imagebg7 from '../../assets/imagebg-7.png';
+import logometric1_6 from '../../assets/logo-metric1-6.svg'
+import thanks_bg from '../../assets/bg-thanks.svg'
 
 const InitialQuest = () => {
     const [currentQuestion, setCurrentQuestion] = useState(1);
@@ -372,6 +374,55 @@ const InitialQuest = () => {
                         <button className='navigation-button' onClick={handleNextQuestion}>
                             &#x22C1; {/* Flecha estilo "Λ" hacia abajo */}
                         </button>
+                    </div>
+                </div>
+            </CSSTransition>
+            <CSSTransition
+                in={currentQuestion === 9}
+                timeout={500}
+                classNames='question-transition'
+                unmountOnExit
+            >
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex'>
+                            <div className='w-full flex flex-col items-center justify-center'>
+                                <h1 className='text-xl text-center text-roboto font-bold text-start mb-5'>
+                                    ¿Confirma el envío de sus respuestas?
+                                </h1>
+                                <button className='button-login text-xs sm:text-sm md:text-base' style={{ width: '50%' }} onClick={handleNextQuestion}>
+                                    Sí, deseo proceder con el envío de mis respuestas.
+                                </button>
+                                <button className='button-login text-xs sm:text-sm md:text-base' style={{ width: '50%' }} onClick={handlePreviousQuestion}>
+                                    No, prefiero revisar mis respuestas antes de enviarlas.
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </CSSTransition>
+            <CSSTransition
+                in={currentQuestion === 10}
+                timeout={500}
+                classNames='question-transition'
+                unmountOnExit
+            >
+                <div className="min-h-screen min-w-full flex items-stretch">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor flex items-stretch' : 'flex items-stretch'}`}>
+                        <div className='min-h-screen min-w-full flex items-stretch'>
+                            <div className='w-full flex flex-col items-center justify-center relative'>
+                                <img src={thanks_bg} className='min-h-full min-w-full object-cover absolute inset-0' alt='Imagen de fondo' />
+                                <div className='z-10 flex flex-col items-center justify-center'>
+                                    <img src={logometric1_6} className='absolute top-0 mt-5 lg:mt-10' alt='Logo' />
+                                    <p className='md:absolute text-xl sm:text-2xl md:text-4xl text-center p-6 text-roboto text-white font-bold mt-20 mb-5'>
+                                        En nombre de CircularIA te agradecemos por haberte dado el tiempo de responder nuestra encuesta.
+                                    </p>
+                                    <p className='md:absolute bottom-20 lg:bottom-40 text-white sm:text-lg text-center'>
+                                        Serás redireccionado en 3...
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </CSSTransition>

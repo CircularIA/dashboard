@@ -12,6 +12,8 @@ import {
 	tiposEconomico,
 	tiposSocial,
 } from "./constants/datos";
+//Rutas
+import { companyRoutes, inputDatsRoutes } from "../../api/config.js";
 //Redux
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
@@ -37,6 +39,7 @@ const typesCategories = (currentCategorie, setCurrentView, setCurrentType) => {
 						nombre={indicador.nombre}
 						descripcion={indicador.descripcion}
 						imagen={indicador.imagen}
+						imagenHover={indicador.imagenHover}
 						setCurrentView={setCurrentView}
 						currentCategorie={currentCategorie}
 						setCurrentType={setCurrentType}
@@ -52,6 +55,7 @@ const typesCategories = (currentCategorie, setCurrentView, setCurrentType) => {
 						nombre={indicador.nombre}
 						descripcion={indicador.descripcion}
 						imagen={indicador.imagen}
+						imagenHover={indicador.imagenHover}
 						setCurrentView={setCurrentView}
 						currentCategorie={currentCategorie}
 						setCurrentType={setCurrentType}
@@ -67,6 +71,7 @@ const typesCategories = (currentCategorie, setCurrentView, setCurrentType) => {
 						nombre={indicador.nombre}
 						descripcion={indicador.descripcion}
 						imagen={indicador.imagen}
+						imagenHover={indicador.imagenHover}
 						setCurrentView={setCurrentView}
 						currentCategorie={currentCategorie}
 						setCurrentType={setCurrentType}
@@ -78,6 +83,8 @@ const typesCategories = (currentCategorie, setCurrentView, setCurrentType) => {
 };
 
 function Main({ currentView, setCurrentView }) {
+	// Estado para almacenar los porcentajes completados de inputDats por indicador
+	const [inputDatsCompletion, setInputDatsCompletion] = useState({});
 	//Cookies
 	const [cookies] = useCookies(["access_token"]);
 	//Redux
@@ -155,6 +162,49 @@ function Main({ currentView, setCurrentView }) {
 		setFilteredIndicators(filtered);
 	}, [currentCategorie, currentType, indicators]);
 	console.log("filteredIndicators", filteredIndicators);
+
+	const fetchAndCalculateInputDatsCompletion = async () => {
+		// Obtén la fecha actual
+		const date = new Date();
+		const year = date.getFullYear();
+		const month = date.getMonth() + 1; // getMonth devuelve el mes (de 0 a 11), sumamos 1 para el mes actual
+	  
+		// Recorre todos los indicadores filtrados para obtener los valores de inputDats
+		for (const indicator of filteredIndicators) {
+		  try {
+			const response = await axios.get(`${inputDatsRoutes.getInputDatsByIndicator}/${currentBranch._id}/${indicator._id}/${year}/${month}`, {
+			  headers: { Authorization: `Bearer ${cookies.access_token}` },
+			});
+
+			console.log("Respuesta",response.data.inputDats)
+	  
+			// Calcula el porcentaje completado
+			const inputDatsWithValues = response.data.inputDats;
+			const completedCount = inputDatsWithValues.filter(inputDat => inputDat.value !== null).length;
+			const totalCount = indicator.inputDats.length;
+			console.log("Total count",totalCount)
+			const completionPercentage = (completedCount / totalCount) * 100;
+			console.log("Result: ", completionPercentage)
+	  
+			// Actualiza el estado con los nuevos porcentajes de completitud
+			setInputDatsCompletion(prev => ({
+			  ...prev,
+			  [indicator._id]: completionPercentage,
+			}));
+	  
+		  } catch (error) {
+			console.error('Error fetching inputDat values for indicator', indicator._id, error);
+			// Manejo de errores o establecer el estado a un valor predeterminado si es necesario
+		  }
+		}
+	};
+
+	useEffect(() => {
+		if (currentView === 2) {
+			fetchAndCalculateInputDatsCompletion();
+		}
+	}, [currentView, filteredIndicators]);
+
 	if (currentView == 0) {
 		return (
 			<Stack direction={"column"} paddingTop={2} spacing={6}>
@@ -280,6 +330,7 @@ function Main({ currentView, setCurrentView }) {
 						}}
 					>
 						{filteredIndicators.map((indicador, index) => {
+							const completionPercentage = inputDatsCompletion[indicador._id] || 0;
 							return (
 								<Grid
 									item
@@ -291,6 +342,7 @@ function Main({ currentView, setCurrentView }) {
 								>
 									<IndicadorValor
 										datos={indicador}
+										completionPercentage={completionPercentage.toFixed(2)} // Redondea el porcentaje a dos decimales
 										setCurrentView={setCurrentView}
 										setCurrentIndicator={
 											handleCurrentIndicator

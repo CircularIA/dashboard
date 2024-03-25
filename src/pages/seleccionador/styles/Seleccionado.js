@@ -44,7 +44,7 @@ export const BotonCalcular = styled(Boton)`
     color: black;
     text-align: center;
     font-family: Roboto;
-    font-size: 1.25rem;
+    font-size: 1.22rem;
     font-style: normal;
     font-weight: 300;
     line-height: normal;

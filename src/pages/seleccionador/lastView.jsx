@@ -27,6 +27,8 @@ import SearchOffIcon from "@mui/icons-material/SearchOff";
 import FormulaDialog from "./components/formulaDialog";
 //Cookies
 import { useCookies } from "react-cookie";
+import imagePaths from './components/imagePaths';
+import SchemaDialog from "./components/schemaDialog";
 
 const BarChartRender = ({ dats, indicatorName, loading }) => {
 	console.log("dats", dats);
@@ -115,11 +117,18 @@ function LastView({ currentIndicator }) {
 	const [indicatorValues, setIndicatorValues] = useState([]);
 	//Dialog formula
 	const [openFormulaDialog, setOpenFormulaDialog] = useState(false);
+	const [openSchemaDialog, setOpenSchemaDialog] = useState(false);
 	const handleOpenFormulaDialog = () => {
 		setOpenFormulaDialog(true);
 	};
 	const handleCloseFormulaDialog = () => {
 		setOpenFormulaDialog(false);
+	};
+	const handleOpenSchemaDialog = () => {
+		setOpenSchemaDialog(true);
+	};
+	const handleCloseSchemaDialog = () => {
+		setOpenSchemaDialog(false);
 	};
 	useEffect(() => {
 		setLoading(true);
@@ -189,7 +198,9 @@ function LastView({ currentIndicator }) {
 						dats={currentIndicator.inputDats}
 						form="ax+by+c"
 						handleOpenFormulaDialog={handleOpenFormulaDialog}
+						handleOpenSchemaDialog={handleOpenSchemaDialog}
 						handleClose={handleCloseFormulaDialog}
+						handleCloseFormulaDialog={handleCloseSchemaDialog}
 					></CardPorcent>
 				</Grid>
 				<Grid item xs={6}>
@@ -247,6 +258,12 @@ function LastView({ currentIndicator }) {
 					handleClose={handleCloseFormulaDialog}
 					indicator={currentIndicator}
 				></FormulaDialog>
+				<SchemaDialog
+					open={openSchemaDialog}
+					handleClose={handleCloseSchemaDialog}
+					indicator={currentIndicator}
+					images={imagePaths}
+				></SchemaDialog>
 			</Grid>
 		</Box>
 	);

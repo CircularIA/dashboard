@@ -6,7 +6,7 @@ import { Skeleton } from "@mui/material";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "../reducers/themeReducer";
-import { setBranch } from "../reducers/userSlice";
+import { setBranch, setCompany } from "../reducers/userSlice";
 
 const SearchIcon = ({ fill }) => (
 	<svg
@@ -84,6 +84,7 @@ const Header = ({ currentTheme, companyInfo }) => {
 	const [loading, setLoading] = useState(false);
 	//Have to obtain the current branch from redux
 	const currentBranch = useSelector((state) => state.user.branch.index);
+	const currentCompany = useSelector((state)=> state.user.company.index);
 	//Have to transform branches to the format of sucursals
 	const [sucursals, setSucursals] = useState([]);
 	const handleBranchChange = (selectedOption) => {
@@ -93,7 +94,9 @@ const Header = ({ currentTheme, companyInfo }) => {
 	useEffect(() => {
 		if (Object.keys(companyInfo).length > 0) {
 			console.log("companyInfo", companyInfo);
-			const sucursals = companyInfo.companies.branches.map(
+			console.log("Branch Actual",currentBranch)
+			console.log("Compañía actual", currentCompany)
+			const sucursals = companyInfo.companies[currentCompany].branches.map(
 				(branch, index) => ({
 					value: "Sucursal " + index,
 					_id: branch._id,
@@ -111,7 +114,7 @@ const Header = ({ currentTheme, companyInfo }) => {
 			<div className="flex items-center w-1/3">
 				{loading ? (
 					<span className="text-lg font-semibold">
-						{companyInfo.companies.name}
+						{companyInfo.companies[currentCompany].name}
 					</span>
 				) : (
 					<Skeleton variant="text" width={200} height={30} />
@@ -140,7 +143,7 @@ const Header = ({ currentTheme, companyInfo }) => {
 				<input
 					type="text"
 					placeholder="Buscar..."
-					className="border rounded w-[62%] border-gray-300"
+					className="border rounded mt-4 w-[62%] border-gray-300"
 				/>
 
 				<div className="flex items-center border-l pl-4">

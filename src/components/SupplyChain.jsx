@@ -64,7 +64,7 @@ export default class Example extends PureComponent {
     render() {
         return (
             <div className='flex flex-wrap mx-0 py-0 md:mx-4 md:py-4'>
-                <Card id='1' title='Suministros locales' color='green'>
+                <Card id='1' title='Suministros locales' color='green' panelType='cadena-suministro'>
                     <div className="flex h-full">
                         <div className='w-1/2'>
                             <ResponsiveContainer width="100%" height="100%">
@@ -109,7 +109,7 @@ export default class Example extends PureComponent {
                         </div>
                     </div>
                 </Card>
-                <Card id='2' title='Huella de carbono suministros/unidad' color='green'>
+                <Card id='2' title='Huella de carbono suministros/unidad' color='green' panelType='cadena-suministro'>
                     <div className="flex flex-col h-full">
                         {/* Mitad izquierda */}
                         <div className="h-[70%]">
